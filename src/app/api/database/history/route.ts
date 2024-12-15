@@ -48,3 +48,33 @@ export async function POST(request: NextRequest) {
         return new Response('Not logged in', { status: 404 })
     }
 }
+
+export async function DELETE(request: NextRequest) {
+    const body = await request.json()
+    const supabase = await createClient()
+    const videoIdBody = body.id
+    const { data: { user } } = await supabase.auth.getUser()
+    if (user) {
+        if (videoIdBody == 'full') {
+            await supabase.from("watchHistory").delete().eq("user_id", user.id)
+            return new Response('', { status: 200 })
+        } else {
+            const { data }: { data: Array[] | null } = await supabase.from("watchHistory").select("videoId")
+            if (data) {
+                const include = data.some((d: { videoId: string }) => {
+                    return d.videoId == videoIdBody
+                })
+                if (include) {
+                    await supabase.from("watchHistory").delete().eq("videoId", videoIdBody)
+                    return new Response('', { status: 200 })
+                } else {
+                    return new Response('No result', { status: 404 })
+                }
+            } else {
+                return new Response('Np result', { status: 404 })
+            }
+        }
+    } else {
+        return new Response('Not logged in', { status: 404 })
+    }
+}

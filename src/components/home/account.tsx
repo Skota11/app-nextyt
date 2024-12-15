@@ -1,5 +1,4 @@
 //react
-import { useRouter } from "next/navigation";
 //supabase
 import { supabase } from "../../utils/supabase/client";
 //font

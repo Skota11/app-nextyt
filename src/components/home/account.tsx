@@ -9,9 +9,8 @@ import { useState } from "react";
 
 export default function Main(props: { currentUser: { id: string | undefined, email: string | undefined, login: boolean } }) {
     const [hidden, setHidden] = useState(true)
-    const router = useRouter()
     async function LogOut() {
-        const { error } = await supabase.auth.signOut()
+        await supabase.auth.signOut()
         window.location.reload()
     }
     return (

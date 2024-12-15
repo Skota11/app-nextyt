@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
                 await supabase.from("watchHistory").insert({ videoId: body.id, videoContent: about })
             }
         } else {
-            const { error } = await supabase.from("watchHistory").insert({ videoId: body.id, videoContent: about })
+            await supabase.from("watchHistory").insert({ videoId: body.id, videoContent: about })
         }
 
         return new Response('', { status: 200 })

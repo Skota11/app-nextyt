@@ -1,5 +1,6 @@
 import "./globals.css";
 import Link from "next/link";
+import Script from "next/script";
 
 export default function RootLayout({
   children,
@@ -15,7 +16,7 @@ export default function RootLayout({
           <h1 className="text-white"> <Link href="/">NextTube</Link></h1>
         </div>
         {children}
-        <script src="./node_modules/preline/dist/preline.js"></script>
+        <Script src="./node_modules/preline/dist/preline.js"></Script>
       </body>
     </html>
   );

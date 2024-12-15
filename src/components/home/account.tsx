@@ -6,7 +6,6 @@ import { supabase } from "../../utils/supabase/client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightFromBracket, faTrash, faUser } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
-import { useRouter } from "next/router";
 
 export default function Main(props: { currentUser: { id: string | undefined, email: string | undefined, login: boolean } }) {
     const [hidden, setHidden] = useState(true)

@@ -2,7 +2,7 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 const url = "https://jwefzgvvgzjesamosqdn.supabase.co"
-const key: any = process.env.NEXT_PUBLIC_KEY
+const key: string | undefined = process.env.NEXT_PUBLIC_KEY
 
 export async function updateSession(request: NextRequest) {
     let supabaseResponse = NextResponse.next({
@@ -11,14 +11,14 @@ export async function updateSession(request: NextRequest) {
 
     const supabase = createServerClient(
         url,
-        key,
+        key as string,
         {
             cookies: {
                 getAll() {
                     return request.cookies.getAll()
                 },
                 setAll(cookiesToSet) {
-                    cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value))
+                    cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value))
                     supabaseResponse = NextResponse.next({
                         request,
                     })

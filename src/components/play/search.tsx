@@ -48,7 +48,7 @@ export default function Home(props: { setYtid: (id: string) => void }) {
             </div>
             <div className="mx-4">
                 {
-                    result ? result.map((item: any) => {
+                    result ? result.map((item: { id: { kind: string, videoId: string }, snippet: { title: string, channelTitle: string } }) => {
                         if (item.id.kind == "youtube#video") {
                             return (
                                 <div key={item.id.videoId} className='block my-8 break-all sm:flex items-start gap-4 cursor-pointer' onClick={() => { props.setYtid(item.id.videoId); }}>

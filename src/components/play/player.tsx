@@ -7,9 +7,11 @@ import YouTube from "react-youtube";
 import dayjs from 'dayjs'
 import toJaNum from "@/utils/num2ja";
 
+interface player { unMute: () => void, mute: () => void, setPlaybackRate: (arg0: number) => void, playVideo: () => void }
+
 export default function Home(props: { ytid: string }) {
     //state
-    const [YTPlayer, setPlayer]: any = useState();
+    const [YTPlayer, setPlayer] = useState<player>();
     const [muted, setMuted] = useState(false);
     const [about, setAbout] = useState({ title: "", channelId: "", channelTitle: "", description: "", publishedAt: "" });
     const [statistics, setStatistic] = useState({ viewCount: "", likeCount: "", commentCount: "" });
@@ -23,7 +25,7 @@ export default function Home(props: { ytid: string }) {
         host: "https://www.youtube-nocookie.com"
     };
     //player
-    const _onReady = (event: { target: any }) => {
+    const _onReady = (event: { target: player }) => {
         setPlayer(event.target)
         event.target.playVideo()
     }
@@ -98,7 +100,7 @@ export default function Home(props: { ytid: string }) {
                                 <a className='' href={`https://youtu.be/${props.ytid}`} ><FontAwesomeIcon className='ml-2' icon={faYoutube} />  Youtubeで開く</a>
                             </div>
                             <div className='p-4 rounded-lg bg-gray-100 '>
-                                <div className='text-sm break-all w-full'>{about.description.split(/(\n)/).map((v: any, i: any) => (i & 1 ? <br key={i} /> : v))}</div>
+                                <div className='text-sm break-all w-full'>{about.description.split(/(\n)/).map((v: string, i: number) => (i & 1 ? <br key={i} /> : v))}</div>
                             </div>
                         </div>
                     </Drawer>
@@ -109,8 +111,8 @@ export default function Home(props: { ytid: string }) {
                 {props.ytid !== "" ?
                     <div className=' flex place-content-center gap-x-2'>
                         <FontAwesomeIcon className='py-2' icon={faForward} />
-                        <button className='border-2 p-2 rounded-lg text-xs border-current' onClick={async () => { YTPlayer.setPlaybackRate(1) }}><FontAwesomeIcon icon={faXmark} /><FontAwesomeIcon icon={fa1} /></button>
-                        <button className='border-2 p-2 rounded-lg text-xs border-current' onClick={async () => { YTPlayer.setPlaybackRate(2) }}><FontAwesomeIcon icon={faXmark} /><FontAwesomeIcon icon={fa2} /></button>
+                        <button className='border-2 p-2 rounded-lg text-xs border-current' onClick={async () => { YTPlayer?.setPlaybackRate(1) }}><FontAwesomeIcon icon={faXmark} /><FontAwesomeIcon icon={fa1} /></button>
+                        <button className='border-2 p-2 rounded-lg text-xs border-current' onClick={async () => { YTPlayer?.setPlaybackRate(2) }}><FontAwesomeIcon icon={faXmark} /><FontAwesomeIcon icon={fa2} /></button>
                         <p className='py-2'><FontAwesomeIcon icon={faGripLinesVertical} /></p>
                         {muted ?
                             <button className='border-2 p-2 rounded-lg text-xs border-current' onClick={async () => { setMuted(false) }}><FontAwesomeIcon icon={faVolumeXmark} /></button>

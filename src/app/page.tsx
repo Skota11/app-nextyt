@@ -1,18 +1,17 @@
 'use client'
 //react
-import Image from "next/image";
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 //supabase
 import { supabase } from "../utils/supabase/client";
 //components
-import OAuth from "../components/home/oauth";
 import Account from "../components/home/account";
 import History from "../components/home/history";
+import OAuth from "../components/home/oauth";
 //mui
+import { faPlay } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CircularProgress from '@mui/material/CircularProgress';
 import Link from "next/link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlay } from "@fortawesome/free-solid-svg-icons";
 
 export default function Home() {
   //State

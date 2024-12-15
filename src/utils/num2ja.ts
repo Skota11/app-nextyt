@@ -1,7 +1,5 @@
-export default function toJaNum(num: any) {
-    if (typeof num === "number") {
-        num = num.toString();
-    }
+export default function toJaNum(num: string) {
+    num = num.toString()
 
     let prefix = "";
 

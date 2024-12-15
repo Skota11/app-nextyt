@@ -2,14 +2,14 @@ import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
 const url = "https://jwefzgvvgzjesamosqdn.supabase.co"
-const key: any = process.env.NEXT_PUBLIC_KEY
+const key: string | undefined = process.env.NEXT_PUBLIC_KEY
 
 export async function createClient() {
     const cookieStore = await cookies()
 
     return createServerClient(
         url,
-        key,
+        key as string,
         {
             cookies: {
                 getAll() {

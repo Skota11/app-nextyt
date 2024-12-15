@@ -1,20 +1,18 @@
 //react
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 //supabase
-import { supabase } from "../../utils/supabase/client";
 //font
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRightFromBracket, faClockRotateLeft, faTrash, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faClockRotateLeft } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 
+interface history { videoId: string, videoContent: { title: string, channelTitle: string } }
+
 export default function Main() {
-    const router = useRouter()
-    const [result, setResult] = useState<Array<{ videoId: string, videoContent: any }> | undefined>(undefined)
+    const [result, setResult] = useState<Array<history> | undefined>(undefined)
     const getHistory = async () => {
-        const { data }: any = await (await fetch('/api/database/history')).json()
-        console.log(data)
+        const { data } = await (await fetch('/api/database/history')).json()
         setResult(data)
     }
     useEffect(() => {
@@ -28,7 +26,7 @@ export default function Main() {
                     result == undefined ?
                         <><CircularProgress color="error" size={40} /></>
                         :
-                        result.length == 0 ? <><p>WatchHistoryはありません</p></> : result.map((item: any) => {
+                        result.length == 0 ? <><p>WatchHistoryはありません</p></> : result.map((item: history) => {
                             return (
                                 <div key={item.videoId} className='block my-2 break-all sm:flex items-start gap-4 cursor-pointer' onClick={() => { }}>
                                     <div className="flex place-content-center">

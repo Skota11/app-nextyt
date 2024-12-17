@@ -17,10 +17,11 @@ export default function Home() {
     useEffect(() => {
         setYtid(defaultId)
     }, [defaultId])
+    //setYtid={p_setYtid}
     return (
         <>
             <Player ytid={ytid} />
-            <Search setYtid={p_setYtid} />
+            <Search />
         </>
     )
 }

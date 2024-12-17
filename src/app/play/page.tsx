@@ -1,13 +1,22 @@
 'use client'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./play.css"
 //components
 import Player from "../../components/play/player";
 import Search from "../../components/play/search";
+import { useSearchParams } from "next/navigation";
 
 export default function Home() {
-    const [ytid, setYtid] = useState("")
+    const searchParams = useSearchParams();
+    let defaultId: string | undefined = searchParams.get("v")?.toString();
+    if (defaultId == undefined) {
+        defaultId = ""
+    }
+    const [ytid, setYtid] = useState(defaultId)
     const p_setYtid = (id: string) => { setYtid(id) }
+    useEffect(() => {
+        setYtid(defaultId)
+    }, [defaultId])
     return (
         <>
             <Player ytid={ytid} />

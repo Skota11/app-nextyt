@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClockRotateLeft, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
+import Link from "next/link";
 
 interface history { videoId: string, videoContent: { title: string, channelTitle: string } }
 
@@ -45,7 +46,7 @@ export default function Main() {
                         :
                         result.length == 0 ? <><p>WatchHistoryはありません</p></> : result.map((item: history) => {
                             return (
-                                <div key={item.videoId} className='block my-2 break-all sm:flex items-start gap-4 cursor-pointer' onClick={() => { }}>
+                                <Link key={item.videoId} className='block my-2 break-all sm:flex items-start gap-4 cursor-pointer' href={`/play?v=${item.videoId}`}>
                                     <div className="flex place-content-center">
                                         <Image src={`https://i.ytimg.com/vi/${item.videoId}/mqdefault.jpg`} alt="" width={120 * 2.5} height={67.5 * 2.5} className='inline rounded-md' />
                                     </div>
@@ -60,7 +61,7 @@ export default function Main() {
                                             </>}
                                         </div>
                                     </div>
-                                </div>
+                                </Link>
                             )
                         })
                 }

@@ -2,14 +2,3 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: "LSeedJP";
-  src: url(/fonts/LINESeedJP_OTF_Bd.woff2) format("woff2");
-  font-weight: 700;
-  font-style: normal;
-}
-
-* {
-  font-family: "LSeedJP", sans-serif;
-  color: #333;
-}

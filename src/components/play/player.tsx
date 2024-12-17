@@ -14,7 +14,7 @@ export default function Home(props: { ytid: string }) {
     const [YTPlayer, setPlayer] = useState<player>();
     const [muted, setMuted] = useState(false);
     const [about, setAbout] = useState({ title: "", channelId: "", channelTitle: "", description: "", publishedAt: "" });
-    const [statistics, setStatistic] = useState({ viewCount: "", likeCount: "", commentCount: "" });
+    const [statistics, setStatistic] = useState({ viewCount: "", likeCount: "" });
     //option
     const opts = {
         width: "560",
@@ -51,8 +51,10 @@ export default function Home(props: { ytid: string }) {
                 body: JSON.stringify({ id }),
             })
             const res = await (await fetch(`https://www.googleapis.com/youtube/v3/videos?part=id,snippet,statistics&id=${id}&key=AIzaSyC1KMsyjrnEfHJ3xnQtPX0DSxWHfyjUBeo`)).json();
+            console.log(res.items[0].statistics)
             setAbout(res.items[0].snippet)
             setStatistic(res.items[0].statistics);
+            console.log(statistics)
         }
     }
     //drawer

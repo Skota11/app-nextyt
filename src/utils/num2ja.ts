@@ -1,27 +1,31 @@
-export default function toJaNum(num: string) {
-    num = num.toString()
+export default function toJaNum(num: string | undefined) {
+    if (num == undefined) {
+        return "-"
+    } else {
+        num = num.toString()
 
-    let prefix = "";
+        let prefix = "";
 
-    if (num[0] === "-") {
-        num = num.slice(1);
-        prefix = "-";
+        if (num[0] === "-") {
+            num = num.slice(1);
+            prefix = "-";
+        }
+
+        return (
+            prefix +
+            num
+                .slice(0, -12)
+                .replace(/^0+/, "")
+                .replace(/([0-9]+)/g, "$1兆") +
+            num
+                .slice(-12, -8)
+                .replace(/^0+/, "")
+                .replace(/([0-9]+)/g, "$1億") +
+            num
+                .slice(-8, -4)
+                .replace(/^0+/, "")
+                .replace(/([0-9]+)/g, "$1万") +
+            num.substring(num.length - 4).replace(/^0+/, "")
+        );
     }
-
-    return (
-        prefix +
-        num
-            .slice(0, -12)
-            .replace(/^0+/, "")
-            .replace(/([0-9]+)/g, "$1兆") +
-        num
-            .slice(-12, -8)
-            .replace(/^0+/, "")
-            .replace(/([0-9]+)/g, "$1億") +
-        num
-            .slice(-8, -4)
-            .replace(/^0+/, "")
-            .replace(/([0-9]+)/g, "$1万") +
-        num.substring(num.length - 4).replace(/^0+/, "")
-    );
 };

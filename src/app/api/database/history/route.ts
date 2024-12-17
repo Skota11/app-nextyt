@@ -9,7 +9,6 @@ export async function GET() {
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
     if (user) {
-        console.log(user.id)
         const { data }: { data: unknown } = await supabase
             .from('watchHistory')
             .select("videoId , videoContent")

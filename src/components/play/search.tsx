@@ -1,16 +1,19 @@
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Image from 'next/image'
+import Link from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
 
 export default function Home(props: { setYtid: (id: string) => void }) {
+    const pathname = usePathname()
+    const searchParams = useSearchParams()
     const [inputQuery, setInputQuery] = useState("")
     const [result, setResult] = useState([])
     const [suggest, setSuggest] = useState([])
     const getSearch = async () => {
         if (inputQuery) {
             const res = await (await fetch(`/api/search?q=${inputQuery}`)).json();
-            console.log(res)
             setResult(res.data)
             setInputQuery("")
         }
@@ -19,10 +22,20 @@ export default function Home(props: { setYtid: (id: string) => void }) {
         const res = await (await fetch(`/api/suggest?q=${q}`)).json()
         setSuggest(res.data)
     }
+    const createQueryString = useCallback(
+        (name: string, value: string) => {
+            const params = new URLSearchParams(searchParams.toString())
+            params.set(name, value)
+
+            return params.toString()
+        },
+        [searchParams]
+    )
     useEffect(() => {
-        console.log(suggest)
         getSuggest(inputQuery)
     }, [inputQuery])
+    // 
+    // props.setYtid(item.id.videoId);
     return (
         <>
             <div className="flex place-content-center my-4">
@@ -51,7 +64,7 @@ export default function Home(props: { setYtid: (id: string) => void }) {
                     result ? result.map((item: { id: { kind: string, videoId: string }, snippet: { title: string, channelTitle: string } }) => {
                         if (item.id.kind == "youtube#video") {
                             return (
-                                <div key={item.id.videoId} className='block my-8 break-all sm:flex items-start gap-4 cursor-pointer' onClick={() => { props.setYtid(item.id.videoId); }}>
+                                <Link key={item.id.videoId} className='block my-8 break-all sm:flex items-start gap-4 cursor-pointer' onClick={() => { }} href={`${pathname}?${createQueryString('v', item.id.videoId)}`}>
                                     <div className="flex place-content-center">
                                         <Image src={`https://i.ytimg.com/vi/${item.id.videoId}/mqdefault.jpg`} alt="" width={120 * 2.5} height={67.5 * 2.5} className='inline rounded-md' />
                                     </div>
@@ -59,7 +72,7 @@ export default function Home(props: { setYtid: (id: string) => void }) {
                                         <p>{item.snippet.title} </p>
                                         <p className='text-slate-600 text-sm'>{item.snippet.channelTitle} </p>
                                     </div>
-                                </div>
+                                </Link>
                             )
                         }
                     })

@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 
-export default function Home(props: { setYtid: (id: string) => void }) {
+export default function Home() {
     const pathname = usePathname()
     const searchParams = useSearchParams()
     const [inputQuery, setInputQuery] = useState("")
@@ -34,7 +34,7 @@ export default function Home(props: { setYtid: (id: string) => void }) {
     useEffect(() => {
         getSuggest(inputQuery)
     }, [inputQuery])
-    // 
+    // props: { setYtid: (id: string) => void }
     // props.setYtid(item.id.videoId);
     return (
         <>

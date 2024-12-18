@@ -1,12 +1,12 @@
 'use client'
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import "./play.css"
 //components
 import Player from "../../components/play/player";
 import Search from "../../components/play/search";
 import { useSearchParams } from "next/navigation";
 
-export default function Home() {
+function Child() {
     const searchParams = useSearchParams();
     let defaultId: string | undefined = searchParams.get("v")?.toString();
     if (defaultId == undefined) {
@@ -23,5 +23,13 @@ export default function Home() {
             <Player ytid={ytid} />
             <Search />
         </>
+    )
+}
+
+export default function Home() {
+    return (
+        <Suspense>
+            <Child />
+        </Suspense>
     )
 }

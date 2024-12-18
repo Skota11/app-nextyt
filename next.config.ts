@@ -13,10 +13,7 @@ const nextConfig: NextConfig = {
         hostname: 'yt3.ggpht.com',
       }
     ],
-  },
-  experimental: {
-    missingSuspenseWithCSRBailout: false,
-  },
+  }
 };
 
 export default nextConfig;

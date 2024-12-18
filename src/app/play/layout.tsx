@@ -11,10 +11,10 @@ export default function RootLayout({
             <body
                 className=""
             >
+                <div className="bg-black p-4 flex place-content-center">
+                    <h1 className="text-white"> <Link href="/">NextTube</Link></h1>
+                </div>
                 <Suspense>
-                    <div className="bg-black p-4 flex place-content-center">
-                        <h1 className="text-white"> <Link href="/">NextTube</Link></h1>
-                    </div>
                     {children}
                 </Suspense>
             </body>

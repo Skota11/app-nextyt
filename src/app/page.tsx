@@ -12,6 +12,8 @@ import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CircularProgress from '@mui/material/CircularProgress';
 import Link from "next/link";
+import Search from "@/components/play/search";
+import Playlist from "@/components/home/playlist";
 
 export default function Home() {
   //State
@@ -35,9 +37,13 @@ export default function Home() {
       {currentUser?.login ? <>
         <div className="p-4 max-w-screen-xl m-auto">
           <div className='flex place-content-center'>
-            <Link href="/play" className='my-8 rounded-full border-2 p-4 text-lg border-current' ><FontAwesomeIcon icon={faPlay} className='mr-2' /> Play</Link>
+            <Link href="/play" className='my-4 rounded-full border-2 p-4 text-lg border-current' ><FontAwesomeIcon icon={faPlay} className='mr-2' /> Play</Link>
+          </div>
+          <div className="place-content-center">
+            <Search />
           </div>
           <Account currentUser={currentUser} />
+          <Playlist />
           <History />
         </div>
       </> : <>
@@ -46,6 +52,7 @@ export default function Home() {
           <h1 className='text-center'>もしくはログインせずに使う</h1>
           <div className='flex place-content-center'>
             <Link href="/play" className='my-8 rounded-full border-2 p-4 text-lg border-current' ><FontAwesomeIcon icon={faPlay} className='mr-2' /> Play</Link>
+            <Search />
           </div>
         </> : <>
           <div className="flex place-content-center my-12">

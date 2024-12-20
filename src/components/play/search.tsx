@@ -3,10 +3,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useCallback, useEffect, useState } from "react";
 import Image from 'next/image'
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 export default function Home() {
-    const pathname = usePathname()
     const searchParams = useSearchParams()
     const [inputQuery, setInputQuery] = useState("")
     const [result, setResult] = useState([])
@@ -59,12 +58,12 @@ export default function Home() {
                     </div>
                     : <></>}
             </div>
-            <div className="mx-4">
+            <div className="px-4 max-w-screen-xl m-auto">
                 {
                     result ? result.map((item: { id: { kind: string, videoId: string }, snippet: { title: string, channelTitle: string } }) => {
                         if (item.id.kind == "youtube#video") {
                             return (
-                                <Link key={item.id.videoId} className='block my-8 break-all sm:flex items-start gap-4 cursor-pointer' onClick={() => { }} href={`${pathname}?${createQueryString('v', item.id.videoId)}`}>
+                                <Link key={item.id.videoId} className='block my-8 break-all sm:flex items-start gap-4 cursor-pointer' onClick={() => { }} href={`/play?${createQueryString('v', item.id.videoId)}`}>
                                     <div className="flex place-content-center">
                                         <Image src={`https://i.ytimg.com/vi/${item.id.videoId}/mqdefault.jpg`} alt="" width={120 * 2.5} height={67.5 * 2.5} className='inline rounded-md' />
                                     </div>

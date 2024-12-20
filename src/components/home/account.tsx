@@ -25,7 +25,7 @@ export default function Main(props: { currentUser: { id: string | undefined, ema
     }
     return (
         <div className='mt-2'>
-            <h1 className='text-lg my-4'><FontAwesomeIcon icon={faUser} className='mr-2' />アカウント <button className="text-sm" onClick={() => { setHidden(!hidden) }}>{hidden ? <>開く</> : <>閉じる</>}</button></h1>
+            <h1 className='text-lg my-4'><FontAwesomeIcon icon={faUser} className='mr-2' />Account <button className="text-sm" onClick={() => { setHidden(!hidden) }}>{hidden ? <>開く</> : <>閉じる</>}</button></h1>
             {hidden ? <></> : <div className="mx-4">
                 <p className='text-sm'>{props.currentUser.email}でログイン中</p>
                 <div className='my-4 flex-wrap flex gap-x-4 gap-y-4 mb-8 '>

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import YouTube from "react-youtube";
 import dayjs from 'dayjs'
 import toJaNum from "@/utils/num2ja";
+import AddPlaylist from "./addPlaylist";
 
 interface player { unMute: () => void, mute: () => void, setPlaybackRate: (arg0: number) => void, playVideo: () => void }
 
@@ -100,6 +101,9 @@ export default function Home(props: { ytid: string }) {
                             </div>
                             <div className="my-4">
                                 <a className='' href={`https://youtu.be/${props.ytid}`} ><FontAwesomeIcon className='ml-2' icon={faYoutube} />  Youtubeで開く</a>
+                            </div>
+                            <div>
+                                <AddPlaylist videoId={props.ytid} />
                             </div>
                             <div className='p-4 rounded-lg bg-gray-100 '>
                                 <div className='text-sm break-all w-full'>{about.description.split(/(\n)/).map((v: string, i: number) => (i & 1 ? <br key={i} /> : v))}</div>

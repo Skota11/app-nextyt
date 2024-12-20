@@ -1,50 +1,58 @@
-//react
-import Image from "next/image";
-//supabase
-//font
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClockRotateLeft, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState } from "react";
-import CircularProgress from "@mui/material/CircularProgress";
+import { faPlay, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import CircularProgress from '@mui/material/CircularProgress';
+import Image from 'next/image'
 import Link from "next/link";
+import { useEffect, useState } from 'react';
 
-interface history { videoId: string, videoContent: { title: string, channelTitle: string } }
+interface playlist { videoId: string, videoContent: { title: string, channelTitle: string } }
 
-export default function Main() {
-    const [result, setResult] = useState<Array<history> | undefined>(undefined)
+export default function Main(props: { playlistId: string }) {
     const [deleteLoading, setDeleteLoading] = useState<Array<string>>([])
-    const getHistory = async () => {
-        const { data } = await (await fetch('/api/database/history')).json()
-        setResult(data)
-    }
-    const deleteHistory = async (id: string) => {
+    const [result, setResult] = useState<Array<playlist> | undefined>(undefined)
+    const [name, setName] = useState("")
+    const deletePlaylist = async (id: string) => {
         let array = [...deleteLoading]
         array.push(id)
         setDeleteLoading(array)
-        await fetch('/api/database/history', {
+        await fetch(`/api/database/playlist/${props.playlistId}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ id }),
         })
-        await getHistory()
+        await getPlaylist()
         array = [...deleteLoading]
         array.splice(array.indexOf(id), array.indexOf(id))
         setDeleteLoading(array)
     }
+    const getPlaylist = async () => {
+        const { data } = await (await fetch(`/api/database/playlist/${props.playlistId}`)).json()
+        setResult(data)
+    }
+    const getPlaylistName = async () => {
+        const { data } = await (await fetch(`/api/database/playlist?id=${props.playlistId}`)).json()
+        setName(data[0].playlistName)
+    }
     useEffect(() => {
-        getHistory()
+        getPlaylistName()
+        getPlaylist()
+
     }, [])
     return (
-        <div className='mt-2'>
-            <h1 className='text-lg my-4'><FontAwesomeIcon icon={faClockRotateLeft} className='mr-2' />WatchHistory</h1>
-            <div className="mx-4">
+        <>
+            <div className="px-4 max-w-screen-xl m-auto">
+                <h1 className='text-lg'><FontAwesomeIcon icon={faPlay} /> {name}</h1>
                 {
                     result == undefined ?
-                        <><CircularProgress color="error" size={40} /></>
+                        <>
+                            <div className='flex place-content-center'>
+                                <CircularProgress color="error" size={40} />
+                            </div>
+                        </>
                         :
-                        result.length == 0 ? <><p>WatchHistoryはありません</p></> : result.map((item: history) => {
+                        result.length == 0 ? <><p>取得できません</p></> : result.map((item: playlist) => {
                             return (
                                 <div key={item.videoId} className='block my-2 break-all sm:flex items-start gap-4 cursor-pointer'>
                                     <Link href={`/play?v=${item.videoId}`}>
@@ -53,7 +61,7 @@ export default function Main() {
                                         </div>
                                     </Link>
                                     <div className='inline'>
-                                        <Link href={`/play?v=${item.videoId}`}>
+                                        <Link href={`/playlist/${props.playlistId}?v=${item.videoId}`}>
                                             <p>{item.videoContent.title} </p>
                                             <p className='text-slate-600 text-sm'>{item.videoContent.channelTitle} </p>
                                         </Link>
@@ -61,7 +69,7 @@ export default function Main() {
                                             {deleteLoading.includes(item.videoId) ? <>
                                                 <CircularProgress color="error" size={20} />
                                             </> : <>
-                                                <button onClick={() => { deleteHistory(item.videoId) }}><FontAwesomeIcon icon={faTrash} /></button>
+                                                <button onClick={() => { deletePlaylist(item.videoId) }}><FontAwesomeIcon icon={faTrash} /></button>
                                             </>}
                                         </div>
                                     </div>
@@ -70,5 +78,6 @@ export default function Main() {
                         })
                 }
             </div>
-        </div>)
+        </>
+    )
 }

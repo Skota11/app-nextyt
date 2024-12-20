@@ -1,0 +1,21 @@
+.wrap {
+    width: 100%;
+    max-width: 1200px;
+}
+
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    /* 16:9 */
+    height: 0;
+}
+
+.video-container div iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-width: 1200px;
+    height: 100%;
+    border-radius: 0.6rem;
+}

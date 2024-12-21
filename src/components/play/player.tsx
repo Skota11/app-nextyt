@@ -3,18 +3,17 @@ import { fa1, fa2, faEye, faForward, faGripLinesVertical, faThumbsUp, faVolumeHi
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Drawer from "@mui/material/Drawer";
 import { useEffect, useState } from "react";
-import YouTube from "react-youtube";
+import ReactPlayer from "react-player";
 import dayjs from 'dayjs'
 import toJaNum from "@/utils/num2ja";
 import AddPlaylist from "./addPlaylist";
 import { supabase } from "@/utils/supabase/client";
 
-interface player { unMute: () => void, mute: () => void, setPlaybackRate: (arg0: number) => void, playVideo: () => void }
-
 export default function Home(props: { ytid: string }) {
     //state
-    const [YTPlayer, setPlayer] = useState<player>();
+    const [playing, setPlaying] = useState(true)
     const [muted, setMuted] = useState(false);
+    const [playbackRate, setPlaybackRate] = useState(1)
     const [about, setAbout] = useState({ title: "", channelId: "", channelTitle: "", description: "", publishedAt: "" });
     const [statistics, setStatistic] = useState({ viewCount: "", likeCount: "" });
     const [login, setLogin] = useState(false)
@@ -27,29 +26,6 @@ export default function Home(props: { ytid: string }) {
         }
         f()
     }, [])
-    //option
-    const opts = {
-        width: "560",
-        height: "315",
-        playerVars: {
-            autoplay: 1,
-        },
-        host: "https://www.youtube-nocookie.com"
-    };
-    //player
-    const _onReady = (event: { target: player }) => {
-        setPlayer(event.target)
-        event.target.playVideo()
-    }
-    useEffect(() => {
-        if (YTPlayer) {
-            if (muted) {
-                YTPlayer.mute()
-            } else {
-                YTPlayer.unMute()
-            }
-        }
-    }, [muted])
     useEffect(() => {
         getVideo(props.ytid)
     }, [props.ytid])
@@ -81,10 +57,19 @@ export default function Home(props: { ytid: string }) {
                 <div className='wrap'>
                     <div className='video-container'>
                         <div className='video flex place-content-center rounded-lg'>
-                            {props.ytid ? <><YouTube videoId={props.ytid}
-                                opts={opts}
-                                onReady={_onReady}
-                            /></> : <div className=''><p className='text-white text-2xl'>動画が選択されていません</p></div>}
+                            {props.ytid ? <>
+                                <ReactPlayer
+                                    url={`https://youtube.com/watch?v=${props.ytid}`}
+                                    playing={playing}
+                                    playbackRate={playbackRate}
+                                    muted={muted}
+                                    width={"100%"}
+                                    height={"100%"}
+                                    controls={true}
+                                    onPause={() => { setPlaying(false) }}
+                                    onPlay={() => { setPlaying(true) }}
+                                />
+                            </> : <div className=''><p className='text-white text-2xl'>動画が選択されていません</p></div>}
                         </div>
                     </div>
                 </div>
@@ -130,8 +115,8 @@ export default function Home(props: { ytid: string }) {
                 {props.ytid !== "" ?
                     <div className=' flex place-content-center gap-x-2'>
                         <FontAwesomeIcon className='py-2' icon={faForward} />
-                        <button className='border-2 p-2 rounded-lg text-xs border-current' onClick={async () => { YTPlayer?.setPlaybackRate(1) }}><FontAwesomeIcon icon={faXmark} /><FontAwesomeIcon icon={fa1} /></button>
-                        <button className='border-2 p-2 rounded-lg text-xs border-current' onClick={async () => { YTPlayer?.setPlaybackRate(2) }}><FontAwesomeIcon icon={faXmark} /><FontAwesomeIcon icon={fa2} /></button>
+                        <button className='border-2 p-2 rounded-lg text-xs border-current' onClick={async () => { setPlaybackRate(1) }}><FontAwesomeIcon icon={faXmark} /><FontAwesomeIcon icon={fa1} /></button>
+                        <button className='border-2 p-2 rounded-lg text-xs border-current' onClick={async () => { setPlaybackRate(2) }}><FontAwesomeIcon icon={faXmark} /><FontAwesomeIcon icon={fa2} /></button>
                         <p className='py-2'><FontAwesomeIcon icon={faGripLinesVertical} /></p>
                         {muted ?
                             <button className='border-2 p-2 rounded-lg text-xs border-current' onClick={async () => { setMuted(false) }}><FontAwesomeIcon icon={faVolumeXmark} /></button>

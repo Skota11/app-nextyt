@@ -68,3 +68,17 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
         return new Response('Not logged in', { status: 404 })
     }
 }
+
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ playlistId: string }> }) {
+    const body = await request.json()
+    const supabase = await createClient()
+    const NameBody = body.name
+    const { playlistId } = await params
+    const { data: { user } } = await supabase.auth.getUser()
+    if (user) {
+        await supabase.from("user_playlists").update({ playlistName: NameBody }).eq("playlistId", playlistId)
+        return new Response('', { status: 200 })
+    } else {
+        return new Response('Not logged in', { status: 404 })
+    }
+}

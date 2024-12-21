@@ -35,6 +35,16 @@ export default function Main(props: { playlistId: string }) {
         const { data } = await (await fetch(`/api/database/playlist?id=${props.playlistId}`)).json()
         setName(data[0].playlistName)
     }
+    const onInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        setName(e.target.value)
+        await fetch(`/api/database/playlist/${props.playlistId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name: e.target.value }),
+        })
+    }
     useEffect(() => {
         getPlaylistName()
         getPlaylist()
@@ -43,7 +53,8 @@ export default function Main(props: { playlistId: string }) {
     return (
         <>
             <div className="px-4 max-w-screen-xl m-auto">
-                <h1 className='text-lg'><FontAwesomeIcon icon={faPlay} /> {name}</h1>
+                <FontAwesomeIcon icon={faPlay} /> <input className='text-lg' value={name} onChange={onInputChange} />
+                <p className='text-sm my-2'>名前の更新はプレイリスト名をクリック</p>
                 {
                     result == undefined ?
                         <>
@@ -55,7 +66,7 @@ export default function Main(props: { playlistId: string }) {
                         result.length == 0 ? <><p>取得できません</p></> : result.map((item: playlist) => {
                             return (
                                 <div key={item.videoId} className='block my-2 break-all sm:flex items-start gap-4 cursor-pointer'>
-                                    <Link href={`/play?v=${item.videoId}`}>
+                                    <Link href={`/playlist/${props.playlistId}?v=${item.videoId}`}>
                                         <div className="flex place-content-center">
                                             <Image src={`https://i.ytimg.com/vi/${item.videoId}/mqdefault.jpg`} alt="" width={120 * 2.5} height={67.5 * 2.5} className='inline rounded-md' />
                                         </div>

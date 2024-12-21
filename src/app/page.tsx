@@ -48,10 +48,11 @@ export default function Home() {
         </div>
       </> : <>
         {currentUser ? <>
-          <OAuth></OAuth>
-          <h1 className='text-center'>もしくはログインせずに使う</h1>
+          <OAuth />
           <div className='flex place-content-center'>
-            <Link href="/play" className='my-8 rounded-full border-2 p-4 text-lg border-current' ><FontAwesomeIcon icon={faPlay} className='mr-2' /> Play</Link>
+            <Link href="/play" className='my-4 rounded-full border-2 p-4 text-lg border-current' ><FontAwesomeIcon icon={faPlay} className='mr-2' /> Play</Link>
+          </div>
+          <div className="place-content-center">
             <Search />
           </div>
         </> : <>

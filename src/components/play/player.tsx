@@ -7,6 +7,7 @@ import YouTube from "react-youtube";
 import dayjs from 'dayjs'
 import toJaNum from "@/utils/num2ja";
 import AddPlaylist from "./addPlaylist";
+import { supabase } from "@/utils/supabase/client";
 
 interface player { unMute: () => void, mute: () => void, setPlaybackRate: (arg0: number) => void, playVideo: () => void }
 
@@ -16,6 +17,16 @@ export default function Home(props: { ytid: string }) {
     const [muted, setMuted] = useState(false);
     const [about, setAbout] = useState({ title: "", channelId: "", channelTitle: "", description: "", publishedAt: "" });
     const [statistics, setStatistic] = useState({ viewCount: "", likeCount: "" });
+    const [login, setLogin] = useState(false)
+    useEffect(() => {
+        const f = async () => {
+            const { data } = await supabase.auth.getSession()
+            if (data.session !== null) {
+                setLogin(true)
+            }
+        }
+        f()
+    }, [])
     //option
     const opts = {
         width: "560",
@@ -102,9 +113,11 @@ export default function Home(props: { ytid: string }) {
                             <div className="my-4">
                                 <a className='' href={`https://youtu.be/${props.ytid}`} ><FontAwesomeIcon className='ml-2' icon={faYoutube} />  Youtubeで開く</a>
                             </div>
-                            <div>
-                                <AddPlaylist videoId={props.ytid} />
-                            </div>
+                            {login ? <>
+                                <div>
+                                    <AddPlaylist videoId={props.ytid} />
+                                </div>
+                            </> : <></>}
                             <div className='p-4 rounded-lg bg-gray-100 '>
                                 <div className='text-sm break-all w-full'>{about.description.split(/(\n)/).map((v: string, i: number) => (i & 1 ? <br key={i} /> : v))}</div>
                             </div>

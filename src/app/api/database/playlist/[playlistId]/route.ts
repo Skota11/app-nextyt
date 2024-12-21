@@ -8,16 +8,11 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     console.log(request)
     const { playlistId } = await params
     const supabase = await createClient()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (user) {
-        const { data }: { data: unknown } = await supabase
-            .from('playlists')
-            .select("videoId , videoContent")
-            .eq("playlistId", playlistId)
-        return Response.json({ data })
-    } else {
-        return new Response('Not logged in', { status: 404 })
-    }
+    const { data }: { data: unknown } = await supabase
+        .from('playlists')
+        .select("videoId , videoContent")
+        .eq("playlistId", playlistId)
+    return Response.json({ data })
 }
 
 export async function POST(request: NextRequest, { params }: { params: Promise<{ playlistId: string }> }) {

@@ -1,5 +1,5 @@
 import { faYoutube } from "@fortawesome/free-brands-svg-icons";
-import { fa1, fa2, faEye, faForward, faGripLinesVertical, faThumbsUp, faVolumeHigh, faVolumeXmark, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faShareFromSquare, faThumbsUp, faVolumeHigh, faVolumeXmark, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Drawer from "@mui/material/Drawer";
 import { useEffect, useState } from "react";
@@ -50,6 +50,13 @@ export default function Home(props: { ytid: string }) {
     const toggleOnCloseDrawer = () => {
         setOpenedDrawer(false);
     }
+    const handleShare = async () => {
+        const data: ShareData = {
+            title: `${about.title}`,
+            url: `https://youtu.be/${props.ytid}`
+        };
+        await navigator.share(data)
+    }
     return (
         <>
             {/* Player */}
@@ -59,6 +66,7 @@ export default function Home(props: { ytid: string }) {
                         <div className='video flex place-content-center rounded-lg'>
                             {props.ytid ? <>
                                 <ReactPlayer
+                                    className={"react-player"}
                                     url={`https://youtube.com/watch?v=${props.ytid}`}
                                     playing={playing}
                                     playbackRate={playbackRate}
@@ -77,7 +85,7 @@ export default function Home(props: { ytid: string }) {
             {/* Title&Drawer */}
             <div className='px-2 py-2'>
                 <div>
-                    <h1 className='m-2'><button onClick={() => { setOpenedDrawer(true) }} className='break-all text-lg '>{about.title}</button></h1>
+                    <h1 className='m-2 break-all text-lg cursor-pointer' onClick={() => { setOpenedDrawer(true) }}>{about.title}</h1>
                     <Drawer
                         anchor={'left'}
                         open={openedDrawer}
@@ -86,10 +94,10 @@ export default function Home(props: { ytid: string }) {
                             sx: { width: "100%", maxWidth: "512px" },
                         }}
                     >
-                        <button className='mt-4' onClick={() => { setOpenedDrawer(false) }}>閉じる</button>
+                        <p className='mt-4 text-center cursor-pointer' onClick={() => { setOpenedDrawer(false) }}>閉じる</p>
                         <div className='p-8'>
                             <h1 className='text-xl'>{about.title}</h1>
-                            <button className='text-lg text-slate-600' onClick={() => { }}>{about.channelTitle}</button>
+                            <p className='text-lg text-slate-600' onClick={() => { }}>{about.channelTitle}</p>
                             <div className='sm:flex gap-x-4 my-4 gap-y-4'>
                                 <p className='text-lg'>{dayjs(about.publishedAt).format('YYYY年MM月DD日')}</p>
                                 <p className='text-lg'><FontAwesomeIcon className='mr-2' icon={faEye} />{toJaNum(statistics.viewCount)}</p>
@@ -114,15 +122,16 @@ export default function Home(props: { ytid: string }) {
             <div className="">
                 {props.ytid !== "" ?
                     <div className=' flex place-content-center gap-x-2'>
-                        <FontAwesomeIcon className='py-2' icon={faForward} />
-                        <button className='border-2 p-2 rounded-lg text-xs border-current' onClick={async () => { setPlaybackRate(1) }}><FontAwesomeIcon icon={faXmark} /><FontAwesomeIcon icon={fa1} /></button>
-                        <button className='border-2 p-2 rounded-lg text-xs border-current' onClick={async () => { setPlaybackRate(2) }}><FontAwesomeIcon icon={faXmark} /><FontAwesomeIcon icon={fa2} /></button>
-                        <p className='py-2'><FontAwesomeIcon icon={faGripLinesVertical} /></p>
+                        <button className='border-2 p-2 rounded-full text-xs border-current' onClick={async () => { setPlaybackRate(1) }}><FontAwesomeIcon icon={faXmark} />1</button>
+                        <button className='border-2 p-2 rounded-full text-xs border-current' onClick={async () => { setPlaybackRate(1.5) }}><FontAwesomeIcon icon={faXmark} />1.5</button>
+                        <button className='border-2 p-2 rounded-full text-xs border-current' onClick={async () => { setPlaybackRate(2) }}><FontAwesomeIcon icon={faXmark} />2</button>
                         {muted ?
-                            <button className='border-2 p-2 rounded-lg text-xs border-current' onClick={async () => { setMuted(false) }}><FontAwesomeIcon icon={faVolumeXmark} /></button>
+                            <button className='border-2 p-2 rounded-full text-xs border-current' onClick={async () => { setMuted(false) }}><FontAwesomeIcon icon={faVolumeXmark} /></button>
                             :
-                            <button className='border-2 p-2 rounded-lg text-xs border-current' onClick={async () => { setMuted(true) }}><FontAwesomeIcon icon={faVolumeHigh} /></button>
+                            <button className='border-2 p-2 rounded-full text-xs border-current' onClick={async () => { setMuted(true) }}><FontAwesomeIcon icon={faVolumeHigh} /></button>
                         }
+                        <button className='border-2 p-2 rounded-full text-xs border-current' onClick={async () => { handleShare() }}><FontAwesomeIcon icon={faShareFromSquare} /></button>
+                        {/* <button className='border-2 p-2 rounded-full text-xs border-current' onClick={async () => { handleFullScreen() }}><FontAwesomeIcon icon={faExpand} /></button> */}
                     </div>
                     : <></>}
             </div>

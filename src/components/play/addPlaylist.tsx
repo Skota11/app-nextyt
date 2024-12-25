@@ -28,8 +28,8 @@ export default function Main(props: { videoId: string }) {
     }, [])
     return (
         <>
-            <div className="flex gap-x-4">
-                <FormControl sx={{ m: 1, minWidth: 120 }}>
+            <div className="flex items-center">
+                <FormControl sx={{ m: 1, minWidth: 240 }}>
                     <InputLabel id="demo-simple-select-label">Playlist</InputLabel>
                     <Select
                         labelId="demo-simple-select-label"

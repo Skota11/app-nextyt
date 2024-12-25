@@ -14,11 +14,9 @@ function Child(props: { playlistId: string }) {
         defaultId = ""
     }
     const [ytid, setYtid] = useState(defaultId)
-    //const p_setYtid = (id: string) => { setYtid(id) }
     useEffect(() => {
         setYtid(defaultId)
     }, [defaultId])
-    //setYtid={p_setYtid}
     return (
         <>
             <Player ytid={ytid} />

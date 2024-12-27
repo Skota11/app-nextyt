@@ -5,16 +5,29 @@ interface Array {
     videoId: string
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+    const page = request.nextUrl.searchParams.get('page')
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
     if (user) {
-        const { data }: { data: unknown } = await supabase
-            .from('watchHistory')
-            .select("videoId , videoContent")
-            .order("created_at", { ascending: false })
-            .limit(50)
-        return Response.json({ data })
+        if (page) {
+            const pageNum = Number(page)
+            const start = 0 + 50 * (pageNum - 1)
+            const end = 49 + 50 * (pageNum - 1)
+            const { data }: { data: unknown } = await supabase
+                .from('watchHistory')
+                .select("videoId , videoContent")
+                .order("created_at", { ascending: false })
+                .range(start, end)
+            return Response.json({ data })
+        } else {
+            const { data }: { data: unknown } = await supabase
+                .from('watchHistory')
+                .select("videoId , videoContent")
+                .order("created_at", { ascending: false })
+                .limit(50)
+            return Response.json({ data })
+        }
     } else {
         return new Response('Not logged in', { status: 404 })
     }

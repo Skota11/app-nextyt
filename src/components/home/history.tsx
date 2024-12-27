@@ -23,6 +23,7 @@ export default function Main() {
     const getMoreHistory = async () => {
         const { data } = await (await fetch(`/api/database/history?page=${page}`)).json()
         setResult(prevItems => [...prevItems, ...data]);
+        setPage(prevPage => prevPage + 1);
         if (data.length < 50) {
             setHasMore(false)
         }

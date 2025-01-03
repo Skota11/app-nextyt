@@ -52,7 +52,7 @@ export default function Main(props: { playlistId: string }) {
     }, [])
     return (
         <>
-            <div className="px-4 max-w-screen-xl m-auto">
+            <div className="px-4 mt-2 max-w-screen-xl m-auto">
                 <FontAwesomeIcon icon={faPlay} />  <input className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' value={name} onChange={onInputChange} />
                 <p className='text-sm my-2 text-gray-500'>名前の更新はプレイリスト名をクリック</p>
                 {

@@ -4,6 +4,7 @@ import InputLabel from "@mui/material/InputLabel"
 import MenuItem from "@mui/material/MenuItem"
 import Select from "@mui/material/Select"
 import { useEffect, useState } from "react"
+import toast, { Toaster } from 'react-hot-toast';
 
 interface playlist { playlistId: string, playlistName: string }
 
@@ -15,13 +16,14 @@ export default function Main(props: { videoId: string }) {
         setResult(data)
     }
     const addClickHandler = async () => {
-        fetch(`/api/database/playlist/${selectId}`, {
+        await fetch(`/api/database/playlist/${selectId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ id: props.videoId }),
         })
+        toast.success("プレイリストに追加しました")
     }
     useEffect(() => {
         getPlaylists()
@@ -47,6 +49,7 @@ export default function Main(props: { videoId: string }) {
                 </FormControl>
                 <Button variant="contained" onClick={addClickHandler}>追加</Button>
             </div>
+            <Toaster />
         </>
     )
 }

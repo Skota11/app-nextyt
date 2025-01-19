@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 //supabase
 import { supabase } from "../utils/supabase/client";
 //components
-import Account from "../components/home/account";
-import History from "../components/home/history";
-import OAuth from "../components/home/oauth";
+import Account from "@/components/home/account";
+import History from "@/components/home/history";
+import OAuth from "@/components/home/oauth";
 //mui
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

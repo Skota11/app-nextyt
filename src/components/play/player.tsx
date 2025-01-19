@@ -60,27 +60,21 @@ export default function Home(props: { ytid: string }) {
     return (
         <>
             {/* Player */}
-            <div className='flex place-content-center bg-black'>
-                <div className='wrap'>
-                    <div className='video-container'>
-                        <div className='video flex place-content-center rounded-lg'>
-                            {props.ytid ? <>
-                                <ReactPlayer
-                                    className={"react-player"}
-                                    url={`https://youtube.com/watch?v=${props.ytid}`}
-                                    playing={playing}
-                                    playbackRate={playbackRate}
-                                    muted={muted}
-                                    width={"100%"}
-                                    height={"100%"}
-                                    controls={true}
-                                    onPause={() => { setPlaying(false) }}
-                                    onPlay={() => { setPlaying(true) }}
-                                />
-                            </> : <div className=''><p className='text-white text-2xl'>動画が選択されていません</p></div>}
-                        </div>
-                    </div>
-                </div>
+            <div className='aspect-video w-full max-h-4/5 rounded-lg maxHeightVideo'>
+                {props.ytid ? <>
+                    <ReactPlayer
+                        className={"react-player "}
+                        url={`https://youtube.com/watch?v=${props.ytid}`}
+                        playing={playing}
+                        playbackRate={playbackRate}
+                        muted={muted}
+                        width={"100%"}
+                        height={"100%"}
+                        controls={true}
+                        onPause={() => { setPlaying(false) }}
+                        onPlay={() => { setPlaying(true) }}
+                    />
+                </> : <div className=''><p className='text-white text-2xl text-center'>動画が選択されていません</p></div>}
             </div>
             {/* Title&Drawer */}
             <div className='px-2 py-2'>

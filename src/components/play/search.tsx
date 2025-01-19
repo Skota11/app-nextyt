@@ -38,14 +38,15 @@ export default function Home() {
     return (
         <>
             <div className="flex place-content-center my-4">
-                <div className="flex gap-x-2">
-                    <input type="text" onKeyPress={(e) => {
-                        if (e.code == "Enter") {
-                            getSearch()
-                        }
-                    }} className='p-2 rounded-md border-2 outline-0' placeholder='検索するワードを入力' onChange={(e) => { setInputQuery(e.target.value) }} value={inputQuery} />
-                    <button onClick={() => { getSearch() }} className='py-2 px-4 rounded-lg bg-gray-100'><FontAwesomeIcon icon={faSearch} /></button>
-                </div>
+                <form onSubmit={(e) => {
+                    e.preventDefault()
+                    getSearch()
+                }}>
+                    <div className="flex gap-x-2">
+                        <input type="search" className='p-2 rounded-md border-2 outline-0' placeholder='検索するワードを入力' onChange={(e) => { setInputQuery(e.target.value) }} value={inputQuery} />
+                        <button type="submit" className='py-2 px-4 rounded-lg bg-gray-100'><FontAwesomeIcon icon={faSearch} /></button>
+                    </div>
+                </form>
             </div>
             <div className="flex place-content-center z-10">
                 {suggest.length !== 0 ?

@@ -74,7 +74,7 @@ export default function Home(props: { ytid: string }) {
                         onPause={() => { setPlaying(false) }}
                         onPlay={() => { setPlaying(true) }}
                     />
-                </> : <div className=''><p className='text-white text-2xl text-center'>動画が選択されていません</p></div>}
+                </> : <div className='w-full h-full text-white flex place-content-center bg-black'><p className='text-2xl text-center'>動画が選択されていません</p></div>}
             </div>
             {/* Title&Drawer */}
             <div className='px-2 py-2'>

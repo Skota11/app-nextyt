@@ -1,5 +1,6 @@
-import { faPlay, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faCirclePlay, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { LuArrowDownUp } from "react-icons/lu";
 import CircularProgress from '@mui/material/CircularProgress';
 import Image from 'next/image'
 import Link from "next/link";
@@ -45,6 +46,13 @@ export default function Main(props: { playlistId: string }) {
             body: JSON.stringify({ name: e.target.value }),
         })
     }
+    const listReverse = () => {
+        if (result) {
+            const prev = [...result]
+            prev.reverse()
+            setResult(prev)
+        }
+    }
     useEffect(() => {
         getPlaylistName()
         getPlaylist()
@@ -53,8 +61,11 @@ export default function Main(props: { playlistId: string }) {
     return (
         <>
             <div className="p-4 max-w-screen-xl m-auto">
-                <FontAwesomeIcon icon={faPlay} />  <input className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' value={name} onChange={onInputChange} />
-                <p className='text-sm my-2 text-gray-500'>名前の更新はプレイリスト名をクリック</p>
+                <FontAwesomeIcon icon={faCirclePlay} />  <input className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' value={name} onChange={onInputChange} />
+                <div className='my-4 flex gap-x-4'>
+                    <button onClick={listReverse}><LuArrowDownUp /></button>
+                </div>
+
                 {
                     result == undefined ?
                         <>

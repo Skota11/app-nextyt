@@ -79,7 +79,7 @@ export default function Main(props: { playlistId: string }) {
                                 <div key={item.videoId} className='block my-2 break-all sm:flex items-start gap-4 cursor-pointer'>
                                     <Link href={`/playlist/${props.playlistId}?v=${item.videoId}`} className='flex-none'>
                                         <div className="flex place-content-center">
-                                            <Image src={`https://i.ytimg.com/vi/${item.videoId}/mqdefault.jpg`} alt="" width={120 * 2.5} height={67.5 * 2.5} className='inline rounded-md ' />
+                                            <Image src={`https://i.ytimg.com/vi/${item.videoId}/mqdefault.jpg`} alt="" width={120 * 2.5} height={67.5 * 2.5} className='inline rounded-md' unoptimized/>
                                         </div>
                                     </Link>
                                     <div className='inline'>

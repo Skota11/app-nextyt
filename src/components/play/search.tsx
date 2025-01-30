@@ -66,7 +66,7 @@ export default function Home() {
                             return (
                                 <Link key={item.id.videoId} className='block my-8 break-all sm:flex items-start gap-4 cursor-pointer' onClick={() => { }} href={`/play?${createQueryString('v', item.id.videoId)}`}>
                                     <div className="flex place-content-center flex-none">
-                                        <Image src={`https://i.ytimg.com/vi/${item.id.videoId}/mqdefault.jpg`} alt="" width={120 * 2.5} height={67.5 * 2.5} className='inline rounded-md' />
+                                        <Image src={`https://i.ytimg.com/vi/${item.id.videoId}/mqdefault.jpg`} alt="" width={120 * 2.5} height={67.5 * 2.5} className='inline rounded-md' unoptimized/>
                                     </div>
                                     <div className='inline'>
                                         <p>{item.snippet.title} </p>

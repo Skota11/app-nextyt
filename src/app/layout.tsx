@@ -2,8 +2,13 @@ import "./globals.css";
 import Link from "next/link";
 import Script from "next/script";
 import localFont from 'next/font/local'
+import { Metadata } from "next";
 
 const myFont = localFont({ src: '../fonts/LINESeedJP_OTF_Bd.woff2', preload: true });
+
+export const metadata: Metadata = {
+  title: 'NextTube',
+}
 
 export default function RootLayout({
   children,

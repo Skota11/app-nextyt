@@ -25,12 +25,12 @@ export default function Main(props: { currentUser: { id: string | undefined, ema
     }
     return (
         <div className='mt-2'>
-            <h1 className='text-lg my-4'><FontAwesomeIcon icon={faUser} className='mr-2' />Account <button className="text-sm" onClick={() => { setHidden(!hidden) }}>{hidden ? <>開く</> : <>閉じる</>}</button></h1>
+            <h1 className='text-lg my-4'><FontAwesomeIcon icon={faUser} className='mr-2' />Account <button title="アカウントの詳細" className="text-sm" onClick={() => { setHidden(!hidden) }}>{hidden ? <>開く</> : <>閉じる</>}</button></h1>
             {hidden ? <></> : <div className="mx-4">
                 <p className='text-sm'>{props.currentUser.email}でログイン中</p>
                 <div className='my-4 flex-wrap flex gap-x-4 gap-y-4 mb-8 '>
-                    <button onClick={() => { LogOut() }} className='border-2 border-red-600 bg-red-100 p-4 rounded-full'><FontAwesomeIcon icon={faArrowRightFromBracket} className='mr-2' />ログアウト</button>
-                    <button onClick={() => { Delete() }} className='border-2 border-current p-4 rounded-full'><FontAwesomeIcon icon={faTrash} className='mr-2' />WatchHistoryを削除</button>
+                    <button title="ログアウト" onClick={() => { LogOut() }} className='border-2 border-red-600 bg-red-100 p-4 rounded-full'><FontAwesomeIcon icon={faArrowRightFromBracket} className='mr-2' />ログアウト</button>
+                    <button title="視聴履歴を削除" onClick={() => { Delete() }} className='border-2 border-current p-4 rounded-full'><FontAwesomeIcon icon={faTrash} className='mr-2' />WatchHistoryを削除</button>
                 </div>
             </div>}
         </div>)

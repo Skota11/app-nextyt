@@ -81,7 +81,7 @@ export default function Main() {
                                                         {deleteLoading.includes(item.videoId) ? <>
                                                             <CircularProgress color="error" size={20} />
                                                         </> : <>
-                                                            <button onClick={() => { deleteHistory(item.videoId) }}><FontAwesomeIcon icon={faTrash} /></button>
+                                                            <button title="動画を削除" onClick={() => { deleteHistory(item.videoId) }}><FontAwesomeIcon icon={faTrash} /></button>
                                                         </>}
                                                     </div>
                                                 </div>

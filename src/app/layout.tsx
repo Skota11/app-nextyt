@@ -20,6 +20,7 @@ export default function RootLayout({
         </div>
         {children}
         <Script src="./node_modules/preline/dist/preline.js"></Script>
+
       </body>
     </html>
   );

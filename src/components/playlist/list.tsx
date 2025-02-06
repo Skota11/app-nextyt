@@ -1,17 +1,21 @@
-import { faCirclePlay, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faCirclePlay, faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { LuArrowDownUp } from "react-icons/lu";
 import CircularProgress from '@mui/material/CircularProgress';
 import Image from 'next/image'
 import Link from "next/link";
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import Swal from 'sweetalert2'
+import { useRouter } from "next/navigation";
 
 interface playlist { videoId: string, videoContent: { title: string, channelTitle: string } }
 
 export default function Main(props: { playlistId: string }) {
+    const router = useRouter();
     const [deleteLoading, setDeleteLoading] = useState<Array<string>>([])
     const [result, setResult] = useState<Array<playlist> | undefined>(undefined)
     const [name, setName] = useState("")
+    const inputRef = useRef<HTMLInputElement>(null)
     const deletePlaylist = async (id: string) => {
         let array = [...deleteLoading]
         array.push(id)
@@ -53,17 +57,40 @@ export default function Main(props: { playlistId: string }) {
             setResult(prev)
         }
     }
+    const listDelete = async () => {
+        Swal.fire({
+            title: `プレイリストを削除しますか？`,
+            showDenyButton: true,
+            confirmButtonText: "削除",
+            denyButtonText: `やめる`
+        }).then(async (result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                await fetch(`/api/database/playlist/${props.playlistId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ id: 'full' }),
+                })
+                router.push(`/`);
+            } else if (result.isDenied) {
+
+            }
+        });
+    }
     useEffect(() => {
         getPlaylistName()
         getPlaylist()
-
     }, [])
     return (
         <>
             <div className="p-4 max-w-screen-xl m-auto">
-                <FontAwesomeIcon icon={faCirclePlay} />  <input className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' value={name} onChange={onInputChange} />
+                <FontAwesomeIcon icon={faCirclePlay} />  <input className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' value={name} onChange={onInputChange} ref={inputRef} />
                 <div className='my-4 flex gap-x-4'>
                     <button onClick={listReverse}><LuArrowDownUp /></button>
+                    <button onClick={() => { inputRef.current?.focus() }}><FontAwesomeIcon icon={faPencil} /></button>
+                    <button onClick={listDelete}><FontAwesomeIcon className='text-red-700' icon={faTrash} /></button>
                 </div>
 
                 {

@@ -21,6 +21,7 @@ function Child(props: { playlistId: string }) {
         <>
             <Player ytid={ytid} />
             <List playlistId={props.playlistId} />
+
         </>
     )
 }

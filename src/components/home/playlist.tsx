@@ -6,10 +6,12 @@ import { faList, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface playlist { playlistId: string, playlistName: string }
 
 export default function Main() {
+    const router = useRouter()
     const [result, setResult] = useState<Array<playlist> | undefined>(undefined)
     const getPlaylists = async () => {
         const { data } = await (await fetch('/api/database/playlist')).json()
@@ -24,13 +26,14 @@ export default function Main() {
             body: JSON.stringify({}),
         })).json()
         console.log(res.id)
+        router.push(`/playlist/${res.id}`)
     }
     useEffect(() => {
         getPlaylists()
     }, [])
     return (
         <div className='mt-2'>
-            <h1 className='text-lg my-4'><FontAwesomeIcon icon={faList} className='mr-2' />Playlist <button onClick={newPlaylist}> <FontAwesomeIcon icon={faPlus} className="mr-1 text-sm" /><span className="text-sm">新しく作成</span></button></h1>
+            <h1 className='text-lg my-4'><FontAwesomeIcon icon={faList} className='mr-2' />Playlist <button title="新しいプレイリストを作成" onClick={newPlaylist}> <FontAwesomeIcon icon={faPlus} className="mr-1 text-sm" /><span className="text-sm">新しく作成</span></button></h1>
             <div className="mx-4">
                 {
                     result == undefined ?

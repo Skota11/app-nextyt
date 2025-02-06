@@ -54,6 +54,7 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
     if (user) {
         if (videoIdBody == 'full') {
             await supabase.from("playlists").delete().eq("playlistId", playlistId)
+            await supabase.from("user_playlists").delete().eq("playlistId", playlistId)
             return new Response('', { status: 200 })
         } else {
             await supabase.from("playlists").delete().match({ playlistId: playlistId, videoId: videoIdBody })

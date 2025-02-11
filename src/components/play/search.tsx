@@ -1,11 +1,13 @@
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { SiNiconico } from "react-icons/si";
 import { useCallback, useEffect, useState } from "react";
 import Image from 'next/image'
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import dayjs from "dayjs";
 import Chip from "@mui/material/Chip";
+import { faYoutube } from "@fortawesome/free-brands-svg-icons";
 
 export default function Home() {
     const searchParams = useSearchParams()
@@ -46,7 +48,7 @@ export default function Home() {
     return (
         <>
 
-            <div className="flex place-content-center mt-4 mb-2">
+            <div className="flex place-content-center my-4">
                 <form onSubmit={(e) => {
                     e.preventDefault()
                     getSearch()
@@ -58,11 +60,13 @@ export default function Home() {
                 </form>
             </div>
             <div className="flex place-content-center gap-x-4 mb-2">
-                <Chip label={"Youtube"} onClick={() => { setGet("") }}
+                <Chip icon={<FontAwesomeIcon icon={faYoutube} className="m-1" />} label={"Youtube"} onClick={() => { setGet("") }}
                     variant={get == "" ? "filled" : "outlined"}
+                    color="info"
                 />
-                <Chip label={"ニコニコ動画"} onClick={(() => { setGet("niconico") })}
+                <Chip icon={<SiNiconico className="m-1" />} label={"ニコニコ動画"} onClick={(() => { setGet("niconico") })}
                     variant={get == "niconico" ? "filled" : "outlined"}
+                    color="info"
                 ></Chip>
             </div>
             <div className="flex place-content-center z-10">

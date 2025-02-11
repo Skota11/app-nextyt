@@ -4,9 +4,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faList, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
-import CircularProgress from "@mui/material/CircularProgress";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Skeleton from "@mui/material/Skeleton";
 
 interface playlist { playlistId: string, playlistName: string }
 
@@ -37,7 +37,12 @@ export default function Main() {
             <div className="mx-4">
                 {
                     result == undefined ?
-                        <><CircularProgress color="error" size={40} /></>
+                        <>
+                            <div className="grid grid-rows-1 gap-y-4">
+                                <Skeleton variant="rounded" width={210} height={20} animation="wave" />
+                                <Skeleton variant="rounded" width={210} height={20} animation="wave" />
+                            </div>
+                        </>
                         :
                         result.length == 0 ? <><p>Playlistはありません</p></> : result.map((item: playlist) => {
                             return (

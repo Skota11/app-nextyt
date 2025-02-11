@@ -14,6 +14,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Link from "next/link";
 import Search from "@/components/play/search";
 import Playlist from "@/components/home/playlist";
+import Channels from "@/components/home/channels";
 
 export default function Home() {
   //State
@@ -40,6 +41,7 @@ export default function Home() {
             <Search />
           </div>
           <Account currentUser={currentUser} />
+          <Channels />
           <Playlist />
           <History />
         </div>

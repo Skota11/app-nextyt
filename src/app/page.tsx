@@ -36,10 +36,7 @@ export default function Home() {
     <>
       {currentUser?.login ? <>
         <div className="p-4 max-w-screen-xl m-auto">
-          <div className='flex place-content-center'>
-            <Link href="/play" className='my-4 rounded-full border-2 p-4 text-lg border-current' ><FontAwesomeIcon icon={faPlay} className='mr-2' /> Play</Link>
-          </div>
-          <div className="place-content-center">
+          <div className="place-content-center my-4">
             <Search />
           </div>
           <Account currentUser={currentUser} />

@@ -2,8 +2,8 @@
 import { Suspense, useEffect, useState } from "react";
 import "./play.css"
 //components
-import Player from "../../components/play/player";
-import Search from "../../components/play/search";
+import Player from "@/components/play/player";
+import Search from "@/components/play/search";
 import { useSearchParams } from "next/navigation";
 
 function Child() {

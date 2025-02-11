@@ -8,6 +8,7 @@ import dayjs from 'dayjs'
 import toJaNum from "@/utils/num2ja";
 import AddPlaylist from "./addPlaylist";
 import { supabase } from "@/utils/supabase/client";
+import Link from "next/link";
 
 export default function Home(props: { ytid: string }) {
     //state
@@ -89,7 +90,7 @@ export default function Home(props: { ytid: string }) {
                         <p className='mt-4 text-center cursor-pointer' onClick={() => { setOpenedDrawer(false) }}>閉じる</p>
                         <div className='p-8'>
                             <h1 className='text-xl'>{about.title}</h1>
-                            <p className='text-lg text-slate-600' onClick={() => { }}>{about.channelTitle}</p>
+                            <Link href={`/channel/${about.channelId}`}><p className='text-lg text-slate-600' onClick={() => { }}>{about.channelTitle}</p></Link>
                             <div className='sm:flex gap-x-4 my-4 gap-y-4'>
                                 <p className='text-lg'>{dayjs(about.publishedAt).format('YYYY年MM月DD日')}</p>
                                 <p className='text-lg'><FontAwesomeIcon className='mr-2' icon={faEye} />{toJaNum(statistics.viewCount)}</p>

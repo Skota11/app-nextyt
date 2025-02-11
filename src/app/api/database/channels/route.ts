@@ -10,7 +10,7 @@ export async function GET() {
         const { data }: { data: unknown } = await supabase
             .from('user_channels')
             .select("channelId , channelContent")
-        // .order("created_at", { ascending: false })
+            .order("created_at", { ascending: false })
 
         return Response.json({ data })
     } else {

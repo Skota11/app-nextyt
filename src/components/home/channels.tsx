@@ -33,9 +33,15 @@ export default function Main() {
                 {
                     result == undefined ?
                         <>
-                            <div className="grid grid-rows-1 gap-y-4">
-                                <Skeleton variant="rounded" width={210} height={20} animation="wave" />
-                                <Skeleton variant="rounded" width={210} height={20} animation="wave" />
+                            <div className="flex gap-x-4">
+                                <div>
+                                    <Skeleton variant="circular" width={80} height={80} />
+                                    <Skeleton variant="rounded" width={80} height={20} animation="wave" className="my-2" />
+                                </div>
+                                <div>
+                                    <Skeleton variant="circular" width={80} height={80} />
+                                    <Skeleton variant="rounded" width={80} height={20} animation="wave" className="my-2" />
+                                </div>
                             </div>
                         </>
                         :
@@ -47,7 +53,7 @@ export default function Main() {
                                         return (
                                             <Link key={item.channelId} className='snap-start min-w-[80px]' href={`/channel/${item.channelId}`}>
                                                 <Image alt="channelImage" src={`${item.channelContent.thumbnails.medium.url}`} width={80} height={80} unoptimized className="rounded-full" />
-                                                <p className="text-center text-sm">{omit(item.channelContent.title)}</p>
+                                                <p className="text-center text-sm my-2">{omit(item.channelContent.title)}</p>
                                             </Link>
                                         )
                                     })}

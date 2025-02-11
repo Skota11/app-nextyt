@@ -12,6 +12,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
         .from('playlists')
         .select("videoId , videoContent")
         .eq("playlistId", playlistId)
+        .order("created_at", { ascending: false })
     return Response.json({ data })
 }
 

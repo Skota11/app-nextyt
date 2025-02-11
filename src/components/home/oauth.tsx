@@ -13,8 +13,8 @@ export default function Main() {
 
     return <>
         <div className='flex place-content-center py-6 gap-x-12'>
-            <button className=' rounded-full border-2 p-4 text-lg border-current' onClick={() => { onTwitterRegister(); }}><FontAwesomeIcon icon={faTwitter} className='mr-2' /> Twitterでログイン</button>
-            <button className=' rounded-full border-2 p-4 text-lg border-current' onClick={() => { onDiscordRegister(); }}><FontAwesomeIcon icon={faDiscord} className='mr-2' /> Discordでログイン</button>
+            <button className='bg-black text-white rounded-full border-2 p-4 text-lg border-current hover:bg-neutral-700 duration-100' onClick={() => { onTwitterRegister(); }}><FontAwesomeIcon icon={faTwitter} className='mr-2 text-white' /> Twitterでログイン</button>
+            <button className='bg-black text-white rounded-full border-2 p-4 text-lg border-current hover:bg-neutral-700 duration-100' onClick={() => { onDiscordRegister(); }}><FontAwesomeIcon icon={faDiscord} className='mr-2 text-white' /> Discordでログイン</button>
         </div>
     </>
 }

@@ -83,7 +83,7 @@ export default function Home() {
             <div className="px-4 max-w-screen-xl m-auto">
                 {
                     result ?
-                        result.map((item: { id?: { kind: string, videoId: string, channelId: string }, snippet: { title: string, channelTitle: string, publishedAt: string, description: string, thumbnails: { medium: { url: string } } }, contentId: string, thumbnailUrl: string, title: string }) => {
+                        result.map((item: { id?: { kind: string, videoId: string, channelId: string }, snippet: { title: string, channelTitle: string, publishedAt: string, description: string, thumbnails: { medium: { url: string } } }, contentId: string, thumbnailUrl: string, title: string, description: string }) => {
                             if (item.id?.kind == "youtube#video") {
                                 return (
                                     <Link key={item.id.videoId} className='block my-8 break-all sm:flex items-start gap-4 cursor-pointer' href={`/play?${createQueryString('v', item.id.videoId)}`}>
@@ -111,9 +111,14 @@ export default function Home() {
                             } else {
                                 console.log(item)
                                 return (
-                                    <Link key={item.contentId} className='my-8 flex gap-x-4' href={`https://nico.ms/${item.contentId}`} target="_blank">
-                                        <Image src={`${item.thumbnailUrl}`} alt="" width={130} height={100} className='inline rounded-md aspect-video object-cover' unoptimized />
-                                        <p>{item.title} </p>
+                                    <Link key={item.contentId} className='block my-8 break-all sm:flex items-start gap-4 cursor-pointer' href={`https://nico.ms/${item.contentId}`}>
+                                        <div className="flex place-content-center flex-none">
+                                            <Image src={`${item.thumbnailUrl}.M`} alt="" width={320} height={168.75} className='inline rounded-md' unoptimized />
+                                        </div>
+                                        <div className='inline'>
+                                            <p>{item.title} </p>
+                                            <p className="text-sm text-gray-400">{omit(item.description)}</p>
+                                        </div>
                                     </Link>
                                 )
                             }

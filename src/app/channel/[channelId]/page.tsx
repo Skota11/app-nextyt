@@ -182,7 +182,6 @@ function Child(props: { channelId: string }) {
                             )
                         })}
                     </InfiniteScroll>
-                    <p>test</p>
                 </>}
 
             </div>

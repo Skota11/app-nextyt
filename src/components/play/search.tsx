@@ -111,7 +111,7 @@ export default function Home() {
                             } else {
                                 console.log(item)
                                 return (
-                                    <Link key={item.contentId} className='block my-8 break-all sm:flex items-start gap-4 cursor-pointer' href={`https://nico.ms/${item.contentId}`}>
+                                    <Link key={item.contentId} className='block my-8 break-all sm:flex items-start gap-4 cursor-pointer' href={`https://nico.ms/${item.contentId}`} target="_blank">
                                         <div className="flex place-content-center flex-none">
                                             <Image src={`${item.thumbnailUrl}.M`} alt="" width={320} height={168.75} className='inline rounded-md' unoptimized />
                                         </div>

@@ -59,7 +59,18 @@ export default function Home() {
                     </div>
                 </form>
             </div>
-            <div className="flex place-content-center gap-x-4 mb-2">
+            <div className="flex place-content-center">
+                {suggest.length !== 0 ?
+                    <div className="absolute p-4 border-2 rounded-lg bg-white  z-10">
+                        {
+                            suggest.map((item) => {
+                                return (<p className="cursor-pointer" onClick={() => { setInputQuery(item) }} key={item}>{item}</p>)
+                            })
+                        }
+                    </div>
+                    : <></>}
+            </div>
+            <div className="flex place-content-center gap-x-4">
                 <Chip icon={<FontAwesomeIcon icon={faYoutube} className="m-1" />} label={"Youtube"} onClick={() => { setGet("") }}
                     variant={get == "" ? "filled" : "outlined"}
                     color="info"
@@ -69,17 +80,7 @@ export default function Home() {
                     color="info"
                 ></Chip>
             </div>
-            <div className="flex place-content-center z-10">
-                {suggest.length !== 0 ?
-                    <div className="absolute p-4 border-2 rounded-lg bg-white">
-                        {
-                            suggest.map((item) => {
-                                return (<p className="cursor-pointer" onClick={() => { setInputQuery(item) }} key={item}>{item}</p>)
-                            })
-                        }
-                    </div>
-                    : <></>}
-            </div>
+
             <div className="px-4 max-w-screen-xl m-auto">
                 {
                     result ?

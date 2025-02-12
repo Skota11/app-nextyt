@@ -8,10 +8,7 @@ import Account from "@/components/home/account";
 import History from "@/components/home/history";
 import OAuth from "@/components/home/oauth";
 //mui
-import { faPlay } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CircularProgress from '@mui/material/CircularProgress';
-import Link from "next/link";
 import Search from "@/components/play/search";
 import Playlist from "@/components/home/playlist";
 import Channels from "@/components/home/channels";

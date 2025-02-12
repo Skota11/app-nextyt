@@ -1,7 +1,7 @@
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SiNiconico } from "react-icons/si";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import Image from 'next/image'
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -15,6 +15,7 @@ export default function Home() {
     const [result, setResult] = useState([])
     const [suggest, setSuggest] = useState([])
     const [get, setGet] = useState("")
+    const inputRef = useRef<HTMLInputElement>(null)
     const getSearch = async () => {
         if (inputQuery) {
             const res = await (await fetch(`/api/search?q=${inputQuery}&get=${get}`)).json();
@@ -54,7 +55,7 @@ export default function Home() {
                     getSearch()
                 }}>
                     <div className="flex gap-x-2">
-                        <input type="search" className='p-2 rounded-md border-2 outline-0' placeholder='検索するワードを入力' onChange={(e) => { setInputQuery(e.target.value) }} value={inputQuery} />
+                        <input ref={inputRef} type="search" className='p-2 rounded-md border-2 outline-0' placeholder='検索するワードを入力' onChange={(e) => { setInputQuery(e.target.value) }} value={inputQuery} />
                         <button type="submit" className='py-2 px-4 rounded-lg bg-gray-100'><FontAwesomeIcon icon={faSearch} /></button>
                     </div>
                 </form>
@@ -128,6 +129,9 @@ export default function Home() {
                         <></>
                 }
             </div>
+            <button onClick={() => { inputRef.current?.focus() }} className="sm:hidden fixed right-10 bottom-10 z-50 border-2 px-4 py-3 rounded-full ">
+                <p><FontAwesomeIcon icon={faSearch} /></p>
+            </button>
         </>
     )
 }

@@ -38,7 +38,6 @@ function Child(props: { channelId: string }) {
             setHasMore(false)
         } else {
             state_setNextPageToken(nextPageToken)
-            console.log(nextPageToken)
         }
         setVideos(data)
     }
@@ -50,7 +49,6 @@ function Child(props: { channelId: string }) {
             setHasMore(false)
         } else {
             state_setNextPageToken(nextPageToken)
-            console.log(nextPageToken)
         }
 
     }

@@ -10,13 +10,16 @@ import AddPlaylist from "./addPlaylist";
 import { supabase } from "@/utils/supabase/client";
 import Link from "next/link";
 
+interface VideoAbout { title: string, channelId: string, channelTitle: string, description: string, publishedAt: string }
+interface VideoStatistics { viewCount: "", likeCount: "" };
+
 export default function Home(props: { ytid: string }) {
     //state
     const [playing, setPlaying] = useState(true)
     const [muted, setMuted] = useState(false);
     const [playbackRate, setPlaybackRate] = useState(1)
-    const [about, setAbout] = useState({ title: "", channelId: "", channelTitle: "", description: "", publishedAt: "" });
-    const [statistics, setStatistic] = useState({ viewCount: "", likeCount: "" });
+    const [about, setAbout] = useState<VideoAbout | undefined>(undefined);
+    const [statistics, setStatistic] = useState<VideoStatistics | undefined>(undefined);
     const [login, setLogin] = useState(false)
     useEffect(() => {
         const f = async () => {
@@ -51,7 +54,7 @@ export default function Home(props: { ytid: string }) {
     }
     const handleShare = async () => {
         const data: ShareData = {
-            title: `${about.title}`,
+            title: `${about?.title}`,
             url: `https://youtu.be/${props.ytid}`
         };
         await navigator.share(data)
@@ -78,7 +81,7 @@ export default function Home(props: { ytid: string }) {
             {/* Title&Drawer */}
             <div className='px-2 py-2'>
                 <div>
-                    <h1 className='m-2 break-all text-lg cursor-pointer' onClick={() => { setOpenedDrawer(true) }}>{about.title}</h1>
+                    <h1 className='m-2 break-all text-lg cursor-pointer' onClick={() => { setOpenedDrawer(true) }}>{about?.title}</h1>
                     <Drawer
                         anchor={'left'}
                         open={openedDrawer}
@@ -89,12 +92,12 @@ export default function Home(props: { ytid: string }) {
                     >
                         <p className='mt-4 text-center cursor-pointer' onClick={() => { setOpenedDrawer(false) }}>閉じる</p>
                         <div className='p-8'>
-                            <h1 className='text-xl'>{about.title}</h1>
-                            <Link href={`/channel/${about.channelId}`}><p className='text-lg text-slate-600' onClick={() => { }}>{about.channelTitle}</p></Link>
+                            <h1 className='text-xl'>{about?.title}</h1>
+                            <Link href={`/channel/${about?.channelId}`}><p className='text-lg text-slate-600' onClick={() => { }}>{about?.channelTitle}</p></Link>
                             <div className='sm:flex gap-x-4 my-4 gap-y-4'>
-                                <p className='text-lg'>{dayjs(about.publishedAt).format('YYYY年MM月DD日')}</p>
-                                <p className='text-lg'><FontAwesomeIcon className='mr-2' icon={faEye} />{toJaNum(statistics.viewCount)}</p>
-                                <p className='text-lg'><FontAwesomeIcon className='mr-2' icon={faThumbsUp} /> {toJaNum(statistics.likeCount)}</p>
+                                <p className='text-lg'>{dayjs(about?.publishedAt).format('YYYY年MM月DD日')}</p>
+                                <p className='text-lg'><FontAwesomeIcon className='mr-2' icon={faEye} />{toJaNum(statistics?.viewCount)}</p>
+                                <p className='text-lg'><FontAwesomeIcon className='mr-2' icon={faThumbsUp} /> {toJaNum(statistics?.likeCount)}</p>
                             </div>
                             <div className="my-4">
                                 <a className='' href={`https://youtu.be/${props.ytid}`} ><FontAwesomeIcon className='ml-2' icon={faYoutube} />  Youtubeで開く</a>
@@ -105,7 +108,7 @@ export default function Home(props: { ytid: string }) {
                                 </div>
                             </> : <></>}
                             <div className='p-4 rounded-lg bg-gray-100 '>
-                                <div className='text-sm break-all w-full'>{about.description.split(/(\n)/).map((v: string, i: number) => (i & 1 ? <br key={i} /> : v))}</div>
+                                <div className='text-sm break-all w-full'>{about?.description.split(/(\n)/).map((v: string, i: number) => (i & 1 ? <br key={i} /> : v))}</div>
                             </div>
                         </div>
                     </Drawer>

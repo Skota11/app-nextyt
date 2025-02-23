@@ -7,7 +7,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightFromBracket, faTrash, faUser } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 
-export default function Main(props: { currentUser: { id: string | undefined, email: string | undefined, login: boolean } }) {
+interface User { id: string | undefined, email: string | undefined, login: boolean };
+
+export default function Main(props: { currentUser: User }) {
     const [hidden, setHidden] = useState(true)
     async function LogOut() {
         await supabase.auth.signOut()

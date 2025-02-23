@@ -9,10 +9,12 @@ import dayjs from "dayjs";
 import Chip from "@mui/material/Chip";
 import { faYoutube } from "@fortawesome/free-brands-svg-icons";
 
+interface SearchResult { id?: { kind: string, videoId: string, channelId: string }, snippet: { title: string, channelTitle: string, publishedAt: string, description: string, thumbnails: { medium: { url: string } } }, contentId: string, thumbnailUrl: string, title: string, description: string };
+
 export default function Home() {
     const searchParams = useSearchParams()
     const [inputQuery, setInputQuery] = useState("")
-    const [result, setResult] = useState([])
+    const [result, setResult] = useState<Array<SearchResult> | undefined>()
     const [suggest, setSuggest] = useState([])
     const [get, setGet] = useState("")
     const inputRef = useRef<HTMLInputElement>(null)
@@ -85,7 +87,7 @@ export default function Home() {
             <div className="px-4 max-w-screen-xl m-auto">
                 {
                     result ?
-                        result.map((item: { id?: { kind: string, videoId: string, channelId: string }, snippet: { title: string, channelTitle: string, publishedAt: string, description: string, thumbnails: { medium: { url: string } } }, contentId: string, thumbnailUrl: string, title: string, description: string }) => {
+                        result.map((item: SearchResult) => {
                             if (item.id?.kind == "youtube#video") {
                                 return (
                                     <Link key={item.id.videoId} className='block my-8 break-all sm:flex items-start gap-4 cursor-pointer' href={`/play?${createQueryString('v', item.id.videoId)}`}>
@@ -111,7 +113,6 @@ export default function Home() {
                                     </Link>
                                 )
                             } else {
-                                console.log(item)
                                 return (
                                     <Link key={item.contentId} className='block my-8 break-all sm:flex items-start gap-4 cursor-pointer' href={`https://nico.ms/${item.contentId}`} target="_blank">
                                         <div className="flex place-content-center flex-none">

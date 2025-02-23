@@ -25,7 +25,6 @@ export default function Main() {
             },
             body: JSON.stringify({}),
         })).json()
-        console.log(res.id)
         router.push(`/playlist/${res.id}`)
     }
     useEffect(() => {

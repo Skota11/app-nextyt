@@ -13,9 +13,11 @@ import Search from "@/components/play/search";
 import Playlist from "@/components/home/playlist";
 import Channels from "@/components/home/channels";
 
+interface User { id: string | undefined, email: string | undefined, login: boolean };
+
 export default function Home() {
   //State
-  const [currentUser, setCurrentUser] = useState<{ id: string | undefined, email: string | undefined, login: boolean }>();
+  const [currentUser, setCurrentUser] = useState<User>();
 
   useEffect(() => {
     const f = async () => {

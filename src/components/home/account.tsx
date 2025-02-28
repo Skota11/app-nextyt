@@ -1,11 +1,13 @@
-//react
+//React
+import { useState } from "react";
 
 //supabase
 import { supabase } from "../../utils/supabase/client";
-//font
+
+//fontAwesome icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightFromBracket, faTrash, faUser } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+
 
 interface User { id: string | undefined, email: string | undefined, login: boolean };
 

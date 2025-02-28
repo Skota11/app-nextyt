@@ -1,17 +1,23 @@
 'use client'
+// React
 import { Suspense, useCallback, useEffect, useState } from "react";
-//components
-import Image from 'next/image'
 import * as React from 'react'
-import num2ja from "@/utils/num2ja";
-import InfiniteScroll from "react-infinite-scroll-component";
-import CircularProgress from "@mui/material/CircularProgress";
+// Next.js
+import Image from 'next/image'
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import dayjs from "dayjs";
+// Material UI
+import CircularProgress from "@mui/material/CircularProgress";
 import { Button, Chip, Skeleton } from "@mui/material";
+// Font Awesome icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStickyNote, faTrash } from "@fortawesome/free-solid-svg-icons";
+// Third party libraries
+import InfiniteScroll from "react-infinite-scroll-component";
+import dayjs from "dayjs";
+// Custom utilities
+import num2ja from "@/utils/num2ja";
+// supabase
 import { supabase } from "@/utils/supabase/client";
 
 

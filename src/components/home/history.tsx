@@ -1,10 +1,12 @@
-//react
+//React
 import Image from "next/image";
-//supabase
-//font
+import { useEffect, useState } from "react";
+
+//fontAwesome icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClockRotateLeft, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState } from "react";
+
+//Third party libraries
 import CircularProgress from "@mui/material/CircularProgress";
 import Link from "next/link";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -69,7 +71,7 @@ export default function Main() {
                                             <div key={item.videoId} className='block my-2 break-all sm:flex items-start gap-4 cursor-pointer'>
                                                 <Link href={`/play?v=${item.videoId}`} className="flex-none">
                                                     <div className="flex place-content-center">
-                                                        <Image src={`https://i.ytimg.com/vi/${item.videoId}/mqdefault.jpg`} alt="" width={120 * 2.5} height={67.5 * 2.5} className='inline rounded-md' unoptimized/>
+                                                        <Image src={`https://i.ytimg.com/vi/${item.videoId}/mqdefault.jpg`} alt="" width={120 * 2.5} height={67.5 * 2.5} className='inline rounded-md' unoptimized />
                                                     </div>
                                                 </Link>
                                                 <div className='inline'>

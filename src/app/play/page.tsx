@@ -1,10 +1,15 @@
 'use client'
+//React
 import { Suspense, useEffect, useState } from "react";
+//Next.js
+import { useSearchParams } from "next/navigation";
+//スタイル
 import "./play.css"
-//components
+//コンポーネント
 import Player from "@/components/play/player";
 import Search from "@/components/play/search";
-import { useSearchParams } from "next/navigation";
+
+
 
 function Child() {
     const searchParams = useSearchParams();

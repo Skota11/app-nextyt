@@ -1,14 +1,31 @@
+//React
+import { useEffect, useState } from "react";
+import ReactPlayer from "react-player";
+
+//Next.js
+import Link from "next/link";
+
+//supabase
+import { supabase } from "@/utils/supabase/client";
+
+//Material UI
+import Drawer from "@mui/material/Drawer";
+
+//Font Awesome Icons
 import { faYoutube } from "@fortawesome/free-brands-svg-icons";
 import { faEye, faShareFromSquare, faThumbsUp, faVolumeHigh, faVolumeXmark, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Drawer from "@mui/material/Drawer";
-import { useEffect, useState } from "react";
-import ReactPlayer from "react-player";
+
+//Utility Libraries
 import dayjs from 'dayjs'
 import toJaNum from "@/utils/num2ja";
+
+//Play Components
 import AddPlaylist from "./addPlaylist";
-import { supabase } from "@/utils/supabase/client";
-import Link from "next/link";
+
+
+
+
 
 interface VideoAbout { title: string, channelId: string, channelTitle: string, description: string, publishedAt: string }
 interface VideoStatistics { viewCount: "", likeCount: "" };

@@ -1,9 +1,11 @@
-//react
-//supabase
-//font
+//React
+import { useEffect, useState } from "react";
+
+//fontAwesome icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStickyNote } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState } from "react";
+
+//Next.js
 import Image from "next/image"
 import Link from "next/link";
 import Skeleton from "@mui/material/Skeleton";

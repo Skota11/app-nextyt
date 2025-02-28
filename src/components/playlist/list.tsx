@@ -1,12 +1,23 @@
-import { faCirclePlay, faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { LuArrowDownUp } from "react-icons/lu";
-import CircularProgress from '@mui/material/CircularProgress';
+// React
+import { useEffect, useRef, useState } from 'react';
+
+// Next.js
 import Image from 'next/image'
 import Link from "next/link";
-import { useEffect, useRef, useState } from 'react';
-import Swal from 'sweetalert2'
 import { useRouter } from "next/navigation";
+
+// Font Awesome Icons
+import { faCirclePlay, faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+// React Icons
+import { LuArrowDownUp } from "react-icons/lu";
+
+// Material UI
+import CircularProgress from '@mui/material/CircularProgress';
+
+// Third Party Libraries
+import Swal from 'sweetalert2'
 
 interface playlist { videoId: string, videoContent: { title: string, channelTitle: string } }
 
@@ -106,7 +117,7 @@ export default function Main(props: { playlistId: string }) {
                                 <div key={item.videoId} className='block my-2 break-all sm:flex items-start gap-4 cursor-pointer'>
                                     <Link href={`/playlist/${props.playlistId}?v=${item.videoId}`} className='flex-none'>
                                         <div className="flex place-content-center">
-                                            <Image src={`https://i.ytimg.com/vi/${item.videoId}/mqdefault.jpg`} alt="" width={120 * 2.5} height={67.5 * 2.5} className='inline rounded-md' unoptimized/>
+                                            <Image src={`https://i.ytimg.com/vi/${item.videoId}/mqdefault.jpg`} alt="" width={120 * 2.5} height={67.5 * 2.5} className='inline rounded-md' unoptimized />
                                         </div>
                                     </Link>
                                     <div className='inline'>

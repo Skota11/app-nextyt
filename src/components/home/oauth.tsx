@@ -1,7 +1,9 @@
-import { supabase } from "../../utils/supabase/client";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+//supabase
+import { supabase } from "@/utils/supabase/client";
 
+//fontAwesome icons
 import { faDiscord, faTwitter } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Main() {
     const onTwitterRegister = async () => {

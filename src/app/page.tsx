@@ -1,17 +1,23 @@
 'use client'
-//react
+
+// React
 import { useEffect, useState } from "react";
-//supabase
+
+// supabase
 import { supabase } from "../utils/supabase/client";
-//components
+
+// Home components
 import Account from "@/components/home/account";
 import History from "@/components/home/history";
 import OAuth from "@/components/home/oauth";
-//mui
-import CircularProgress from '@mui/material/CircularProgress';
-import Search from "@/components/play/search";
 import Playlist from "@/components/home/playlist";
 import Channels from "@/components/home/channels";
+
+// Play components
+import Search from "@/components/play/search";
+
+// Material UI
+import CircularProgress from '@mui/material/CircularProgress';
 
 interface User { id: string | undefined, email: string | undefined, login: boolean };
 
@@ -32,6 +38,7 @@ export default function Home() {
     }
     f()
   }, [])
+
   return (
     <>
       {currentUser?.login ? <>

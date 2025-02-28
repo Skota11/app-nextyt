@@ -1,12 +1,15 @@
-//react
-//supabase
-//font
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faList, faPlus } from "@fortawesome/free-solid-svg-icons";
+//React
 import { useEffect, useState } from "react";
+
+//Next.js
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Skeleton from "@mui/material/Skeleton";
+
+//fontAwesome icons
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faList, faPlus } from "@fortawesome/free-solid-svg-icons";
+
 
 interface playlist { playlistId: string, playlistName: string }
 

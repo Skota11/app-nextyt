@@ -1,11 +1,18 @@
 'use client'
+
+//React
 import { Suspense, useEffect, useState } from "react";
-import "./play.css"
-//components
-import Player from "@/components/play/player";
-import { useSearchParams } from "next/navigation";
-import List from "@/components/playlist/list";
 import * as React from 'react'
+
+// Next.js
+import { useSearchParams } from "next/navigation";
+
+// スタイル
+import "./play.css"
+
+// コンポーネント
+import Player from "@/components/play/player";
+import List from "@/components/playlist/list";
 
 function Child(props: { playlistId: string }) {
     const searchParams = useSearchParams();

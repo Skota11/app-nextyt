@@ -1,13 +1,24 @@
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { SiNiconico } from "react-icons/si";
+//React
 import { useCallback, useEffect, useState, useRef } from "react";
+
+//Next.js
 import Image from 'next/image'
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import dayjs from "dayjs";
+
+//Material UI
 import Chip from "@mui/material/Chip";
+
+//Font Awesome Icons
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { faYoutube } from "@fortawesome/free-brands-svg-icons";
+
+//React Icons
+import { SiNiconico } from "react-icons/si";
+
+//Utility Libraries
+import dayjs from "dayjs";
 
 interface SearchResult { id?: { kind: string, videoId: string, channelId: string }, snippet: { title: string, channelTitle: string, publishedAt: string, description: string, thumbnails: { medium: { url: string } } }, contentId: string, thumbnailUrl: string, title: string, description: string };
 

@@ -35,7 +35,7 @@ export default function Home(props: { ytid: string }) {
     const [about, setAbout] = useState<VideoAbout | undefined>(undefined);
     const [statistics, setStatistic] = useState<VideoStatistics | undefined>(undefined);
     const [login, setLogin] = useState(false)
-    const playerRef = useRef<HTMLDivElement>(null);
+    const playerRef = useRef<HTMLHeadingElement>(null);
     const [isPiP, setIsPiP] = useState(false);
     const [cookies] = useCookies(['pip'])
 
@@ -65,7 +65,7 @@ export default function Home(props: { ytid: string }) {
                     }
                 });
             },
-            { threshold: 1 }
+            { threshold: 0.5 }
         );
 
         observer.observe(playerRef.current);
@@ -124,7 +124,7 @@ export default function Home(props: { ytid: string }) {
             {/* Title&Drawer */}
             <div className='px-2 py-2'>
                 <div>
-                    <h1 className='m-2 break-all text-lg cursor-pointer' onClick={() => { setOpenedDrawer(true) }}>{about?.title}</h1>
+                    <h1 ref={playerRef} className='m-2 break-all text-lg cursor-pointer' onClick={() => { setOpenedDrawer(true) }}>{about?.title}</h1>
                     <Drawer
                         anchor={'left'}
                         open={openedDrawer}
@@ -158,7 +158,7 @@ export default function Home(props: { ytid: string }) {
                 </div>
             </div>
             {/* Controller */}
-            <div ref={playerRef} className="">
+            <div className="">
                 {props.ytid !== "" ?
                     <div className=' flex place-content-center gap-x-2'>
                         <button title="1倍速" className='border-2 p-2 rounded-full text-xs border-current' onClick={async () => { setPlaybackRate(1) }}><FontAwesomeIcon icon={faXmark} />1</button>

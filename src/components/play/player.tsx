@@ -13,7 +13,7 @@ import Drawer from "@mui/material/Drawer";
 
 //Font Awesome Icons
 import { faYoutube } from "@fortawesome/free-brands-svg-icons";
-import { faEye, faShareFromSquare, faThumbsUp, faArrowUp, faVolumeHigh, faVolumeXmark, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faShareFromSquare, faThumbsUp, faVolumeHigh, faVolumeXmark, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 //Utility Libraries
@@ -37,7 +37,7 @@ export default function Home(props: { ytid: string }) {
     const [login, setLogin] = useState(false)
     const playerRef = useRef<HTMLDivElement>(null);
     const [isPiP, setIsPiP] = useState(false);
-    const [cookies, setCookie] = useCookies(['pip'])
+    const [cookies] = useCookies(['pip'])
 
     useEffect(() => {
         const f = async () => {

@@ -1,5 +1,5 @@
 //React
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import ReactPlayer from "react-player";
 
 //Next.js
@@ -13,19 +13,16 @@ import Drawer from "@mui/material/Drawer";
 
 //Font Awesome Icons
 import { faYoutube } from "@fortawesome/free-brands-svg-icons";
-import { faEye, faShareFromSquare, faThumbsUp, faVolumeHigh, faVolumeXmark, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faShareFromSquare, faThumbsUp, faArrowUp, faVolumeHigh, faVolumeXmark, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 //Utility Libraries
 import dayjs from 'dayjs'
 import toJaNum from "@/utils/num2ja";
+import { useCookies } from "react-cookie";
 
 //Play Components
 import AddPlaylist from "./addPlaylist";
-
-
-
-
 
 interface VideoAbout { title: string, channelId: string, channelTitle: string, description: string, publishedAt: string }
 interface VideoStatistics { viewCount: "", likeCount: "" };
@@ -38,6 +35,10 @@ export default function Home(props: { ytid: string }) {
     const [about, setAbout] = useState<VideoAbout | undefined>(undefined);
     const [statistics, setStatistic] = useState<VideoStatistics | undefined>(undefined);
     const [login, setLogin] = useState(false)
+    const playerRef = useRef<HTMLDivElement>(null);
+    const [isPiP, setIsPiP] = useState(false);
+    const [cookies, setCookie] = useCookies(['pip'])
+
     useEffect(() => {
         const f = async () => {
             const { data } = await supabase.auth.getSession()
@@ -50,6 +51,29 @@ export default function Home(props: { ytid: string }) {
     useEffect(() => {
         getVideo(props.ytid)
     }, [props.ytid])
+    useEffect(() => {
+        if (!playerRef.current) return;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    console.log(entry.isIntersecting)
+                    if (!entry.isIntersecting && props.ytid && cookies.pip == "on") {
+                        setIsPiP(true);
+                    } else {
+                        setIsPiP(false);
+                    }
+                });
+            },
+            { threshold: 1 }
+        );
+
+        observer.observe(playerRef.current);
+
+        return () => {
+            observer.disconnect();
+        };
+    }, [props.ytid]);
     const getVideo = async (id: string) => {
         if (id !== "") {
             fetch('/api/database/history', {
@@ -79,10 +103,10 @@ export default function Home(props: { ytid: string }) {
     return (
         <>
             {/* Player */}
-            <div className='aspect-video w-full max-h-4/5 rounded-lg maxHeightVideo'>
+            <div className={isPiP ? "fixed bottom-8 sm:right-4 left-4 w-96 aspect-video shadow-lg z-50 bg-white" : 'aspect-video w-full max-h-4/5 rounded-lg maxHeightVideo'}>
                 {props.ytid ? <>
                     <ReactPlayer
-                        className={"react-player "}
+                        className={isPiP ? "react-player" : "react-player"}
                         url={`https://youtube.com/watch?v=${props.ytid}`}
                         playing={playing}
                         playbackRate={playbackRate}
@@ -93,8 +117,10 @@ export default function Home(props: { ytid: string }) {
                         onPause={() => { setPlaying(false) }}
                         onPlay={() => { setPlaying(true) }}
                     />
+                    {/* <p className={isPiP ? "text-center text-sm" : "hidden"}><FontAwesomeIcon icon={faArrowUp} /></p> */}
                 </> : <div className='w-full h-full text-white flex place-content-center bg-black'><p className='text-2xl text-center'>動画が選択されていません</p></div>}
             </div>
+
             {/* Title&Drawer */}
             <div className='px-2 py-2'>
                 <div>
@@ -132,7 +158,7 @@ export default function Home(props: { ytid: string }) {
                 </div>
             </div>
             {/* Controller */}
-            <div className="">
+            <div ref={playerRef} className="">
                 {props.ytid !== "" ?
                     <div className=' flex place-content-center gap-x-2'>
                         <button title="1倍速" className='border-2 p-2 rounded-full text-xs border-current' onClick={async () => { setPlaybackRate(1) }}><FontAwesomeIcon icon={faXmark} />1</button>

@@ -9,7 +9,8 @@ import "./play.css"
 import Player from "@/components/play/player";
 import Search from "@/components/play/search";
 
-
+//Utility Libraries
+import { CookiesProvider } from "react-cookie";
 
 function Child() {
     const searchParams = useSearchParams();
@@ -22,10 +23,10 @@ function Child() {
         setYtid(defaultId)
     }, [defaultId])
     return (
-        <>
+        <CookiesProvider>
             <Player ytid={ytid} />
             <Search />
-        </>
+        </CookiesProvider>
     )
 }
 

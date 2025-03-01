@@ -1,6 +1,5 @@
 import "./globals.css";
 import Link from "next/link";
-import Script from "next/script";
 import localFont from 'next/font/local'
 import { Metadata } from "next";
 
@@ -24,8 +23,6 @@ export default function RootLayout({
           <h1 className="text-white"> <Link href="/">NextTube</Link></h1>
         </div>
         {children}
-        <Script src="./node_modules/preline/dist/preline.js"></Script>
-
       </body>
     </html>
   );

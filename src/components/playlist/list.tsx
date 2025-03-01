@@ -103,7 +103,6 @@ export default function Main(props: { playlistId: string }) {
                     <button onClick={() => { inputRef.current?.focus() }}><FontAwesomeIcon icon={faPencil} /></button>
                     <button onClick={listDelete}><FontAwesomeIcon className='text-red-700' icon={faTrash} /></button>
                 </div>
-
                 {
                     result == undefined ?
                         <>

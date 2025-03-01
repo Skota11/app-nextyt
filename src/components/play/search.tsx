@@ -141,7 +141,7 @@ export default function Home() {
                         <></>
                 }
             </div>
-            <button onClick={() => { inputRef.current?.focus() }} className="sm:hidden fixed right-10 bottom-10 z-50 border-2 px-4 py-3 rounded-full ">
+            <button onClick={() => { inputRef.current?.focus() }} className="sm:hidden fixed right-4 bottom-4 z-50 border-2 px-4 py-3 rounded-full ">
                 <p><FontAwesomeIcon icon={faSearch} /></p>
             </button>
         </>

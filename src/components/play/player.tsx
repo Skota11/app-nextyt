@@ -1,5 +1,5 @@
 //React
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import ReactPlayer from "react-player";
 
 //Next.js
@@ -35,9 +35,55 @@ export default function Home(props: { ytid: string }) {
     const [about, setAbout] = useState<VideoAbout | undefined>(undefined);
     const [statistics, setStatistic] = useState<VideoStatistics | undefined>(undefined);
     const [login, setLogin] = useState(false)
-    const playerRef = useRef<HTMLHeadingElement>(null);
+    const observerRef = useRef<HTMLHeadingElement>(null);
+    const playerRef = useRef<ReactPlayer>(null);
     const [isPiP, setIsPiP] = useState(false);
     const [cookies] = useCookies(['pip'])
+
+    const handleKeyPress = useCallback((event: KeyboardEvent) => {
+        switch (event.key.toLowerCase()) {
+            case ' ':
+            case 'space':
+                event.preventDefault();
+                setPlaying(prev => !prev);
+                break;
+            case 'm':
+                event.preventDefault();
+                setMuted(prev => !prev);
+                break;
+            case '1':
+                event.preventDefault();
+                setPlaybackRate(1);
+                break;
+            case '2':
+                event.preventDefault();
+                setPlaybackRate(2);
+                break;
+            case '3':
+                event.preventDefault();
+                setPlaybackRate(1.5);
+                break;
+            case 'arrowleft':
+                // 5秒戻る機能は ReactPlayerで直接制御できないため、
+                // 将来的な実装のために準備
+                event.preventDefault();
+                playerRef.current?.seekTo(playerRef.current?.getCurrentTime() - 5, 'seconds');
+                break;
+            case 'arrowright':
+                // 5秒進む機能は ReactPlayerで直接制御できないため、
+                // 将来的な実装のために準備
+                event.preventDefault();
+                playerRef.current?.seekTo(playerRef.current?.getCurrentTime() + 5, 'seconds');
+                break;
+        }
+    }, []);
+
+    useEffect(() => {
+        window.addEventListener('keydown', handleKeyPress);
+        return () => {
+            window.removeEventListener('keydown', handleKeyPress);
+        };
+    }, [handleKeyPress]);
 
     useEffect(() => {
         const f = async () => {
@@ -52,7 +98,7 @@ export default function Home(props: { ytid: string }) {
         getVideo(props.ytid)
     }, [props.ytid])
     useEffect(() => {
-        if (!playerRef.current) return;
+        if (!observerRef.current) return;
 
         const observer = new IntersectionObserver(
             (entries) => {
@@ -68,7 +114,7 @@ export default function Home(props: { ytid: string }) {
             { threshold: 0.5 }
         );
 
-        observer.observe(playerRef.current);
+        observer.observe(observerRef.current);
 
         return () => {
             observer.disconnect();
@@ -119,17 +165,17 @@ export default function Home(props: { ytid: string }) {
                         width={"100%"}
                         height={"100%"}
                         controls={true}
-                        onPause={() => { setPlaying(false) }}
-                        onPlay={() => { setPlaying(true) }}
+                        ref={playerRef}
+                        onPause={() => { console.log("pause"); setPlaying(false) }}
+                        onPlay={() => { console.log("play"); setPlaying(true) }}
                     />
                     {/* <p className={isPiP ? "text-center text-sm" : "hidden"}><FontAwesomeIcon icon={faArrowUp} /></p> */}
                 </> : <div className='w-full h-full text-white flex place-content-center bg-black'><p className='text-2xl text-center'>動画が選択されていません</p></div>}
             </div>
-
             {/* Title&Drawer */}
             <div className='px-2 py-2'>
                 <div>
-                    <h1 ref={playerRef} className='m-2 break-all text-lg cursor-pointer' onClick={() => { setOpenedDrawer(true) }}>{about?.title}</h1>
+                    <h1 ref={observerRef} className='m-2 break-all text-lg cursor-pointer' onClick={() => { setOpenedDrawer(true) }}>{about?.title}</h1>
                     <Drawer
                         anchor={'left'}
                         open={openedDrawer}

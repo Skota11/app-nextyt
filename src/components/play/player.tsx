@@ -64,14 +64,10 @@ export default function Home(props: { ytid: string }) {
                 setPlaybackRate(1.5);
                 break;
             case 'arrowleft':
-                // 5秒戻る機能は ReactPlayerで直接制御できないため、
-                // 将来的な実装のために準備
                 event.preventDefault();
                 playerRef.current?.seekTo(playerRef.current?.getCurrentTime() - 5, 'seconds');
                 break;
             case 'arrowright':
-                // 5秒進む機能は ReactPlayerで直接制御できないため、
-                // 将来的な実装のために準備
                 event.preventDefault();
                 playerRef.current?.seekTo(playerRef.current?.getCurrentTime() + 5, 'seconds');
                 break;
@@ -96,6 +92,7 @@ export default function Home(props: { ytid: string }) {
     }, [])
     useEffect(() => {
         getVideo(props.ytid)
+        setPlaying(true);
     }, [props.ytid])
     useEffect(() => {
         if (!observerRef.current) return;
@@ -154,7 +151,7 @@ export default function Home(props: { ytid: string }) {
                     <div className='w-full h-full text-white flex place-content-center bg-black'><p className='text-2xl text-center'>PictureInPictureで再生中</p></div>
                 </div>
             </> : <></>}
-            <div className={isPiP ? "fixed bottom-8 sm:right-4 left-4 w-96 aspect-video shadow-lg z-50 bg-white" : 'aspect-video w-full max-h-4/5 rounded-lg maxHeightVideo'}>
+            <div className={isPiP ? "fixed bottom-8 left-4 sm:right-4 w-96 aspect-video shadow-lg z-50 bg-white" : 'aspect-video w-full max-h-4/5 rounded-lg maxHeightVideo'}>
                 {props.ytid ? <>
                     <ReactPlayer
                         className={isPiP ? "react-player" : "react-player"}

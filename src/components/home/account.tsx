@@ -38,7 +38,7 @@ export default function Main(props: { currentUser: User }) {
                 <div className='my-4 flex-wrap flex gap-x-4 gap-y-4 mb-8 '>
                     <button title="ログアウト" onClick={() => { LogOut() }} className='border-2 border-red-600 bg-red-100 p-4 rounded-full'><FontAwesomeIcon icon={faArrowRightFromBracket} className='mr-2' />ログアウト</button>
                     <button title="視聴履歴を削除" onClick={() => { Delete() }} className='border-2 border-current p-4 rounded-full'><FontAwesomeIcon icon={faTrash} className='mr-2' />WatchHistoryを削除</button>
-                    <button title="PiPモードをオン/オフ" onClick={() => { console.log(cookies); setCookie('pip', cookies.pip == "on" ? "off" : "on") }} className='border-2 border-current p-4 rounded-full'><FontAwesomeIcon icon={faArrowUp} className='mr-2' />PiPモードを{cookies.pip == "on" ? "オフ" : "オン"}</button>
+                    <button title="PiPモードをオン/オフ" onClick={() => { console.log(cookies); setCookie('pip', cookies.pip == "on" ? "off" : "on", { maxAge: 30 * 24 * 60 * 60 }) }} className='border-2 border-current p-4 rounded-full'><FontAwesomeIcon icon={faArrowUp} className='mr-2' />PiPモードを{cookies.pip == "on" ? "オフ" : "オン"}</button>
                 </div>
             </div>}
         </div>)

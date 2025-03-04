@@ -13,21 +13,29 @@ import "./play.css"
 // コンポーネント
 import Player from "@/components/play/player";
 import List from "@/components/playlist/list";
+import { useRouter } from "next/navigation";
 
 function Child(props: { playlistId: string }) {
+    const router = useRouter()
     const searchParams = useSearchParams();
     let defaultId: string | undefined = searchParams.get("v")?.toString();
     if (defaultId == undefined) {
         defaultId = ""
     }
     const [ytid, setYtid] = useState(defaultId)
+    const [nextYtid, setNextYtid] = useState("")
+    const [autoPlay, setAutoPlay] = useState(false)
     useEffect(() => {
         setYtid(defaultId)
     }, [defaultId])
     return (
         <>
-            <Player ytid={ytid} />
-            <List playlistId={props.playlistId} />
+            <Player ytid={ytid} onEnd={() => {
+                if (nextYtid && autoPlay) {
+                    router.push(`/playlist/${props.playlistId}?v=${nextYtid}`)
+                }
+            }} />
+            <List playlistId={props.playlistId} ytid={ytid} setNextYtid={setNextYtid} setAutoPlay={setAutoPlay} />
         </>
     )
 }

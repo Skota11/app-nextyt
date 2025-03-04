@@ -15,17 +15,20 @@ import { LuArrowDownUp } from "react-icons/lu";
 
 // Material UI
 import CircularProgress from '@mui/material/CircularProgress';
+import Switch from '@mui/material/Switch';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 // Third Party Libraries
 import Swal from 'sweetalert2'
 
 interface playlist { videoId: string, videoContent: { title: string, channelTitle: string } }
 
-export default function Main(props: { playlistId: string }) {
+export default function Main(props: { playlistId: string, ytid: string, setNextYtid: (ytid: string) => void, setAutoPlay: (autoPlay: boolean) => void }) {
     const router = useRouter();
     const [deleteLoading, setDeleteLoading] = useState<Array<string>>([])
     const [result, setResult] = useState<Array<playlist> | undefined>(undefined)
     const [name, setName] = useState("")
+    const [autoPlay, setAutoPlay] = useState(false)
     const inputRef = useRef<HTMLInputElement>(null)
     const deletePlaylist = async (id: string) => {
         let array = [...deleteLoading]
@@ -94,14 +97,41 @@ export default function Main(props: { playlistId: string }) {
         getPlaylistName()
         getPlaylist()
     }, [])
+    useEffect(() => {
+        if (result && props.ytid) {
+            const index = result?.findIndex(item => item.videoId === props.ytid)
+            if (index !== undefined && index !== -1 && index < result.length - 1) {
+                props.setNextYtid(result[index + 1].videoId)
+            } else {
+                props.setNextYtid("")
+            }
+        }
+    }, [props.ytid])
+
+    const handleAutoPlayChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const checked = event.target.checked;
+        setAutoPlay(checked);
+        props.setAutoPlay(checked);
+    };
+
     return (
         <>
             <div className="p-4 max-w-screen-xl m-auto">
                 <FontAwesomeIcon icon={faCirclePlay} />  <input className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' value={name} onChange={onInputChange} ref={inputRef} />
-                <div className='my-4 flex gap-x-4'>
+                <div className='my-4 flex gap-x-4 items-center'>
                     <button onClick={listReverse}><LuArrowDownUp /></button>
                     <button onClick={() => { inputRef.current?.focus() }}><FontAwesomeIcon icon={faPencil} /></button>
                     <button onClick={listDelete}><FontAwesomeIcon className='text-red-700' icon={faTrash} /></button>
+                    <FormControlLabel
+                        control={
+                            <Switch
+                                checked={autoPlay}
+                                onChange={handleAutoPlayChange}
+                                color="primary"
+                            />
+                        }
+                        label="AutoPlay"
+                    />
                 </div>
                 {
                     result == undefined ?

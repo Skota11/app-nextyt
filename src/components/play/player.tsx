@@ -27,7 +27,7 @@ import AddPlaylist from "./addPlaylist";
 interface VideoAbout { title: string, channelId: string, channelTitle: string, description: string, publishedAt: string }
 interface VideoStatistics { viewCount: "", likeCount: "" };
 
-export default function Home(props: { ytid: string }) {
+export default function Home(props: { ytid: string, onEnd?: () => void }) {
     //state
     const [playing, setPlaying] = useState(true)
     const [muted, setMuted] = useState(false);
@@ -165,6 +165,7 @@ export default function Home(props: { ytid: string }) {
                         ref={playerRef}
                         onPause={() => { console.log("pause"); setPlaying(false) }}
                         onPlay={() => { console.log("play"); setPlaying(true) }}
+                        onEnded={props.onEnd}
                     />
                     {/* <p className={isPiP ? "text-center text-sm" : "hidden"}><FontAwesomeIcon icon={faArrowUp} /></p> */}
                 </> : <div className='w-full h-full text-white flex place-content-center bg-black'><p className='text-2xl text-center'>動画が選択されていません</p></div>}

@@ -13,7 +13,7 @@ import Drawer from "@mui/material/Drawer";
 
 //Font Awesome Icons
 import { faYoutube } from "@fortawesome/free-brands-svg-icons";
-import { faEye, faShareFromSquare, faThumbsUp, faVolumeHigh, faVolumeXmark, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faDownload, faEye, faShareFromSquare, faThumbsUp, faVolumeHigh, faVolumeXmark, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 //Utility Libraries
@@ -38,6 +38,8 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
     const observerRef = useRef<HTMLHeadingElement>(null);
     const playerRef = useRef<ReactPlayer>(null);
     const [isPiP, setIsPiP] = useState(false);
+    const [isAudio, setIsAudio] = useState(false);
+    const [audioUrl, setAudioUrl] = useState("");
     const [cookies] = useCookies(['pip'])
 
     const handleKeyPress = useCallback((event: KeyboardEvent) => {
@@ -143,6 +145,17 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
         };
         await navigator.share(data)
     }
+    const getAudioUrl = async (id: string) => {
+        const res = await fetch(`/api/download/audio?url=https://www.youtube.com/watch?v=${id}`)
+        const data = await res.json()
+        setAudioUrl(data.downloadUrl)
+    }
+    useEffect(() => {
+        if (isAudio) {
+            getAudioUrl(props.ytid)
+            console.log("get")
+        }
+    }, [props.ytid, isAudio])
     return (
         <>
             {/* Player */}
@@ -155,7 +168,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                 {props.ytid ? <>
                     <ReactPlayer
                         className={isPiP ? "react-player" : "react-player"}
-                        url={`https://youtube.com/watch?v=${props.ytid}`}
+                        url={isAudio ? audioUrl : `https://www.youtube.com/watch?v=${props.ytid}`}
                         playing={playing}
                         playbackRate={playbackRate}
                         muted={muted}
@@ -219,6 +232,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                             <button title="消音にする" className='border-2 p-2 rounded-full text-xs border-current' onClick={async () => { setMuted(true) }}><FontAwesomeIcon icon={faVolumeHigh} /></button>
                         }
                         <button title="共有" className='border-2 p-2 rounded-full text-xs border-current' onClick={async () => { handleShare() }}><FontAwesomeIcon icon={faShareFromSquare} /></button>
+                        <button title="音声ダウンロード" className='border-2 p-2 rounded-full text-xs border-current' onClick={async () => { setIsAudio(prev => !prev) }}><FontAwesomeIcon icon={faDownload} /></button>
                         {/* <button className='border-2 p-2 rounded-full text-xs border-current' onClick={async () => { handleFullScreen() }}><FontAwesomeIcon icon={faExpand} /></button> */}
                     </div>
                     : <></>}

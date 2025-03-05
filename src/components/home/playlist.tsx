@@ -10,7 +10,6 @@ import Skeleton from "@mui/material/Skeleton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faList, faPlus } from "@fortawesome/free-solid-svg-icons";
 
-
 interface playlist { playlistId: string, playlistName: string }
 
 export default function Main() {

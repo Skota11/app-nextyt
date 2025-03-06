@@ -164,7 +164,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                     <div className='w-full h-full text-white flex place-content-center bg-black'><p className='text-2xl text-center'>PictureInPictureで再生中</p></div>
                 </div>
             </> : <></>}
-            <div className={isPiP ? "fixed bottom-8 left-4 sm:right-4 w-96 aspect-video shadow-lg z-50 bg-white" : 'aspect-video w-full max-h-4/5 rounded-lg maxHeightVideo'}>
+            <div className={isPiP ? "fixed bottom-8 right-4 w-96 aspect-video shadow-lg z-50 bg-white" : 'aspect-video w-full max-h-4/5 rounded-lg maxHeightVideo'}>
                 {props.ytid ? <>
                     <ReactPlayer
                         className={isPiP ? "react-player" : "react-player"}

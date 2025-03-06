@@ -192,7 +192,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                         open={openedDrawer}
                         onClose={toggleOnCloseDrawer}
                         PaperProps={{
-                            sx: { width: "100%", maxWidth: "512px" },
+                            sx: { width: "90%", maxWidth: "512px" },
                         }}
                     >
                         <p className='mt-4 text-center cursor-pointer' onClick={() => { setOpenedDrawer(false) }}>閉じる</p>

@@ -43,6 +43,11 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
     const [cookies] = useCookies(['pip'])
 
     const handleKeyPress = useCallback((event: KeyboardEvent) => {
+        // 入力要素でのキー入力を無視
+        if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) {
+            return;
+        }
+
         switch (event.key.toLowerCase()) {
             case ' ':
             case 'space':

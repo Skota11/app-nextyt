@@ -24,7 +24,7 @@ import { useCookies } from "react-cookie";
 //Play Components
 import AddPlaylist from "./addPlaylist";
 
-interface VideoAbout { title: string, channelId: string, channelTitle: string, description: string, publishedAt: string, thumbnails: {} }
+interface VideoAbout { title: string, channelId: string, channelTitle: string, description: string, publishedAt: string }
 interface VideoStatistics { viewCount: "", likeCount: "" };
 
 export default function Home(props: { ytid: string, onEnd?: () => void }) {

@@ -24,7 +24,7 @@ import { useCookies } from "react-cookie";
 //Play Components
 import AddPlaylist from "./addPlaylist";
 
-interface VideoAbout { title: string, channelId: string, channelTitle: string, description: string, publishedAt: string }
+interface VideoAbout { title: string, channelId: string, channelTitle: string, description: string, publishedAt: string, thumbnails: {} }
 interface VideoStatistics { viewCount: "", likeCount: "" };
 
 export default function Home(props: { ytid: string, onEnd?: () => void }) {
@@ -39,7 +39,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
     const playerRef = useRef<ReactPlayer>(null);
     const [isPiP, setIsPiP] = useState(false);
     const [isAudio, setIsAudio] = useState(false);
-    const [audioUrl, setAudioUrl] = useState("");
+    const [audioUrl, setAudioUrl] = useState();
     const [cookies] = useCookies(['pip'])
 
     const handleKeyPress = useCallback((event: KeyboardEvent) => {
@@ -169,7 +169,9 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                     <div className='w-full h-full text-white flex place-content-center bg-black'><p className='text-2xl text-center'>PictureInPictureで再生中</p></div>
                 </div>
             </> : <></>}
-            <div className={isPiP ? "fixed bottom-8 right-4 w-96 aspect-video shadow-lg z-50 bg-white" : 'aspect-video w-full max-h-4/5 rounded-lg maxHeightVideo'}>
+            <div className={isPiP ? "fixed bottom-8 right-4 w-96 aspect-video shadow-lg z-50 bg-white rounded-lg " : 'aspect-video w-full max-h-4/5 maxHeightVideo'}
+                style={isAudio ? { backgroundImage: `url(https://i.ytimg.com/vi/${props.ytid}/maxresdefault.jpg)`, backgroundRepeat: "no-repeat", backgroundPosition: "center", backgroundSize: "cover" } : {}}
+            >
                 {props.ytid ? <>
                     <ReactPlayer
                         className={isPiP ? "react-player" : "react-player"}

@@ -151,7 +151,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
         await navigator.share(data)
     }
     const getAudioUrl = async (id: string) => {
-        const res = await fetch(`/api/download/audio?url=https://www.youtube.com/watch?v=${id}`)
+        const res = await fetch(`/api/download/audio?id=${id}`)
         const data = await res.json()
         setAudioUrl(data.downloadUrl)
     }

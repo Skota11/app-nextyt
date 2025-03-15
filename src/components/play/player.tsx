@@ -170,7 +170,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                 </div>
             </> : <></>}
             <div className={isPiP ? "fixed bottom-8 right-4 w-96 aspect-video shadow-lg z-50 bg-white rounded-lg " : 'aspect-video w-full max-h-4/5 maxHeightVideo'}
-                style={isAudio ? { backgroundImage: `url(https://i.ytimg.com/vi/${props.ytid}/maxresdefault.jpg)`, backgroundRepeat: "no-repeat", backgroundPosition: "center", backgroundSize: "cover" } : {}}
+                style={isAudio ? { backgroundImage: `url(https://i.ytimg.com/vi/${props.ytid}/maxresdefault.jpg)`, backgroundRepeat: "no-repeat", backgroundPosition: "center", backgroundSize: "cover" } : { backgroundImage: "none" }}
             >
                 {props.ytid ? <>
                     <ReactPlayer

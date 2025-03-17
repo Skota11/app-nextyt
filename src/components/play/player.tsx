@@ -26,6 +26,7 @@ import AddPlaylist from "./addPlaylist";
 
 interface VideoAbout { title: string, channelId: string, channelTitle: string, description: string, publishedAt: string }
 interface VideoStatistics { viewCount: "", likeCount: "" };
+interface SongAbout { song: boolean, title?: string, artist?: string, thumbnail?: string }
 
 export default function Home(props: { ytid: string, onEnd?: () => void }) {
     //state
@@ -34,12 +35,13 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
     const [playbackRate, setPlaybackRate] = useState(1)
     const [about, setAbout] = useState<VideoAbout | undefined>(undefined);
     const [statistics, setStatistic] = useState<VideoStatistics | undefined>(undefined);
+    const [songAbout, setSongAbout] = useState<SongAbout | undefined>(undefined)
     const [login, setLogin] = useState(false)
     const observerRef = useRef<HTMLHeadingElement>(null);
     const playerRef = useRef<ReactPlayer>(null);
     const [isPiP, setIsPiP] = useState(false);
     const [isAudio, setIsAudio] = useState(false);
-    const [audioUrl, setAudioUrl] = useState();
+    const [audioUrl, setAudioUrl] = useState("");
     const [cookies] = useCookies(['pip'])
 
     const handleKeyPress = useCallback((event: KeyboardEvent) => {
@@ -99,6 +101,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
     }, [])
     useEffect(() => {
         getVideo(props.ytid)
+        setSongAbout(undefined)
         setPlaying(true);
     }, [props.ytid])
     useEffect(() => {
@@ -136,6 +139,8 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
             const res = await (await fetch(`https://www.googleapis.com/youtube/v3/videos?part=id,snippet,statistics&id=${id}&key=AIzaSyC1KMsyjrnEfHJ3xnQtPX0DSxWHfyjUBeo`)).json();
             setAbout(res.items[0].snippet)
             setStatistic(res.items[0].statistics);
+            const res_ = await (await fetch(`/api/music?id=${id}`)).json()
+            setSongAbout(res_)
         }
     }
     //drawer
@@ -157,6 +162,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
     }
     useEffect(() => {
         if (isAudio) {
+            setAudioUrl("")
             getAudioUrl(props.ytid)
             console.log("get")
         }
@@ -212,13 +218,24 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                                 <p className='text-lg'><FontAwesomeIcon className='mr-2' icon={faThumbsUp} /> {toJaNum(statistics?.likeCount)}</p>
                             </div>
                             <div className="my-4">
-                                <a className='' href={`https://youtu.be/${props.ytid}`} ><FontAwesomeIcon className='ml-2' icon={faYoutube} />  Youtubeで開く</a>
+                                <a className='' href={`https://youtu.be/${props.ytid}`} ><FontAwesomeIcon className='mr-2' icon={faYoutube} />Youtubeで開く</a>
                             </div>
                             {login ? <>
                                 <div>
                                     <AddPlaylist videoId={props.ytid} />
                                 </div>
                             </> : <></>}
+                            {songAbout?.song && (
+                                <div className='p-4 rounded-lg bg-gray-100 my-4 flex gap-x-4'>
+                                    <div className="w-1/4">
+                                        <img src={songAbout.thumbnail} />
+                                    </div>
+                                    <div>
+                                        <p>{songAbout.title}</p>
+                                        <p className="text-sm text-slate-600">{songAbout.artist}</p>
+                                    </div>
+                                </div>
+                            )}
                             <div className='p-4 rounded-lg bg-gray-100 '>
                                 <div className='text-sm break-all w-full'>{about?.description.split(/(\n)/).map((v: string, i: number) => (i & 1 ? <br key={i} /> : v))}</div>
                             </div>

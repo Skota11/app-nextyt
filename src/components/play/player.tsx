@@ -176,8 +176,9 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                     <div className='w-full h-full text-white flex place-content-center bg-black'><p className='text-2xl text-center'>PictureInPictureで再生中</p></div>
                 </div>
             </> : <></>}
-            <div className={isPiP ? "fixed bottom-8 right-4 w-96 aspect-video shadow-lg z-50 bg-white rounded-lg " : 'aspect-video w-full max-h-4/5 maxHeightVideo'}
+            <div className={isPiP ? "fixed bottom-8 right-4 w-96 aspect-video shadow-lg z-50 bg-white rounded-xl " : 'aspect-video w-full max-h-4/5 maxHeightVideo'}
                 style={isAudio ? { backgroundImage: `url(https://i.ytimg.com/vi/${props.ytid}/maxresdefault.jpg)`, backgroundRepeat: "no-repeat", backgroundPosition: "center", backgroundSize: "cover" } : { backgroundImage: "none" }}
+
             >
                 {props.ytid ? <>
                     <ReactPlayer
@@ -194,7 +195,14 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                         onPlay={() => { console.log("play"); setPlaying(true) }}
                         onEnded={props.onEnd}
                     />
-                    {/* <p className={isPiP ? "text-center text-sm" : "hidden"}><FontAwesomeIcon icon={faArrowUp} /></p> */}
+                    <p onClick={() => {
+                        if (isPiP) {
+                            window.scrollTo({
+                                top: 0,
+                                behavior: 'smooth'
+                            })
+                        }
+                    }} className={isPiP ? "cursor-pointer text-center text-sm" : "hidden"}>PiP</p>
                 </> : <div className='w-full h-full text-white flex place-content-center bg-black'><p className='text-2xl text-center'>動画が選択されていません</p></div>}
             </div>
             {/* Title&Drawer */}

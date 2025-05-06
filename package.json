@@ -20,6 +20,8 @@
     "@supabase/supabase-js": "^2.47.5",
     "dayjs": "^1.11.13",
     "global": "^4.4.0",
+    "linkify-react": "^4.2.0",
+    "linkifyjs": "^4.2.0",
     "nanoid": "^5.0.9",
     "next": "15.1.0",
     "preline": "^2.6.0",

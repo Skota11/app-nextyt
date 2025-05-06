@@ -20,6 +20,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import dayjs from 'dayjs'
 import toJaNum from "@/utils/num2ja";
 import { useCookies } from "react-cookie";
+import Linkify from "linkify-react";
 
 //Play Components
 import AddPlaylist from "./addPlaylist";
@@ -237,7 +238,11 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                                 </div>
                             )}
                             <div className='p-4 rounded-lg bg-gray-100 '>
-                                <div className='text-sm break-all w-full'>{about?.description.split(/(\n)/).map((v: string, i: number) => (i & 1 ? <br key={i} /> : v))}</div>
+                                <div className='text-sm break-all w-full'>
+                                    <Linkify options={{ className: "text-blue-600" }}>
+                                        {about?.description.split(/(\n)/).map((v: string, i: number) => (i & 1 ? <br key={i} /> : v))}
+                                    </Linkify>
+                                </div>
                             </div>
                         </div>
                     </Drawer>

@@ -17,6 +17,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import dayjs from 'dayjs'
 import toJaNum from "@/utils/num2ja";
 import { useCookies } from "react-cookie";
+import { SiNiconico } from "react-icons/si";
+import AddPlaylist from "../addPlaylist";
 
 //Play Components
 //import AddPlaylist from "./addPlaylist";
@@ -67,13 +69,13 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
     }, [props.ytid]);
     const getVideo = async (id: string) => {
         if (id !== "") {
-            // fetch('/api/database/history', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json'
-            //     },
-            //     body: JSON.stringify({ id }),
-            // })
+            fetch('/api/database/history', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id }),
+            })
             const res = await (await fetch(`/api/niconico/video?id=${props.ytid}`)).json();
             setAbout(res.video)
             console.log(about)
@@ -108,7 +110,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
             {/* Title&Drawer */}
             <div className='px-2 py-2'>
                 <div>
-                    <h1 ref={observerRef} className='m-2 break-all text-lg cursor-pointer' onClick={() => { setOpenedDrawer(true) }}>{about?.title}</h1>
+                    <h1 ref={observerRef} className='m-2 break-all text-lg cursor-pointer flex' onClick={() => { setOpenedDrawer(true) }}><SiNiconico className="m-1" /><span>{about?.title}</span></h1>
                     <Drawer
                         anchor={'left'}
                         open={openedDrawer}
@@ -119,7 +121,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                     >
                         <p className='mt-4 text-center cursor-pointer' onClick={() => { setOpenedDrawer(false) }}>閉じる</p>
                         <div className='p-8'>
-                            <h1 className='text-xl'>{about?.title}</h1>
+                            <h1 className='text-xl'> {about?.title}</h1>
                             <p className='text-lg text-slate-600' onClick={() => { }}>{about?.channelTitle}</p>
                             <div className='sm:flex gap-x-4 my-4 gap-y-4'>
                                 <p className='text-lg'>{dayjs(about?.registeredAt).format('YYYY年MM月DD日')}</p>
@@ -131,7 +133,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                             </div>
                             {login ? <>
                                 <div>
-                                    {/* <AddPlaylist videoId={props.ytid} /> */}
+                                    <AddPlaylist videoId={props.ytid} />
                                 </div>
                             </> : <></>}
                             <div className='p-4 rounded-lg bg-gray-100 '>

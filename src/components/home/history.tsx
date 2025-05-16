@@ -10,8 +10,9 @@ import { faClockRotateLeft, faTrash } from "@fortawesome/free-solid-svg-icons";
 import CircularProgress from "@mui/material/CircularProgress";
 import Link from "next/link";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { SiNiconico } from "react-icons/si";
 
-interface history { videoId: string, videoContent: { title: string, channelTitle: string } }
+interface history { videoId: string, videoContent: { title: string, channelTitle: string, thumbnail: { url: string } } }
 
 export default function Main() {
     const [result, setResult] = useState<Array<history> | undefined>(undefined)
@@ -67,27 +68,50 @@ export default function Main() {
                                 >
                                     {result.map((item: history) => {
                                         return (
-
-                                            <div key={item.videoId} className='block my-2 break-all sm:flex items-start gap-4 cursor-pointer'>
-                                                <Link href={`/play?v=${item.videoId}`} className="flex-none">
-                                                    <div className="flex place-content-center">
-                                                        <Image src={`https://i.ytimg.com/vi/${item.videoId}/mqdefault.jpg`} alt="" width={120 * 2.5} height={67.5 * 2.5} className='inline rounded-md' unoptimized />
+                                            <>
+                                                {item.videoId.startsWith("sm") ?
+                                                    <div key={item.videoId} className='block my-2 break-all sm:flex items-start gap-4 cursor-pointer'>
+                                                        <Link href={`/play?v=${item.videoId}&player=niconico`} className="flex-none">
+                                                            <div className="flex place-content-center">
+                                                                <Image src={item.videoContent.thumbnail.url} alt="" width={120 * 2.5} height={67.5 * 2.5} className='inline rounded-md aspect-video object-cover' unoptimized />
+                                                            </div>
+                                                        </Link>
+                                                        <div className='inline'>
+                                                            <Link href={`/play?v=${item.videoId}&player=niconico`}>
+                                                                <p className="flex"><span>{item.videoContent.title}</span><SiNiconico className="m-1" /></p>
+                                                            </Link>
+                                                            <div>
+                                                                {deleteLoading.includes(item.videoId) ? <>
+                                                                    <CircularProgress color="error" size={20} />
+                                                                </> : <>
+                                                                    <button title="動画を削除" onClick={() => { deleteHistory(item.videoId) }}><FontAwesomeIcon icon={faTrash} /></button>
+                                                                </>}
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </Link>
-                                                <div className='inline'>
-                                                    <Link href={`/play?v=${item.videoId}`}>
-                                                        <p>{item.videoContent.title} </p>
-                                                        <p className='text-slate-600 text-sm'>{item.videoContent.channelTitle} </p>
-                                                    </Link>
-                                                    <div>
-                                                        {deleteLoading.includes(item.videoId) ? <>
-                                                            <CircularProgress color="error" size={20} />
-                                                        </> : <>
-                                                            <button title="動画を削除" onClick={() => { deleteHistory(item.videoId) }}><FontAwesomeIcon icon={faTrash} /></button>
-                                                        </>}
+                                                    :
+                                                    <div key={item.videoId} className='block my-2 break-all sm:flex items-start gap-4 cursor-pointer'>
+                                                        <Link href={`/play?v=${item.videoId}`} className="flex-none">
+                                                            <div className="flex place-content-center">
+                                                                <Image src={`https://i.ytimg.com/vi/${item.videoId}/mqdefault.jpg`} alt="" width={120 * 2.5} height={67.5 * 2.5} className='inline rounded-md' unoptimized />
+                                                            </div>
+                                                        </Link>
+                                                        <div className='inline'>
+                                                            <Link href={`/play?v=${item.videoId}`}>
+                                                                <p>{item.videoContent.title} </p>
+                                                                <p className='text-slate-600 text-sm'>{item.videoContent.channelTitle} </p>
+                                                            </Link>
+                                                            <div>
+                                                                {deleteLoading.includes(item.videoId) ? <>
+                                                                    <CircularProgress color="error" size={20} />
+                                                                </> : <>
+                                                                    <button title="動画を削除" onClick={() => { deleteHistory(item.videoId) }}><FontAwesomeIcon icon={faTrash} /></button>
+                                                                </>}
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
+                                                }
+                                            </>
                                         )
                                     })}
                                 </InfiniteScroll>

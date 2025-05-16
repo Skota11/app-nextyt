@@ -22,8 +22,19 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     const videoIdBody = body.id
     const { data: { user } } = await supabase.auth.getUser()
     if (user) {
-        const res = await (await fetch(`https://www.googleapis.com/youtube/v3/videos?part=id,snippet,statistics&id=${body.id}&key=AIzaSyC1KMsyjrnEfHJ3xnQtPX0DSxWHfyjUBeo`)).json();
-        const about = (res.items[0].snippet)
+        let about;
+        if (videoIdBody.startsWith("sm")) {
+            const res = await (await fetch(`https://www.nicovideo.jp/api/watch/v3_guest/${videoIdBody}?actionTrackId=${"skota11_2525"}`, {
+                headers: {
+                    "X-Frontend-Id": "6",
+                    "X-Frontend-Version": "0"
+                }
+            })).json();
+            about = res.data.video
+        } else {
+            const res = await (await fetch(`https://www.googleapis.com/youtube/v3/videos?part=id,snippet,statistics&id=${body.id}&key=AIzaSyC1KMsyjrnEfHJ3xnQtPX0DSxWHfyjUBeo`)).json();
+            about = (res.items[0].snippet)
+        }
         const { data }: { data: Array[] | null } = await supabase.from("playlists").select("videoId").eq("playlistId", playlistId)
         if (data) {
             const include = data.some((d: { videoId: string }) => {

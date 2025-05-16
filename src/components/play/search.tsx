@@ -1,10 +1,9 @@
 //React
-import { useCallback, useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 
 //Next.js
 import Image from 'next/image'
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 
 //Material UI
 import Chip from "@mui/material/Chip";
@@ -23,7 +22,6 @@ import dayjs from "dayjs";
 interface SearchResult { id?: { kind: string, videoId: string, channelId: string }, snippet: { title: string, channelTitle: string, publishedAt: string, description: string, thumbnails: { medium: { url: string } } }, contentId: string, thumbnailUrl: string, title: string, description: string };
 
 export default function Home() {
-    const searchParams = useSearchParams()
     const [inputQuery, setInputQuery] = useState("")
     const [result, setResult] = useState<Array<SearchResult> | undefined>()
     const [suggest, setSuggest] = useState([])

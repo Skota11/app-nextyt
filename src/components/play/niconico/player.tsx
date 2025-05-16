@@ -140,6 +140,10 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                                 <div className='text-sm break-all w-full' dangerouslySetInnerHTML={{ __html: about?.description as TrustedHTML }}>
                                 </div>
                             </div>
+                            <p>スマホでniconicoプレイヤーの音量が小さい方は以下をお試しください。</p>
+                            <p>①このページをブラウザのデスクトップ用サイトに変更する</p>
+                            <p>②プレイヤーの音量ボタンを長押しし、もう片方の指で最大音量に設定する</p>
+                            <p>デスクトップ用サイトを解除する</p>
                         </div>
                     </Drawer>
                 </div>

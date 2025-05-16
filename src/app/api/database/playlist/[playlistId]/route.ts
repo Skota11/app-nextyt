@@ -1,5 +1,6 @@
 import { type NextRequest } from 'next/server'
 import { createClient } from "@/utils/supabase/server";
+import nicoCheck from '@/utils/nicoid';
 interface Array {
     videoId: string
 }
@@ -23,7 +24,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     const { data: { user } } = await supabase.auth.getUser()
     if (user) {
         let about;
-        if (videoIdBody.startsWith("sm")) {
+        if (nicoCheck(videoIdBody)) {
             const res = await (await fetch(`https://www.nicovideo.jp/api/watch/v3_guest/${videoIdBody}?actionTrackId=${"skota11_2525"}`, {
                 headers: {
                     "X-Frontend-Id": "6",

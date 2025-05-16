@@ -12,11 +12,11 @@ import Search from "@/components/play/search";
 
 //Utility Libraries
 import { CookiesProvider } from "react-cookie";
+import nicoCheck from "@/utils/nicoid";
 
 function Child() {
     const searchParams = useSearchParams();
     let defaultId: string | undefined = searchParams.get("v")?.toString();
-    const playerId: string | undefined = searchParams.get("player")?.toString();
     if (defaultId == undefined) {
         defaultId = ""
     }
@@ -26,7 +26,7 @@ function Child() {
     }, [defaultId])
     return (
         <CookiesProvider>
-            {playerId == "niconico" ?
+            {nicoCheck(ytid) ?
                 <NicoPlayer ytid={ytid} />
                 :
                 <Player ytid={ytid} />

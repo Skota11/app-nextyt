@@ -114,7 +114,7 @@ export default function Home() {
                                 )
                             } else {
                                 return (
-                                    <Link key={item.contentId} className='block my-8 break-all sm:flex items-start gap-4 cursor-pointer' href={`/play?v=${item.contentId}&player=niconico`}>
+                                    <Link key={item.contentId} className='block my-8 break-all sm:flex items-start gap-4 cursor-pointer' href={`/play?v=${item.contentId}`}>
                                         <div className="flex place-content-center flex-none">
                                             <Image src={`${item.thumbnailUrl}`} alt="" width={320} height={168.75} className='inline rounded-md object-cover aspect-video' unoptimized />
                                         </div>

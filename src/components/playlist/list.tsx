@@ -21,6 +21,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 // Third Party Libraries
 import Swal from 'sweetalert2'
 import { SiNiconico } from 'react-icons/si';
+import nicoCheck from '@/utils/nicoid';
 
 interface playlist { videoId: string, videoContent: { title: string, channelTitle: string, thumbnail: { url: string } } }
 
@@ -145,15 +146,15 @@ export default function Main(props: { playlistId: string, ytid: string, setNextY
                         result.length == 0 ? <><p>取得できません</p></> : result.map((item: playlist) => {
                             return (
                                 <div key={item.videoId}>
-                                    {item.videoId.startsWith("sm") ?
+                                    {nicoCheck(item.videoId) ?
                                         <div className='block my-2 break-all sm:flex items-start gap-4 cursor-pointer'>
-                                            <Link href={`/playlist/${props.playlistId}?v=${item.videoId}&player=niconico`} className='flex-none'>
+                                            <Link href={`/playlist/${props.playlistId}?v=${item.videoId}`} className='flex-none'>
                                                 <div className="flex place-content-center">
                                                     <Image src={item.videoContent.thumbnail.url} alt="" width={120 * 2.5} height={67.5 * 2.5} className='inline rounded-md aspect-video object-cover' unoptimized />
                                                 </div>
                                             </Link>
                                             <div className='inline'>
-                                                <Link href={`/playlist/${props.playlistId}?v=${item.videoId}&player=niconico`}>
+                                                <Link href={`/playlist/${props.playlistId}?v=${item.videoId}`}>
                                                     <p className='flex'><span>{item.videoContent.title}</span><SiNiconico className='m-1' /></p>
                                                 </Link>
                                                 <div>

@@ -15,12 +15,12 @@ import Player from "@/components/play/player";
 import NicoPlayer from "@/components/play/niconico/player";
 import List from "@/components/playlist/list";
 import { useRouter } from "next/navigation";
+import nicoCheck from "@/utils/nicoid";
 
 function Child(props: { playlistId: string }) {
     const router = useRouter()
     const searchParams = useSearchParams();
     let defaultId: string | undefined = searchParams.get("v")?.toString();
-    const playerId: string | undefined = searchParams.get("player")?.toString();
     if (defaultId == undefined) {
         defaultId = ""
     }
@@ -32,15 +32,11 @@ function Child(props: { playlistId: string }) {
     }, [defaultId])
     return (
         <>
-            {playerId == "niconico" ?
+            {nicoCheck(ytid) ?
                 <NicoPlayer ytid={ytid} />
                 : <Player ytid={ytid} onEnd={() => {
                     if (nextYtid && autoPlay) {
-                        if (nextYtid.startsWith("sm")) {
-                            router.push(`/playlist/${props.playlistId}?v=${nextYtid}&player=niconico`)
-                        } else {
-                            router.push(`/playlist/${props.playlistId}?v=${nextYtid}`)
-                        }
+                        router.push(`/playlist/${props.playlistId}?v=${nextYtid}`)
                     }
                 }} />}
 

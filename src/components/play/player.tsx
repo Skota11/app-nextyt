@@ -111,7 +111,6 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
-                    console.log(entry.isIntersecting)
                     if (!entry.isIntersecting && props.ytid && cookies.pip == "on") {
                         setIsPiP(true);
                     } else {
@@ -165,7 +164,6 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
         if (isAudio) {
             setAudioUrl("")
             getAudioUrl(props.ytid)
-            console.log("get")
         }
     }, [props.ytid, isAudio])
     return (
@@ -191,10 +189,11 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                         height={"100%"}
                         controls={true}
                         ref={playerRef}
-                        onPause={() => { console.log("pause"); setPlaying(false) }}
-                        onPlay={() => { console.log("play"); setPlaying(true) }}
+                        onPause={() => { setPlaying(false) }}
+                        onPlay={() => { setPlaying(true) }}
                         onEnded={props.onEnd}
                     />
+
                     <p onClick={() => {
                         if (isPiP) {
                             window.scrollTo({

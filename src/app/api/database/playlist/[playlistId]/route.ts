@@ -5,7 +5,6 @@ interface Array {
 }
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ playlistId: string }> }) {
-    console.log(request)
     const { playlistId } = await params
     const supabase = await createClient()
     const { data }: { data: unknown } = await supabase
@@ -19,7 +18,6 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 export async function POST(request: NextRequest, { params }: { params: Promise<{ playlistId: string }> }) {
     const { playlistId } = await params
     const body = await request.json()
-    console.log(body)
     const supabase = await createClient()
     const videoIdBody = body.id
     const { data: { user } } = await supabase.auth.getUser()
@@ -39,7 +37,6 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
         } else {
             await supabase.from("playlists").insert({ playlistId: playlistId, videoId: body.id, videoContent: about })
         }
-
         return new Response('', { status: 200 })
     } else {
         return new Response('Not logged in', { status: 404 })

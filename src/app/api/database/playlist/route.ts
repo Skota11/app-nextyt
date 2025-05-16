@@ -35,9 +35,7 @@ export async function POST() {
     const { data: { user } } = await supabase.auth.getUser()
     if (user) {
         const id = nanoid()
-        console.log(user.id)
-        const { error } = await supabase.from("user_playlists").insert({ playlistId: id, playlistName: "新しいプレイリスト" })
-        console.log(error)
+        await supabase.from("user_playlists").insert({ playlistId: id, playlistName: "新しいプレイリスト" })
         return Response.json({ id: id })
     } else {
         return new Response('Not logged in', { status: 404 })

@@ -40,15 +40,6 @@ export default function Home() {
         const res = await (await fetch(`/api/suggest?q=${q}`)).json()
         setSuggest(res.data)
     }
-    const createQueryString = useCallback(
-        (name: string, value: string) => {
-            const params = new URLSearchParams(searchParams.toString())
-            params.set(name, value)
-
-            return params.toString()
-        },
-        [searchParams]
-    )
     const omit = (str: string) => {
         if (str.length > 36) {
             return str.substring(0, 36) + '...';
@@ -101,7 +92,7 @@ export default function Home() {
                         result.map((item: SearchResult) => {
                             if (item.id?.kind == "youtube#video") {
                                 return (
-                                    <Link key={item.id.videoId} className='block my-8 break-all sm:flex items-start gap-4 cursor-pointer' href={`/play?${createQueryString('v', item.id.videoId)}`}>
+                                    <Link key={item.id.videoId} className='block my-8 break-all sm:flex items-start gap-4 cursor-pointer' href={`/play?v=${item.id.videoId}`}>
                                         <div className="flex place-content-center flex-none">
                                             <Image src={`https://i.ytimg.com/vi/${item.id.videoId}/mqdefault.jpg`} alt="" width={120 * 2.5} height={67.5 * 2.5} className='inline rounded-md' unoptimized />
                                         </div>
@@ -125,7 +116,7 @@ export default function Home() {
                                 )
                             } else {
                                 return (
-                                    <Link key={item.contentId} className='block my-8 break-all sm:flex items-start gap-4 cursor-pointer' href={`https://nico.ms/${item.contentId}`} target="_blank">
+                                    <Link key={item.contentId} className='block my-8 break-all sm:flex items-start gap-4 cursor-pointer' href={`/play?v=${item.contentId}&player=niconico`}>
                                         <div className="flex place-content-center flex-none">
                                             <Image src={`${item.thumbnailUrl}.M`} alt="" width={320} height={168.75} className='inline rounded-md' unoptimized />
                                         </div>

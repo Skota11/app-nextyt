@@ -15,7 +15,7 @@ import Player from "@/components/play/player";
 import NicoPlayer from "@/components/play/niconico/player";
 import List from "@/components/playlist/list";
 import { useRouter } from "next/navigation";
-import nicoCheck from "@/utils/nicoid";
+import nicoCheck from "@/utils/niconico/nicoid";
 
 function Child(props: { playlistId: string }) {
     const router = useRouter()

@@ -19,7 +19,7 @@ import { SiNiconico } from "react-icons/si";
 //Utility Libraries
 import dayjs from "dayjs";
 
-interface SearchResult { id?: { kind: string, videoId: string, channelId: string }, snippet: { title: string, channelTitle: string, publishedAt: string, description: string, thumbnails: { medium: { url: string } } }, contentId: string, thumbnailUrl: string, title: string, description: string };
+interface SearchResult { id?: { kind: string, videoId: string, channelId: string }, snippet: { title: string, channelTitle: string, publishedAt: string, description: string, thumbnails: { medium: { url: string } } }, contentId: string, thumbnailUrl: string, title: string, description?: string };
 
 export default function Home() {
     const [inputQuery, setInputQuery] = useState("")
@@ -31,6 +31,7 @@ export default function Home() {
         if (inputQuery) {
             const res = await (await fetch(`/api/search?q=${inputQuery}&get=${get}`)).json();
             setResult(res.data)
+            console.log(res.data)
             setInputQuery("")
         }
     }
@@ -113,13 +114,13 @@ export default function Home() {
                                 )
                             } else {
                                 return (
-                                    <Link key={item.contentId} className='block my-8 break-all sm:flex items-start gap-4 cursor-pointer' href={`/play?v=${item.contentId}`}>
+                                    <Link key={item.contentId} className='block my-8 break-all flex items-start gap-4 cursor-pointer' href={`/play?v=${item.contentId}`}>
                                         <div className="flex place-content-center flex-none">
-                                            <Image src={`${item.thumbnailUrl}`} alt="" width={320} height={168.75} className='inline rounded-md object-cover aspect-video' unoptimized />
+                                            <Image src={`${item.thumbnailUrl}`} alt="" width={160 * 0.8} height={90 * 0.8} className='inline rounded-md object-cover aspect-video' unoptimized />
                                         </div>
                                         <div className='inline'>
                                             <p>{item.title} </p>
-                                            <p className="text-sm text-gray-400">{omit(item.description)}</p>
+                                            <p className="text-sm text-gray-400">{item.description && omit(item.description)}</p>
                                         </div>
                                     </Link>
                                 )

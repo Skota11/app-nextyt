@@ -12,7 +12,7 @@ import Search from "@/components/play/search";
 
 //Utility Libraries
 import { CookiesProvider } from "react-cookie";
-import nicoCheck from "@/utils/nicoid";
+import nicoCheck from "@/utils/niconico/nicoid";
 
 function Child() {
     const searchParams = useSearchParams();

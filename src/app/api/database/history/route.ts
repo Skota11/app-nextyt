@@ -1,6 +1,6 @@
 import { type NextRequest } from 'next/server'
 import { createClient } from "@/utils/supabase/server";
-import nicoCheck from '@/utils/nicoid';
+import nicoCheck from '@/utils/niconico/nicoid';
 
 interface Array {
     videoId: string

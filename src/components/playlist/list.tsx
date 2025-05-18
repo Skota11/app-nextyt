@@ -21,9 +21,10 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 // Third Party Libraries
 import Swal from 'sweetalert2'
 import { SiNiconico } from 'react-icons/si';
-import nicoCheck from '@/utils/nicoid';
+import nicoCheck from '@/utils/niconico/nicoid';
+import nicoImg from '@/utils/niconico/nicoimg';
 
-interface playlist { videoId: string, videoContent: { title: string, channelTitle: string, thumbnail: { url: string } } }
+interface playlist { videoId: string, videoContent: { title: string, channelTitle: string, thumbnail: { url: string, middleUrl: string | null, largeUrl: string | null } } }
 
 export default function Main(props: { playlistId: string, ytid: string, setNextYtid: (ytid: string) => void, setAutoPlay: (autoPlay: boolean) => void }) {
     const router = useRouter();
@@ -150,7 +151,7 @@ export default function Main(props: { playlistId: string, ytid: string, setNextY
                                         <div className='block my-2 break-all sm:flex items-start gap-4 cursor-pointer'>
                                             <Link href={`/playlist/${props.playlistId}?v=${item.videoId}`} className='flex-none'>
                                                 <div className="flex place-content-center">
-                                                    <Image src={item.videoContent.thumbnail.url} alt="" width={120 * 2.5} height={67.5 * 2.5} className='inline rounded-md aspect-video object-cover' unoptimized />
+                                                    <Image src={nicoImg(item.videoContent.thumbnail)} alt="" width={120 * 2.5} height={67.5 * 2.5} className='inline rounded-md aspect-video object-cover' unoptimized />
                                                 </div>
                                             </Link>
                                             <div className='inline'>

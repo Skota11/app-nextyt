@@ -11,9 +11,10 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Link from "next/link";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { SiNiconico } from "react-icons/si";
-import nicoCheck from "@/utils/nicoid";
+import nicoCheck from "@/utils/niconico/nicoid";
+import nicoImg from "@/utils/niconico/nicoimg";
 
-interface history { videoId: string, videoContent: { title: string, channelTitle: string, thumbnail: { url: string } } }
+interface history { videoId: string, videoContent: { title: string, channelTitle: string, thumbnail: { url: string, middleUrl: string | null, largeUrl: string | null } } }
 
 export default function Main() {
     const [result, setResult] = useState<Array<history> | undefined>(undefined)
@@ -69,12 +70,12 @@ export default function Main() {
                                 >
                                     {result.map((item: history) => {
                                         return (
-                                            <>
+                                            <div key={item.videoId}>
                                                 {nicoCheck(item.videoId) ?
                                                     <div key={item.videoId} className='block my-2 break-all sm:flex items-start gap-4 cursor-pointer'>
                                                         <Link href={`/play?v=${item.videoId}`} className="flex-none">
                                                             <div className="flex place-content-center">
-                                                                <Image src={item.videoContent.thumbnail.url} alt="" width={120 * 2.5} height={67.5 * 2.5} className='inline rounded-md aspect-video object-cover' unoptimized />
+                                                                <Image src={nicoImg(item.videoContent.thumbnail)} alt="" width={120 * 2.5} height={67.5 * 2.5} className='inline rounded-md aspect-video object-cover' unoptimized />
                                                             </div>
                                                         </Link>
                                                         <div className='inline'>
@@ -112,7 +113,7 @@ export default function Main() {
                                                         </div>
                                                     </div>
                                                 }
-                                            </>
+                                            </div>
                                         )
                                     })}
                                 </InfiniteScroll>

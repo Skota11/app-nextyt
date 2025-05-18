@@ -50,7 +50,16 @@ export default function Home() {
     }, [inputQuery])
     return (
         <>
-
+            <div className="flex place-content-center gap-x-4">
+                <Chip icon={<FontAwesomeIcon icon={faYoutube} className="m-1" />} label={"Youtube"} onClick={() => { setGet("") }}
+                    variant={get == "" ? "filled" : "outlined"}
+                    color="info"
+                />
+                <Chip icon={<SiNiconico className="m-1" />} label={"ニコニコ動画"} onClick={(() => { setGet("niconico") })}
+                    variant={get == "niconico" ? "filled" : "outlined"}
+                    color="info"
+                ></Chip>
+            </div>
             <div className="flex place-content-center my-4">
                 <form onSubmit={(e) => {
                     e.preventDefault()
@@ -72,16 +81,6 @@ export default function Home() {
                         }
                     </div>
                     : <></>}
-            </div>
-            <div className="flex place-content-center gap-x-4">
-                <Chip icon={<FontAwesomeIcon icon={faYoutube} className="m-1" />} label={"Youtube"} onClick={() => { setGet("") }}
-                    variant={get == "" ? "filled" : "outlined"}
-                    color="info"
-                />
-                <Chip icon={<SiNiconico className="m-1" />} label={"ニコニコ動画"} onClick={(() => { setGet("niconico") })}
-                    variant={get == "niconico" ? "filled" : "outlined"}
-                    color="info"
-                ></Chip>
             </div>
 
             <div className="px-4 max-w-screen-xl m-auto">

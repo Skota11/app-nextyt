@@ -18,6 +18,7 @@ import Search from "@/components/play/search";
 
 // Material UI
 import CircularProgress from '@mui/material/CircularProgress';
+import Link from "next/link";
 
 interface User { id: string | undefined, email: string | undefined, login: boolean };
 

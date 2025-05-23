@@ -33,7 +33,11 @@ function Child(props: { playlistId: string }) {
     return (
         <>
             {nicoCheck(ytid) ?
-                <NicoPlayer ytid={ytid} />
+                <NicoPlayer ytid={ytid} onEnd={() => {
+                    if (nextYtid && autoPlay) {
+                        router.push(`/playlist/${props.playlistId}?v=${nextYtid}`)
+                    }
+                }} />
                 : <Player ytid={ytid} onEnd={() => {
                     if (nextYtid && autoPlay) {
                         router.push(`/playlist/${props.playlistId}?v=${nextYtid}`)

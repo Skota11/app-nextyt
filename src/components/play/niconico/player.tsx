@@ -176,7 +176,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                                 <p className='text-lg'><FontAwesomeIcon className='mr-2' icon={faThumbsUp} /> {toJaNum(about?.count.like)}</p>
                             </div>
                             <div className="my-4">
-                                <a className='' href={`https://nico.ms/${props.ytid}`} >◯ ニコニコ動画で開く</a>
+                                <a className='flex gap-x-2 items-center' href={`https://nico.ms/${props.ytid}`} ><SiNiconico /> ニコニコ動画で開く</a>
                             </div>
                             {login ? <>
                                 <div>

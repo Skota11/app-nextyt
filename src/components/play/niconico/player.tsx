@@ -154,7 +154,6 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                     }} className={isPiP ? "cursor-pointer text-center text-sm" : "hidden"}>PiP</p>
                 </> : <div className='w-full h-full text-white flex place-content-center bg-black'><p className='text-2xl text-center'>動画が選択されていません</p></div>}
             </div>
-            {play}
             {/* Title&Drawer */}
             <div className='px-2 py-2'>
                 <div>

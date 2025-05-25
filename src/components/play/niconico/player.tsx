@@ -188,10 +188,8 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                                 </div>
                             </div>
                             <div className='p-4 my-8 rounded-lg bg-gray-100 text-xs'>
-                                <p>スマホでniconicoプレイヤーの音量が小さい方は以下をお試しください。</p>
-                                <p>①このページをブラウザのデスクトップ用サイトに変更する</p>
-                                <p>②プレイヤーの音量ボタンを長押しし、もう片方の指で最大音量に設定する</p>
-                                <p>③デスクトップ用サイトを解除する</p>
+                                <p>スマホでniconicoプレイヤーの音量調節をする場合は下から</p>
+                                <a href="/niconico/player">音量調節</a>
                             </div>
                         </div>
                     </Drawer>

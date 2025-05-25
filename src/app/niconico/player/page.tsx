@@ -12,7 +12,7 @@ export default function Main() {
                 <iframe ref={playerRef} className="" src={`https://embed.nicovideo.jp/watch/${"sm9"}?persistence=1&oldScript=1&referer=&from=0&allowProgrammaticFullScreen=1&autoplay=1&jsapi=1&playerId=nicoPlayer`} width={"100%"} height={"100%"} allowFullScreen allow="autoplay"></iframe>
             </div>
             <div className="flex place-content-center gap-x-4">
-                <picture>音量調節</picture>
+                <picture>Volume</picture>
                 <input onChange={(e) => {
                     playerRef.current?.contentWindow?.postMessage({
                         eventName: 'volumeChange',

@@ -187,9 +187,9 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                                 <div className='text-sm break-all w-full' dangerouslySetInnerHTML={{ __html: about?.description as TrustedHTML }}>
                                 </div>
                             </div>
-                            <div className='p-4 my-8 rounded-lg bg-gray-100 text-xs'>
+                            <div className='p-4 my-8 rounded-lg bg-gray-100'>
                                 <p>スマホでniconicoプレイヤーの音量調節をする場合は下から</p>
-                                <a href="/niconico/player">音量調節</a>
+                                <a className="border-b-1" href="/niconico/player">音量調節</a>
                             </div>
                         </div>
                     </Drawer>

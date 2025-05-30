@@ -21,14 +21,18 @@ export default function Main(props: { videoId: string }) {
         setResult(data)
     }
     const addClickHandler = async () => {
-        await fetch(`/api/database/playlist/${selectId}`, {
+        const res = await fetch(`/api/database/playlist/${selectId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ id: props.videoId }),
         })
-        toast.success("プレイリストに追加しました")
+        if (res.ok) {
+            toast.success("追加しました")
+        } else {
+            toast.error("すでに追加されています")
+        }
     }
     useEffect(() => {
         getPlaylists()
@@ -53,8 +57,8 @@ export default function Main(props: { videoId: string }) {
                     </Select>
                 </FormControl>
                 <Button variant="contained" onClick={addClickHandler}>追加</Button>
+                <Toaster position="bottom-center" />
             </div>
-            <Toaster />
         </>
     )
 }

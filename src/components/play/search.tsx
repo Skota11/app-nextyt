@@ -51,7 +51,6 @@ export default function Home() {
     }, [inputQuery])
     return (
         <>
-
             <div className="flex place-content-center my-4">
                 <form onSubmit={(e) => {
                     e.preventDefault()

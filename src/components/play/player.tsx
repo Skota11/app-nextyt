@@ -13,7 +13,7 @@ import Drawer from "@mui/material/Drawer";
 
 //Font Awesome Icons
 import { faYoutube } from "@fortawesome/free-brands-svg-icons";
-import { faDownload, faEye, faShareFromSquare, faThumbsUp, faVolumeHigh, faVolumeXmark, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faDownload, faEye, faMusic, faShareFromSquare, faThumbsUp, faVolumeHigh, faVolumeXmark, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 //Utility Libraries
@@ -21,6 +21,7 @@ import dayjs from 'dayjs'
 import toJaNum from "@/utils/num2ja";
 import { useCookies } from "react-cookie";
 import Linkify from "linkify-react";
+import toast, { Toaster } from 'react-hot-toast';
 
 //Play Components
 import AddPlaylist from "./addPlaylist";
@@ -43,6 +44,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
     const [isPiP, setIsPiP] = useState(false);
     const [isAudio, setIsAudio] = useState(false);
     const [audioUrl, setAudioUrl] = useState("");
+    const [videoUrl, setVideoUrl] = useState<string | null>(null);
     const [cookies] = useCookies(['pip'])
 
     const handleKeyPress = useCallback((event: KeyboardEvent) => {
@@ -103,6 +105,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
     useEffect(() => {
         getVideo(props.ytid)
         setSongAbout(undefined)
+        setVideoUrl(null);
         setPlaying(true);
     }, [props.ytid])
     useEffect(() => {
@@ -268,11 +271,30 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                             <button title="消音にする" className='border-2 p-2 rounded-full text-xs border-current' onClick={async () => { setMuted(true) }}><FontAwesomeIcon icon={faVolumeHigh} /></button>
                         }
                         <button title="共有" className='border-2 p-2 rounded-full text-xs border-current' onClick={async () => { handleShare() }}><FontAwesomeIcon icon={faShareFromSquare} /></button>
-                        <button title="音声ダウンロード" className='border-2 p-2 rounded-full text-xs border-current' onClick={async () => { setIsAudio(prev => !prev) }}><FontAwesomeIcon icon={faDownload} /></button>
-                        {/* <button className='border-2 p-2 rounded-full text-xs border-current' onClick={async () => { handleFullScreen() }}><FontAwesomeIcon icon={faExpand} /></button> */}
+                        <button title="音声のみで再生" className='border-2 p-2 rounded-full text-xs border-current' onClick={async () => { setIsAudio(prev => !prev) }}>{isAudio ? <FontAwesomeIcon icon={faYoutube} /> : <FontAwesomeIcon icon={faMusic} />}</button>
+                        <a
+                            title="ダウンロード"
+                            className="border-2 p-2 rounded-full text-xs border-current"
+                            href={videoUrl || "#"}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={async (e) => {
+                                if (!videoUrl) {
+                                    e.preventDefault()
+                                    toast.success("ダウンロードを開始します")
+                                    const res = await fetch(`/api/download/video?id=${props.ytid}`)
+                                    const data = await res.json()
+                                    setVideoUrl(data.downloadUrl)
+                                    toast.success("もう一度クリックしてダウンロードを開始してください")
+                                }
+                            }}
+                        >
+                            <FontAwesomeIcon icon={faDownload} />
+                        </a>
                     </div>
                     : <></>}
             </div>
+            <Toaster position="bottom-center" />
         </>
     )
 }

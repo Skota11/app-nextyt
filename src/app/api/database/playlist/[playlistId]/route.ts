@@ -49,7 +49,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
         } else {
             await supabase.from("playlists").insert({ playlistId: playlistId, videoId: body.id, videoContent: about })
         }
-        return new Response('', { status: 200 })
+        return new Response('Success', { status: 200 })
     } else {
         return new Response('Not logged in', { status: 404 })
     }

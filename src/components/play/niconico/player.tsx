@@ -34,7 +34,6 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
     const playerRef = useRef<HTMLIFrameElement>(null);
     const [isPiP, setIsPiP] = useState(false);
     const [cookies] = useCookies(['pip'])
-    const [play, setPlay] = useState(0)
     const [muted, setMuted] = useState(false)
     const [showComment, setShowComment] = useState(true)
     //Player関係
@@ -42,7 +41,9 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
         if (event.origin === 'https://embed.nicovideo.jp') {
             switch (event.data.eventName) {
                 case "playerStatusChange":
-                    setPlay(event.data.data.playerStatus)
+                    if (event.data.data.playerStatus == 4) {
+                        props.onEnd?.()
+                    }
                     break;
                 case "playerMetadataChange":
                     setMuted(event.data.data.muted)
@@ -68,11 +69,6 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
             }, "https://embed.nicovideo.jp")
         }
     }, [about])
-    useEffect(() => {
-        if (play == 4) {
-            props.onEnd?.()
-        }
-    }, [play])
     //login
     useEffect(() => {
         const f = async () => {

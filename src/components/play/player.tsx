@@ -286,6 +286,8 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                                     const data = await res.json()
                                     setVideoUrl(data.downloadUrl)
                                     toast.success("もう一度クリックしてダウンロードを開始してください")
+                                } else {
+                                    setPlaying(false)
                                 }
                             }}
                         >

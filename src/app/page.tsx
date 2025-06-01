@@ -2,12 +2,12 @@
 
 // React
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 // supabase
 import { supabase } from "../utils/supabase/client";
 
 // Home components
-import Account from "@/components/home/account";
 import History from "@/components/home/history";
 import OAuth from "@/components/home/oauth";
 import Playlist from "@/components/home/playlist";
@@ -18,6 +18,8 @@ import Search from "@/components/play/search";
 
 // Material UI
 import CircularProgress from '@mui/material/CircularProgress';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons"
 
 interface User { id: string | undefined, email: string | undefined, login: boolean };
 
@@ -46,7 +48,9 @@ export default function Home() {
           <div className="place-content-center my-4">
             <Search />
           </div>
-          <Account currentUser={currentUser} />
+          <Link href={"/settings"} className="text-blue-700 hover:text-blue-900">
+            <h1 className='text-lg my-2'><FontAwesomeIcon icon={faUser} className='mr-2' />アカウントと設定→</h1>
+          </Link>
           <Channels />
           <Playlist />
           <History />

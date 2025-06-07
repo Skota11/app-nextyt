@@ -10,7 +10,7 @@ import { supabase } from "@/utils/supabase/client";
 import Drawer from "@mui/material/Drawer";
 
 //Font Awesome Icons
-import { faEye, faShareFromSquare, faThumbsUp, faVolumeHigh, faVolumeXmark } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faFolder, faHeart, faList, faShareFromSquare, faThumbsUp, faVolumeHigh, faVolumeXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 //Utility Libraries
@@ -24,7 +24,7 @@ import AddPlaylist from "../addPlaylist";
 //Play Components
 //import AddPlaylist from "./addPlaylist";
 
-interface VideoAbout { title: string, channelId: string, channelTitle: string, description: string, registeredAt: string, count: { view: string, like: string } }
+interface VideoAbout { title: string, channelId: string, channelTitle: string, description: string, registeredAt: string, count: { view: string, like: string, mylist: string }, tags: Array<{ name: string }> | undefined, thumbnailUrl: string, videoId: string, videoType: string, videoQuality: string, duration: number, descriptionHtml?: TrustedHTML };
 
 export default function Home(props: { ytid: string, onEnd?: () => void }) {
     //state
@@ -114,7 +114,8 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                 body: JSON.stringify({ id }),
             })
             const res = await (await fetch(`/api/niconico/video?id=${props.ytid}`)).json();
-            setAbout(res.video)
+            setAbout({ ...res.video, tags: res.tag.items });
+            console.log(res.video);
         }
     }
     //drawer
@@ -167,9 +168,11 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                             <h1 className='text-xl'> {about?.title}</h1>
                             <p className='text-lg text-slate-600' onClick={() => { }}>{about?.channelTitle}</p>
                             <div className='sm:flex gap-x-4 my-4 gap-y-4'>
-                                <p className='text-lg'>{dayjs(about?.registeredAt).format('YYYY年MM月DD日')}</p>
-                                <p className='text-lg'><FontAwesomeIcon className='mr-2' icon={faEye} />{toJaNum(about?.count.view)}</p>
-                                <p className='text-lg'><FontAwesomeIcon className='mr-2' icon={faThumbsUp} /> {toJaNum(about?.count.like)}</p>
+                                <p className='text-sm'>{dayjs(about?.registeredAt).format('YYYY年MM月DD日')}</p>
+                                <p className='text-sm'><FontAwesomeIcon className='mr-2' icon={faEye} />{toJaNum(about?.count.view)}</p>
+                                <p className='text-sm'><FontAwesomeIcon className='mr-2' icon={faFolder} /> {toJaNum(about?.count.mylist)}</p>
+                                <p className='text-sm'><FontAwesomeIcon className='mr-2' icon={faHeart} /> {toJaNum(about?.count.like)}</p>
+
                             </div>
                             <div className="my-4">
                                 <a className='flex gap-x-2 items-center' href={`https://nico.ms/${props.ytid}`} ><SiNiconico /> ニコニコ動画で開く</a>
@@ -180,7 +183,18 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                                 </div>
                             </> : <></>}
                             <div className='p-4 rounded-lg bg-gray-100 '>
+                                <p className="text-sm mb-2">概要欄</p>
                                 <div className='text-sm break-all w-full' dangerouslySetInnerHTML={{ __html: about?.description as TrustedHTML }}>
+                                </div>
+                            </div>
+                            <div className='p-4 rounded-lg bg-gray-100  my-4'>
+                                <div>
+                                    <p className='text-sm mb-2'>タグ</p>
+                                    <div className='flex flex-wrap gap-2'>
+                                        {about?.tags?.map((tag, index) => (
+                                            <span key={index} className='bg-gray-300 text-gray-800 px-2 py-1 rounded-lg text-xs'>{tag.name}</span>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                         </div>

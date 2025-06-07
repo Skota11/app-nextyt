@@ -224,9 +224,9 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                             <h1 className='text-xl'>{about?.title}</h1>
                             <Link href={`/channel/${about?.channelId}`}><p className='text-lg text-slate-600' onClick={() => { }}>{about?.channelTitle}</p></Link>
                             <div className='sm:flex gap-x-4 my-4 gap-y-4'>
-                                <p className='text-lg'>{dayjs(about?.publishedAt).format('YYYY年MM月DD日')}</p>
-                                <p className='text-lg'><FontAwesomeIcon className='mr-2' icon={faEye} />{toJaNum(statistics?.viewCount)}</p>
-                                <p className='text-lg'><FontAwesomeIcon className='mr-2' icon={faThumbsUp} /> {toJaNum(statistics?.likeCount)}</p>
+                                <p className='text-sm'>{dayjs(about?.publishedAt).format('YYYY年MM月DD日')}</p>
+                                <p className='text-sm'><FontAwesomeIcon className='mr-2' icon={faEye} />{toJaNum(statistics?.viewCount)}</p>
+                                <p className='text-sm'><FontAwesomeIcon className='mr-2' icon={faThumbsUp} /> {toJaNum(statistics?.likeCount)}</p>
                             </div>
                             <div className="my-4">
                                 <a className='' href={`https://youtu.be/${props.ytid}`} ><FontAwesomeIcon className='mr-2' icon={faYoutube} />Youtubeで開く</a>
@@ -237,17 +237,21 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                                 </div>
                             </> : <></>}
                             {songAbout?.song && (
-                                <div className='p-4 rounded-lg bg-gray-100 my-4 flex gap-x-4'>
-                                    <div className="w-1/4">
-                                        <img src={songAbout.thumbnail} />
-                                    </div>
-                                    <div>
-                                        <p>{songAbout.title}</p>
-                                        <p className="text-sm text-slate-600">{songAbout.artist}</p>
+                                <div className='p-4 rounded-lg bg-gray-100'>
+                                    <p className="text-sm mb-2">曲情報</p>
+                                    <div className='flex gap-x-4'>
+                                        <div className="w-1/4">
+                                            <img src={songAbout.thumbnail} />
+                                        </div>
+                                        <div>
+                                            <p>{songAbout.title}</p>
+                                            <p className="text-sm text-slate-600">{songAbout.artist}</p>
+                                        </div>
                                     </div>
                                 </div>
                             )}
-                            <div className='p-4 rounded-lg bg-gray-100 '>
+                            <div className='p-4 rounded-lg bg-gray-100 my-4'>
+                                <p className="text-sm mb-2">概要欄</p>
                                 <div className='text-sm break-all w-full'>
                                     <Linkify options={{ className: "text-blue-600" }}>
                                         {about?.description.split(/(\n)/).map((v: string, i: number) => (i & 1 ? <br key={i} /> : v))}

@@ -10,7 +10,7 @@ import { supabase } from "@/utils/supabase/client";
 import Drawer from "@mui/material/Drawer";
 
 //Font Awesome Icons
-import { faEye, faFolder, faHeart, faList, faShareFromSquare, faThumbsUp, faVolumeHigh, faVolumeXmark } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faFolder, faHeart, faShareFromSquare, faVolumeHigh, faVolumeXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 //Utility Libraries

@@ -14,13 +14,19 @@ export default function Main() {
     }
 
     return <>
-        <div className="my-4">
-            <div className='flex place-content-center gap-x-4 items-center'>
-                <button className='bg-black text-white rounded-full border-2 p-4 text-lg border-current hover:bg-neutral-700 duration-100' onClick={() => { onTwitterRegister(); }}><FontAwesomeIcon icon={faTwitter} className='mr-2 text-white' />Twitter</button>
-                <span>または</span>
-                <button className='bg-black text-white rounded-full border-2 p-4 text-lg border-current hover:bg-neutral-700 duration-100' onClick={() => { onDiscordRegister(); }}><FontAwesomeIcon icon={faDiscord} className='mr-2 text-white' />Discord</button>
+        <div className="my-12 flex flex-col gap-y-4 border-2 border-gray-800 items-center justify-center p-4 rounded-lg shadow-lg max-w-md m-auto">
+            <p>Register / Login</p>
+            <div className='flex flex-col gap-y-4'>
+                <button className="bg-black text-gray-100 hover:text-white shadow font-bold text-sm py-3 px-4 rounded flex justify-start items-center cursor-pointer" onClick={() => { onTwitterRegister(); }}>
+                    <FontAwesomeIcon icon={faTwitter} className='mr-2 text-white' />
+                    <span>Twitterでログイン</span>
+                </button>
+
+                <button className='bg-black text-gray-100 hover:text-white shadow font-bold text-sm py-3 px-4 rounded flex justify-start items-center cursor-pointer' onClick={() => { onDiscordRegister(); }}>
+                    <FontAwesomeIcon icon={faDiscord} className='mr-2 text-white' />
+                    <span>Discordでログイン</span>
+                </button>
             </div>
-            <p className="text-center">でログイン</p>
         </div>
     </>
 }

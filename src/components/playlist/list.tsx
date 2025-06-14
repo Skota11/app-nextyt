@@ -177,7 +177,7 @@ export default function Main(props: { playlistId: string, ytid: string, setNextY
                                             </div>
                                         </div>
                                     ) : (
-                                        <div className='block my-6 break-all sm:flex items-start gap-4 cursor-pointer rounded-lg shadow-md hover:bg-gray-100 transition-colors'>
+                                        <div className={`block my-6 break-all sm:flex items-start gap-4 cursor-pointer rounded-lg shadow-md hover:bg-gray-100 transition-colors ${props.ytid === item.videoId ? 'border-2 border-sky-500' : ''}`}>
                                             <Link href={`/playlist/${props.playlistId}?v=${item.videoId}`} className="flex-none">
                                                 <div className="flex place-content-center w-full relative">
                                                     <Image src={`https://i.ytimg.com/vi/${item.videoId}/mqdefault.jpg`} alt="" width={120 * 2.5} height={67.5 * 2.5} className='inline sm:rounded-md rounded-t-lg aspect-video object-cover w-full sm:w-[300px]' unoptimized />

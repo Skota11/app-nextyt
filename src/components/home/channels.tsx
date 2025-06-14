@@ -19,13 +19,13 @@ export default function Main() {
         const { data } = await (await fetch('/api/database/channels')).json()
         setResult(data)
     }
-    const omit = (str: string) => {
-        if (str.length > 6) {
-            return str.substring(0, 6) + '...';
-        } else {
-            return str
-        }
-    }
+    // const omit = (str: string) => {
+    //     if (str.length > 6) {
+    //         return str.substring(0, 6) + '...';
+    //     } else {
+    //         return str
+    //     }
+    // }
     useEffect(() => {
         getPlaylists()
     }, [])

@@ -182,7 +182,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                                     <AddPlaylist videoId={props.ytid} />
                                 </div>
                             </> : <></>}
-                            <div className='flex flex-col gap-y-8'>
+                            <div className='flex flex-col gap-y-8 my-8'>
                                 <div className='p-4 rounded-lg bg-gray-100 shadow-lg'>
                                     <p className="text-sm mb-2">概要欄</p>
                                     <div className='text-sm break-all w-full' dangerouslySetInnerHTML={{ __html: about?.description as TrustedHTML }}>

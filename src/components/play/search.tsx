@@ -51,14 +51,24 @@ export default function Home() {
     }, [inputQuery])
     return (
         <>
-            <div className="flex place-content-center my-4">
+            <div className="flex place-content-center mt-4 mb-2">
                 <form onSubmit={(e) => {
                     e.preventDefault()
                     getSearch()
                 }}>
-                    <div className="flex gap-x-2">
-                        <input ref={inputRef} type="search" className='p-2 rounded-md border-2 outline-0' placeholder='検索するワードを入力' onChange={(e) => { setInputQuery(e.target.value) }} value={inputQuery} />
-                        <button type="submit" className='py-2 px-4 rounded-lg bg-gray-100'><FontAwesomeIcon icon={faSearch} /></button>
+                    <div className="flex">
+                        <input ref={inputRef} type="search" className='p-2 rounded-l-full border-2 outline-0' placeholder='検索するワードを入力' onChange={(e) => { setInputQuery(e.target.value) }} value={inputQuery} />
+                        <button type="submit" className='py-2 px-4 rounded-r-full bg-gray-100'><FontAwesomeIcon icon={faSearch} /></button>
+                    </div>
+                    <div className="flex gap-x-4 mt-2">
+                        <Chip icon={<FontAwesomeIcon icon={faYoutube} className="m-1" />} label={"Youtube"} onClick={() => { setGet("") }}
+                            variant={get == "" ? "filled" : "outlined"}
+                            color="info"
+                        />
+                        <Chip icon={<SiNiconico className="m-1" />} label={"ニコニコ動画"} onClick={(() => { setGet("niconico") })}
+                            variant={get == "niconico" ? "filled" : "outlined"}
+                            color="info"
+                        ></Chip>
                     </div>
                 </form>
             </div>
@@ -72,16 +82,6 @@ export default function Home() {
                         }
                     </div>
                     : <></>}
-            </div>
-            <div className="flex place-content-center gap-x-4">
-                <Chip icon={<FontAwesomeIcon icon={faYoutube} className="m-1" />} label={"Youtube"} onClick={() => { setGet("") }}
-                    variant={get == "" ? "filled" : "outlined"}
-                    color="info"
-                />
-                <Chip icon={<SiNiconico className="m-1" />} label={"ニコニコ動画"} onClick={(() => { setGet("niconico") })}
-                    variant={get == "niconico" ? "filled" : "outlined"}
-                    color="info"
-                ></Chip>
             </div>
             <div className="px-4 max-w-screen-xl m-auto">
                 {

@@ -35,7 +35,7 @@ export default function Main() {
     return (
         <div className='mt-2'>
             <h1 className='text-lg my-4'><FontAwesomeIcon icon={faList} className='mr-2' />Playlist <button title="新しいプレイリストを作成" onClick={newPlaylist}> <FontAwesomeIcon icon={faPlus} className="mr-1 text-sm" /><span className="text-sm">新しく作成</span></button></h1>
-            <div className="mx-4">
+            <div className="mx-4 flex flex-col gap-y-2 max-w-sm">
                 {
                     result == undefined ?
                         <>
@@ -47,8 +47,10 @@ export default function Main() {
                         :
                         result.length == 0 ? <><p>Playlistはありません</p></> : result.map((item: playlist) => {
                             return (
-                                <Link key={item.playlistId} className='block my-2 break-all sm:flex items-start gap-4 cursor-pointer' href={`/playlist/${item.playlistId}`}>
-                                    <p>{item.playlistName}</p>
+                                <Link key={item.playlistId} href={`/playlist/${item.playlistId}`}>
+                                    <div className="rounded-lg px-4 py-2 shadow-md hover:bg-gray-100 transition-colors cursor-pointer">
+                                        <p>{item.playlistName}</p>
+                                    </div>
                                 </Link>
                             )
                         })

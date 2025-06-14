@@ -45,12 +45,14 @@ export default function Home() {
     <>
       {currentUser?.login ? <>
         <div className="p-4 max-w-screen-xl m-auto">
-          <div className="place-content-center my-4">
+          <div className="text-right">
+            <Link href={"/settings"} className="text-blue-700 hover:text-blue-900">
+              <h1 className='text-lg my-2 inline'><FontAwesomeIcon icon={faUser} className='mr-2' />アカウントと設定</h1>
+            </Link>
+          </div>
+          <div className="place-content-center my-2">
             <Search />
           </div>
-          <Link href={"/settings"} className="text-blue-700 hover:text-blue-900">
-            <h1 className='text-lg my-2'><FontAwesomeIcon icon={faUser} className='mr-2' />アカウントと設定→</h1>
-          </Link>
           <Channels />
           <Playlist />
           <History />

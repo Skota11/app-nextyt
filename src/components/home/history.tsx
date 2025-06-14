@@ -54,13 +54,13 @@ export default function Main() {
     }, [])
     return (
         <div className='mt-2'>
-            <h1 className='text-lg my-4'><FontAwesomeIcon icon={faClockRotateLeft} className='mr-2' />WatchHistory</h1>
+            <h1 className='text-lg my-4'><FontAwesomeIcon icon={faClockRotateLeft} className='mr-2' />視聴履歴</h1>
             <div className="mx-4">
                 {
                     result == undefined ?
                         <><CircularProgress color="error" size={40} /></>
                         :
-                        result.length == 0 ? <><p>WatchHistoryはありません</p></> :
+                        result.length == 0 ? <><p>視聴履歴はありません</p></> :
                             <>
                                 <InfiniteScroll
                                     dataLength={result.length}
@@ -72,44 +72,53 @@ export default function Main() {
                                         return (
                                             <div key={item.videoId}>
                                                 {nicoCheck(item.videoId) ?
-                                                    <div key={item.videoId} className='block my-2 break-all sm:flex items-start gap-4 cursor-pointer'>
+                                                    <div key={item.videoId} className='block my-6 break-all sm:flex items-start gap-4 cursor-pointer rounded-lg shadow-md hover:bg-gray-100 transition-colors'>
                                                         <Link href={`/play?v=${item.videoId}`} className="flex-none">
-                                                            <div className="flex place-content-center">
-                                                                <Image src={nicoImg(item.videoContent.thumbnail)} alt="" width={120 * 2.5} height={67.5 * 2.5} className='inline rounded-md aspect-video object-cover' unoptimized />
+                                                            <div className="flex place-content-center w-full relative">
+                                                                <Image src={nicoImg(item.videoContent.thumbnail)} alt="" width={120 * 2.5} height={67.5 * 2.5} className='inline sm:rounded-md rounded-t-lg aspect-video object-cover w-full sm:w-[300px]' unoptimized />
+                                                                <div className="absolute top-2 right-2 bg-white rounded-full w-8 h-8 rounded-full place-content-center">
+                                                                    {deleteLoading.includes(item.videoId) ? <>
+                                                                        <CircularProgress color="error" size={20} />
+                                                                    </> : <>
+                                                                        <p className="flex place-content-center">
+                                                                            <button title="動画を削除" onClick={(e) => { e.preventDefault(); deleteHistory(item.videoId) }}><FontAwesomeIcon icon={faTrash} /></button>
+                                                                        </p>
+                                                                    </>}
+                                                                </div>
+                                                                <div className="absolute bottom-2 right-2 bg-white place-content-center p-1 rounded-sm">
+                                                                    <p className="flex items-center text-sm"><SiNiconico className="m-1" />ニコニコ動画</p>
+                                                                </div>
                                                             </div>
                                                         </Link>
-                                                        <div className='inline'>
+                                                        <div className='sm:inline'>
                                                             <Link href={`/play?v=${item.videoId}`}>
-                                                                <p className="flex"><span>{item.videoContent.title}</span><SiNiconico className="m-1" /></p>
+                                                                <p className="py-4 px-2 sm:px-0">{item.videoContent.title}</p>
                                                             </Link>
-                                                            <div>
-                                                                {deleteLoading.includes(item.videoId) ? <>
-                                                                    <CircularProgress color="error" size={20} />
-                                                                </> : <>
-                                                                    <button title="動画を削除" onClick={() => { deleteHistory(item.videoId) }}><FontAwesomeIcon icon={faTrash} /></button>
-                                                                </>}
-                                                            </div>
+
                                                         </div>
                                                     </div>
                                                     :
-                                                    <div key={item.videoId} className='block my-2 break-all sm:flex items-start gap-4 cursor-pointer'>
+                                                    <div key={item.videoId} className='block my-6 break-all sm:flex items-start gap-4 cursor-pointer rounded-lg shadow-md hover:bg-gray-100 transition-colors'>
                                                         <Link href={`/play?v=${item.videoId}`} className="flex-none">
-                                                            <div className="flex place-content-center">
-                                                                <Image src={`https://i.ytimg.com/vi/${item.videoId}/mqdefault.jpg`} alt="" width={120 * 2.5} height={67.5 * 2.5} className='inline rounded-md' unoptimized />
+                                                            <div className="flex place-content-center w-full relative">
+                                                                <Image src={`https://i.ytimg.com/vi/${item.videoId}/mqdefault.jpg`} alt="" width={120 * 2.5} height={67.5 * 2.5} className='inline sm:rounded-md rounded-t-lg aspect-video object-cover w-full sm:w-[300px]' unoptimized />
+                                                                <div className="absolute top-2 right-2 bg-white rounded-full w-8 h-8 rounded-full place-content-center">
+                                                                    {deleteLoading.includes(item.videoId) ? <>
+                                                                        <p className="flex place-content-center">
+                                                                            <CircularProgress color="error" size={20} />
+                                                                        </p>
+                                                                    </> : <>
+                                                                        <p className="flex place-content-center">
+                                                                            <button title="動画を削除" onClick={(e) => { e.preventDefault(); deleteHistory(item.videoId) }}><FontAwesomeIcon icon={faTrash} /></button>
+                                                                        </p>
+                                                                    </>}
+                                                                </div>
                                                             </div>
                                                         </Link>
-                                                        <div className='inline'>
+                                                        <div className='sm:inline'>
                                                             <Link href={`/play?v=${item.videoId}`}>
-                                                                <p>{item.videoContent.title} </p>
-                                                                <p className='text-slate-600 text-sm'>{item.videoContent.channelTitle} </p>
+                                                                <p className="py-4 px-2 sm:px-0">{item.videoContent.title} </p>
                                                             </Link>
-                                                            <div>
-                                                                {deleteLoading.includes(item.videoId) ? <>
-                                                                    <CircularProgress color="error" size={20} />
-                                                                </> : <>
-                                                                    <button title="動画を削除" onClick={() => { deleteHistory(item.videoId) }}><FontAwesomeIcon icon={faTrash} /></button>
-                                                                </>}
-                                                            </div>
                                                         </div>
                                                     </div>
                                                 }

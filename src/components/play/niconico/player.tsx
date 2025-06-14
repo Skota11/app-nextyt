@@ -182,18 +182,20 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                                     <AddPlaylist videoId={props.ytid} />
                                 </div>
                             </> : <></>}
-                            <div className='p-4 rounded-lg bg-gray-100 '>
-                                <p className="text-sm mb-2">概要欄</p>
-                                <div className='text-sm break-all w-full' dangerouslySetInnerHTML={{ __html: about?.description as TrustedHTML }}>
+                            <div className='flex flex-col gap-y-8'>
+                                <div className='p-4 rounded-lg bg-gray-100 shadow-lg'>
+                                    <p className="text-sm mb-2">概要欄</p>
+                                    <div className='text-sm break-all w-full' dangerouslySetInnerHTML={{ __html: about?.description as TrustedHTML }}>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className='p-4 rounded-lg bg-gray-100  my-4'>
-                                <div>
-                                    <p className='text-sm mb-2'>タグ</p>
-                                    <div className='flex flex-wrap gap-2'>
-                                        {about?.tags?.map((tag, index) => (
-                                            <span key={index} className='bg-gray-300 text-gray-800 px-2 py-1 rounded-lg text-xs'>{tag.name}</span>
-                                        ))}
+                                <div className='p-4 rounded-lg bg-gray-100 shadow-lg'>
+                                    <div>
+                                        <p className='text-sm mb-2'>タグ</p>
+                                        <div className='flex flex-wrap gap-2'>
+                                            {about?.tags?.map((tag, index) => (
+                                                <span key={index} className='bg-gray-300 text-gray-800 px-2 py-1 rounded-lg text-xs'>{tag.name}</span>
+                                            ))}
+                                        </div>
                                     </div>
                                 </div>
                             </div>

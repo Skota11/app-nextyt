@@ -236,26 +236,28 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                                     <AddPlaylist videoId={props.ytid} />
                                 </div>
                             </> : <></>}
-                            {songAbout?.song && (
-                                <div className='p-4 rounded-lg bg-gray-100'>
-                                    <p className="text-sm mb-2">曲情報</p>
-                                    <div className='flex gap-x-4'>
-                                        <div className="w-1/4">
-                                            <img src={songAbout.thumbnail} />
-                                        </div>
-                                        <div>
-                                            <p>{songAbout.title}</p>
-                                            <p className="text-sm text-slate-600">{songAbout.artist}</p>
+                            <div className='flex flex-col gap-y-8 my-8'>
+                                {songAbout?.song && (
+                                    <div className='p-4 rounded-lg bg-gray-100 shadow-lg'>
+                                        <p className="text-sm mb-2">曲情報</p>
+                                        <div className='flex gap-x-4'>
+                                            <div className="w-1/4">
+                                                <img src={songAbout.thumbnail} />
+                                            </div>
+                                            <div>
+                                                <p>{songAbout.title}</p>
+                                                <p className="text-sm text-slate-600">{songAbout.artist}</p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            )}
-                            <div className='p-4 rounded-lg bg-gray-100 my-4'>
-                                <p className="text-sm mb-2">概要欄</p>
-                                <div className='text-sm break-all w-full'>
-                                    <Linkify options={{ className: "text-blue-600" }}>
-                                        {about?.description.split(/(\n)/).map((v: string, i: number) => (i & 1 ? <br key={i} /> : v))}
-                                    </Linkify>
+                                )}
+                                <div className='p-4 rounded-lg bg-gray-100 shadow-lg'>
+                                    <p className="text-sm mb-2">概要欄</p>
+                                    <div className='text-sm break-all w-full'>
+                                        <Linkify options={{ className: "text-blue-600" }}>
+                                            {about?.description.split(/(\n)/).map((v: string, i: number) => (i & 1 ? <br key={i} /> : v))}
+                                        </Linkify>
+                                    </div>
                                 </div>
                             </div>
                         </div>

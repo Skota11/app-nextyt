@@ -173,7 +173,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
         <>
             {/* Player */}
             {isPiP ? <>
-                <div className='aspect-video w-full max-h-4/5 rounded-lg maxHeightVideo'>
+                <div className='rounded-lg sm:rounded-none aspect-video w-full max-h-4/5 rounded-lg maxHeightVideo'>
                     <div className='w-full h-full text-white flex place-content-center bg-black'><p className='text-2xl text-center'>PictureInPictureで再生中</p></div>
                 </div>
             </> : <></>}
@@ -238,7 +238,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                             </> : <></>}
                             <div className='flex flex-col gap-y-8 my-8'>
                                 {songAbout?.song && (
-                                    <div className='p-4 rounded-lg bg-gray-100 shadow-lg'>
+                                    <div className='p-4 rounded-lg bg-gray-100 shadow-sm'>
                                         <p className="text-sm mb-2">曲情報</p>
                                         <div className='flex gap-x-4'>
                                             <div className="w-1/4">
@@ -251,7 +251,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                                         </div>
                                     </div>
                                 )}
-                                <div className='p-4 rounded-lg bg-gray-100 shadow-lg'>
+                                <div className='p-4 rounded-lg bg-gray-100 shadow-sm'>
                                     <p className="text-sm mb-2">概要欄</p>
                                     <div className='text-sm break-all w-full'>
                                         <Linkify options={{ className: "text-blue-600" }}>

@@ -39,7 +39,7 @@ export default function Main() {
                 {
                     result == undefined ?
                         <>
-                            <div className="grid grid-rows-1 gap-y-4">
+                            <div className="grid grid-rows-1 gap-y-2">
                                 <Skeleton variant="rounded" width={210} height={20} animation="wave" />
                                 <Skeleton variant="rounded" width={210} height={20} animation="wave" />
                             </div>
@@ -48,7 +48,7 @@ export default function Main() {
                         result.length == 0 ? <><p>Playlistはありません</p></> : result.map((item: playlist) => {
                             return (
                                 <Link key={item.playlistId} href={`/playlist/${item.playlistId}`}>
-                                    <div className="rounded-lg px-4 py-2 shadow-md hover:bg-gray-100 transition-colors cursor-pointer">
+                                    <div className="rounded-lg px-4 py-2 shadow hover:bg-gray-100 transition-colors cursor-pointer border border-gray-200">
                                         <p>{item.playlistName}</p>
                                     </div>
                                 </Link>

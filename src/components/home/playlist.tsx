@@ -35,7 +35,7 @@ export default function Main() {
     return (
         <div className='mt-2'>
             <h1 className='text-lg my-4'><FontAwesomeIcon icon={faList} className='mr-2' />Playlist <button title="新しいプレイリストを作成" onClick={newPlaylist}> <FontAwesomeIcon icon={faPlus} className="mr-1 text-sm" /><span className="text-sm">新しく作成</span></button></h1>
-            <div className="mx-4 flex flex-col gap-y-2 max-w-sm">
+            <div className="mx-4 flex flex-col gap-y-2 max-w-md">
                 {
                     result == undefined ?
                         <>

@@ -86,7 +86,7 @@ export default function Main() {
                                                                 <p className="py-4 px-2 sm:px-0">{item.videoContent.title}</p>
                                                             </Link>
                                                         </div>
-                                                        <div className="absolute flex bottom-2 right-2 bg-red-500 rounded-full w-8 h-8 rounded-full place-content-center">
+                                                        <div className="absolute sm:top-auto top-2 sm:bottom-2 right-2 bg-red-500 rounded-full w-8 h-8 place-content-center">
                                                             {deleteLoading.includes(item.videoId) ? <>
                                                                 <CircularProgress color="error" size={20} />
                                                             </> : <>
@@ -108,7 +108,7 @@ export default function Main() {
                                                                 <p className="py-4 px-2 sm:px-0">{item.videoContent.title} </p>
                                                             </Link>
                                                         </div>
-                                                        <div className="absolute bottom-2 right-2 bg-red-500 rounded-full w-8 h-8 rounded-full place-content-center">
+                                                        <div className="absolute sm:top-auto top-2 sm:bottom-2 right-2 bg-red-500 rounded-full w-8 h-8 place-content-center">
                                                             {deleteLoading.includes(item.videoId) ? <>
                                                                 <p className="flex place-content-center">
                                                                     <CircularProgress color="error" size={20} />

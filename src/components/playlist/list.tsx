@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 // Font Awesome Icons
-import { faCirclePlay, faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // React Icons

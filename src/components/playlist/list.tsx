@@ -119,13 +119,9 @@ export default function Main(props: { playlistId: string, ytid: string, setNextY
 
     return (
         <>
-            <hr className='mt-4' />
             <div className="p-4 max-w-screen-xl m-auto">
-                <FontAwesomeIcon icon={faCirclePlay} />  <input className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' value={name} onChange={onInputChange} ref={inputRef} />
-                <div className='my-4 flex gap-x-4 items-center'>
-                    <button onClick={listReverse}><LuArrowDownUp /></button>
-                    <button onClick={() => { inputRef.current?.focus() }}><FontAwesomeIcon icon={faPencil} /></button>
-                    <button onClick={listDelete}><FontAwesomeIcon className='text-red-700' icon={faTrash} /></button>
+                <input className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' value={name} onChange={onInputChange} ref={inputRef} />
+                <div className='mb-4 flex gap-x-4 items-center'>
                     <FormControlLabel
                         control={
                             <Switch
@@ -134,15 +130,18 @@ export default function Main(props: { playlistId: string, ytid: string, setNextY
                                 color="primary"
                             />
                         }
-                        label="自動再生"
+                        label="連続再生"
                     />
+                    <button onClick={listReverse}><LuArrowDownUp /></button>
+                    <button onClick={() => { inputRef.current?.focus() }}><FontAwesomeIcon icon={faPencil} /></button>
+                    <button onClick={listDelete}><FontAwesomeIcon className='text-red-700' icon={faTrash} /></button>
                 </div>
                 <div className='mx-4'>
                     {
                         result == undefined ?
                             <>
                                 <div className='flex place-content-center'>
-                                    <CircularProgress color="error" size={40} />
+                                    <CircularProgress color="primary" size={40} />
                                 </div>
                             </>
                             :
@@ -150,23 +149,10 @@ export default function Main(props: { playlistId: string, ytid: string, setNextY
                                 return (
                                     <div key={item.videoId}>
                                         {nicoCheck(item.videoId) ? (
-                                            <div className={`block my-6 break-all sm:flex items-start gap-4 cursor-pointer rounded-lg shadow-md hover:bg-gray-100 transition-colors ${props.ytid === item.videoId ? 'border-2 border-sky-500' : ''}`}>
+                                            <div className={`relative my-6 break-all sm:flex items-start gap-4 cursor-pointer rounded-lg shadow-md hover:bg-gray-100 transition-colors ${props.ytid === item.videoId ? 'border-2 border-sky-500' : ''}`}>
                                                 <Link href={`/playlist/${props.playlistId}?v=${item.videoId}`} className="flex-none">
-                                                    <div className="flex place-content-center w-full relative">
+                                                    <div className="relative place-content-center w-full">
                                                         <Image src={nicoImg(item.videoContent.thumbnail)} alt="" width={120 * 2.5} height={67.5 * 2.5} className='inline sm:rounded-md rounded-t-lg aspect-video object-cover w-full sm:w-[300px]' unoptimized />
-                                                        <div className="absolute top-2 right-2 bg-white rounded-full w-8 h-8 place-content-center">
-                                                            {deleteLoading.includes(item.videoId) ? (
-                                                                <p className='text-center'>
-                                                                    <CircularProgress color="error" size={20} />
-                                                                </p>
-                                                            ) : (
-                                                                <p className='text-center'>
-                                                                    <button title="動画を削除" onClick={e => { e.preventDefault(); deletePlaylist(item.videoId) }}>
-                                                                        <FontAwesomeIcon icon={faTrash} />
-                                                                    </button>
-                                                                </p>
-                                                            )}
-                                                        </div>
                                                         <div className="absolute bottom-2 right-2 bg-white place-content-center p-1 rounded-sm">
                                                             <p className="flex items-center text-sm"><SiNiconico className="m-1" />ニコニコ動画</p>
                                                         </div>
@@ -174,34 +160,48 @@ export default function Main(props: { playlistId: string, ytid: string, setNextY
                                                 </Link>
                                                 <div className='sm:inline'>
                                                     <Link href={`/playlist/${props.playlistId}?v=${item.videoId}`}>
-                                                        <p className="py-4 px-2 sm:px-0 flex items-center">{item.videoContent.title}</p>
+                                                        <p className="py-4 px-2 sm:px-0">{item.videoContent.title}</p>
                                                     </Link>
+                                                </div>
+                                                <div className="absolute sm:top-auto top-2 sm:bottom-2 right-2 bg-red-500 rounded-full w-8 h-8 place-content-center">
+                                                    {deleteLoading.includes(item.videoId) ? (
+                                                        <CircularProgress color="primary" size={20} />
+                                                    ) : (
+                                                        <p className="flex place-content-center">
+                                                            <button title="動画を削除" onClick={e => { e.preventDefault(); deletePlaylist(item.videoId) }}>
+                                                                <FontAwesomeIcon icon={faTrash} className="" />
+                                                            </button>
+                                                        </p>
+                                                    )}
                                                 </div>
                                             </div>
                                         ) : (
-                                            <div className={`block my-6 break-all sm:flex items-start gap-4 cursor-pointer rounded-lg shadow-md hover:bg-gray-100 transition-colors ${props.ytid === item.videoId ? 'border-2 border-sky-500' : ''}`}>
+                                            <div className={`relative my-6 break-all sm:flex items-start gap-4 cursor-pointer rounded-lg shadow-md hover:bg-gray-100 transition-colors ${props.ytid === item.videoId ? 'border-2 border-sky-500' : ''}`}>
                                                 <Link href={`/playlist/${props.playlistId}?v=${item.videoId}`} className="flex-none">
                                                     <div className="flex place-content-center w-full relative">
                                                         <Image src={`https://i.ytimg.com/vi/${item.videoId}/mqdefault.jpg`} alt="" width={120 * 2.5} height={67.5 * 2.5} className='inline sm:rounded-md rounded-t-lg aspect-video object-cover w-full sm:w-[300px]' unoptimized />
-                                                        <div className="absolute top-2 right-2 bg-white rounded-full w-8 h-8 place-content-center">
-                                                            {deleteLoading.includes(item.videoId) ? (
-                                                                <p className='text-center'>
-                                                                    <CircularProgress color="error" size={20} />
-                                                                </p>
-                                                            ) : (
-                                                                <p className='text-center'>
-                                                                    <button title="動画を削除" onClick={e => { e.preventDefault(); deletePlaylist(item.videoId) }}>
-                                                                        <FontAwesomeIcon icon={faTrash} />
-                                                                    </button>
-                                                                </p>
-                                                            )}
-                                                        </div>
                                                     </div>
                                                 </Link>
                                                 <div className='sm:inline'>
                                                     <Link href={`/playlist/${props.playlistId}?v=${item.videoId}`}>
-                                                        <p className="py-4 px-2 sm:px-0">{item.videoContent.title}</p>
+                                                        <div className='py-4 px-2 sm:px-0 flex flex-col gap-y-1'>
+                                                            <p className="">{item.videoContent.title}</p>
+                                                            <p className='text-slate-600 text-sm'>{item.videoContent.channelTitle}</p>
+                                                        </div>
                                                     </Link>
+                                                </div>
+                                                <div className="absolute sm:top-auto top-2 sm:bottom-2 right-2 bg-red-500 rounded-full w-8 h-8 place-content-center">
+                                                    {deleteLoading.includes(item.videoId) ? (
+                                                        <p className="flex place-content-center">
+                                                            <CircularProgress color="primary" size={20} />
+                                                        </p>
+                                                    ) : (
+                                                        <p className="flex place-content-center">
+                                                            <button title="動画を削除" onClick={e => { e.preventDefault(); deletePlaylist(item.videoId) }}>
+                                                                <FontAwesomeIcon icon={faTrash} className="" />
+                                                            </button>
+                                                        </p>
+                                                    )}
                                                 </div>
                                             </div>
                                         )}

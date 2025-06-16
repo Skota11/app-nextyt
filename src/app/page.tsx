@@ -67,7 +67,7 @@ export default function Home() {
           <div className="flex place-content-center my-12">
             <div>
               <div className="flex place-content-center mb-4">
-                <CircularProgress color="error" size={80} />
+                <CircularProgress color="primary" size={80} />
               </div>
               <p className="text-center">アプリを起動中</p></div>
           </div>

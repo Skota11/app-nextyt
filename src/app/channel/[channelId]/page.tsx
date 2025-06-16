@@ -162,13 +162,13 @@ function Child(props: { channelId: string }) {
                     ></Chip>
                 </div>
                 {videos == undefined ? <>
-                    <><CircularProgress color="error" size={40} /></>
+                    <><CircularProgress color="primary" size={40} /></>
                 </> : <>
                     <InfiniteScroll
                         dataLength={videos.length}
                         next={getMoreVideos}
                         hasMore={hasMore}
-                        loader={<CircularProgress color="error" size={40} />}
+                        loader={<CircularProgress color="primary" size={40} />}
                     >
                         {videos.map((item) => {
                             return (

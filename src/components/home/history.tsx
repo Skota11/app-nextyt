@@ -58,7 +58,7 @@ export default function Main() {
             <div className="mx-4">
                 {
                     result == undefined ?
-                        <><CircularProgress color="error" size={40} /></>
+                        <><CircularProgress color="primary" size={40} /></>
                         :
                         result.length == 0 ? <><p>視聴履歴はありません</p></> :
                             <>
@@ -66,7 +66,7 @@ export default function Main() {
                                     dataLength={result.length}
                                     next={getMoreHistory}
                                     hasMore={hasMore}
-                                    loader={<CircularProgress color="error" size={40} />}
+                                    loader={<CircularProgress color="primary" size={40} />}
                                 >
                                     {result.map((item: history) => {
                                         return (
@@ -88,7 +88,7 @@ export default function Main() {
                                                         </div>
                                                         <div className="absolute sm:top-auto top-2 sm:bottom-2 right-2 bg-red-500 rounded-full w-8 h-8 place-content-center">
                                                             {deleteLoading.includes(item.videoId) ? <>
-                                                                <CircularProgress color="error" size={20} />
+                                                                <CircularProgress color="primary" size={20} />
                                                             </> : <>
                                                                 <p className="flex place-content-center">
                                                                     <button title="動画を削除" onClick={(e) => { e.preventDefault(); deleteHistory(item.videoId) }}><FontAwesomeIcon icon={faTrash} /></button>
@@ -111,7 +111,7 @@ export default function Main() {
                                                         <div className="absolute sm:top-auto top-2 sm:bottom-2 right-2 bg-red-500 rounded-full w-8 h-8 place-content-center">
                                                             {deleteLoading.includes(item.videoId) ? <>
                                                                 <p className="flex place-content-center">
-                                                                    <CircularProgress color="error" size={20} />
+                                                                    <CircularProgress color="primary" size={20} />
                                                                 </p>
                                                             </> : <>
                                                                 <p className="flex place-content-center">

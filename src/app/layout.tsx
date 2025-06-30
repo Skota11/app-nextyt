@@ -3,6 +3,10 @@ import Link from "next/link";
 import localFont from 'next/font/local'
 import { Metadata } from "next";
 
+import { config } from '@fortawesome/fontawesome-svg-core'
+import '@fortawesome/fontawesome-svg-core/styles.css'
+config.autoAddCss = false
+
 const myFont = localFont({ src: '../fonts/LINESeedJP_OTF_Bd.woff2', preload: true });
 
 export const metadata: Metadata = {

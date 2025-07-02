@@ -25,6 +25,7 @@ import toast, { Toaster } from 'react-hot-toast';
 
 //Play Components
 import AddPlaylist from "./addPlaylist";
+import { useNetworkState } from "react-use";
 
 interface VideoAbout { title: string, channelId: string, channelTitle: string, description: string, publishedAt: string }
 interface VideoStatistics { viewCount: "", likeCount: "" };
@@ -46,6 +47,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
     const [audioUrl, setAudioUrl] = useState("");
     const [videoUrl, setVideoUrl] = useState<string | null>(null);
     const [cookies] = useCookies(['pip'])
+    const networkState = useNetworkState();
 
     const handleKeyPress = useCallback((event: KeyboardEvent) => {
         // 入力要素でのキー入力を無視
@@ -195,6 +197,13 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                         onPause={() => { setPlaying(false) }}
                         onPlay={() => { setPlaying(true) }}
                         onEnded={props.onEnd}
+                        config={{
+                            youtube: {
+                                playerVars:{
+                                    vq : networkState.type === 'wifi' ? 'hd1080' : 'small',
+                                }
+                            },
+                        }}
                     />
 
                     <p onClick={() => {

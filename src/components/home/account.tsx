@@ -7,14 +7,15 @@ import { supabase } from "../../utils/supabase/client";
 //fontAwesome icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightFromBracket, faTrash, faUser, faArrowUp, faLink } from "@fortawesome/free-solid-svg-icons";
+import { useLocalStorage } from "react-use";
 
 //Utility Libraries
-import { useCookies } from "react-cookie";
+
 
 interface User { id: string | undefined, email: string | undefined, login: boolean };
 
 export default function Main(props: { currentUser: User }) {
-    const [cookies, setCookie] = useCookies(['pip'])
+    const [pip, setPip] = useLocalStorage('pip' , false);
     async function LogOut() {
         await supabase.auth.signOut()
         window.location.reload()
@@ -46,7 +47,7 @@ export default function Main(props: { currentUser: User }) {
                 <div>
                     <p>PiPモード</p>
                     <div className='flex gap-x-4 my-1'>
-                        <button title="PiPモードをオン/オフ" onClick={() => { console.log(cookies); setCookie('pip', cookies.pip == "on" ? "off" : "on", { maxAge: 30 * 24 * 60 * 60 }) }} className='border-2 border-current p-2 rounded-lg'><FontAwesomeIcon icon={faArrowUp} className='mr-2' />PiPモードを{cookies.pip == "on" ? "オフ" : "オン"}</button>
+                        <button title="PiPモードをオン/オフ" onClick={() => { setPip(!pip) }} className='border-2 border-current p-2 rounded-lg'><FontAwesomeIcon icon={faArrowUp} className='mr-2' />PiPモードを{pip ? "オフ" : "オン"}</button>
                     </div>
                 </div>
                 <div>

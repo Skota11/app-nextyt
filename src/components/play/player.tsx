@@ -19,13 +19,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 //Utility Libraries
 import dayjs from 'dayjs'
 import toJaNum from "@/utils/num2ja";
-import { useCookies } from "react-cookie";
 import Linkify from "linkify-react";
 import toast, { Toaster } from 'react-hot-toast';
 
 //Play Components
 import AddPlaylist from "./addPlaylist";
-import { useNetworkState } from "react-use";
+import { useLocalStorage, useNetworkState } from "react-use";
 
 interface VideoAbout { title: string, channelId: string, channelTitle: string, description: string, publishedAt: string }
 interface VideoStatistics { viewCount: "", likeCount: "" };
@@ -46,7 +45,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
     const [isAudio, setIsAudio] = useState(false);
     const [audioUrl, setAudioUrl] = useState("");
     const [videoUrl, setVideoUrl] = useState<string | null>(null);
-    const [cookies] = useCookies(['pip'])
+    const [PiP] = useLocalStorage("pip");
     const networkState = useNetworkState();
 
     const handleKeyPress = useCallback((event: KeyboardEvent) => {
@@ -116,7 +115,8 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
-                    if (!entry.isIntersecting && props.ytid && cookies.pip == "on") {
+                    console.log(PiP)
+                    if (!entry.isIntersecting && props.ytid && PiP) {
                         setIsPiP(true);
                     } else {
                         setIsPiP(false);

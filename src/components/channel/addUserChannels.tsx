@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { faStickyNote, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

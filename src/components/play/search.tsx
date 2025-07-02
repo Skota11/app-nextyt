@@ -2,6 +2,7 @@
 
 //React
 import { useEffect, useState, useRef } from "react";
+import { useDebounce } from "react-use";
 
 //Next.js
 import Image from 'next/image'
@@ -27,19 +28,15 @@ export default function Home() {
     const [inputQuery, setInputQuery] = useState("")
     const [result, setResult] = useState<Array<SearchResult> | undefined>()
     const [suggest, setSuggest] = useState([])
+    const [focusedIndex, setFocusedIndex] = useState(-1);
     const [get, setGet] = useState("")
     const inputRef = useRef<HTMLInputElement>(null)
     const getSearch = async () => {
         if (inputQuery) {
             const res = await (await fetch(`/api/search?q=${inputQuery}&get=${get}`)).json();
             setResult(res.data)
-            console.log(res.data)
             setInputQuery("")
         }
-    }
-    const getSuggest = async (q: string) => {
-        const res = await (await fetch(`/api/suggest?q=${q}`)).json()
-        setSuggest(res.data)
     }
     const omit = (str: string) => {
         if (str.length > 36) {
@@ -48,9 +45,18 @@ export default function Home() {
             return str
         }
     }
-    useEffect(() => {
-        getSuggest(inputQuery)
-    }, [inputQuery])
+    useDebounce(
+    () => {
+      // APIを呼び出す
+      const fetchSuggestions = async () => {
+        const res = await (await fetch(`/api/suggest?q=${inputQuery}`)).json()
+        setSuggest(res.data);
+      };
+      fetchSuggestions();
+    },
+    250,
+    [inputQuery]
+  );
     return (
         <>
             <div className="flex place-content-center mt-4 mb-2">
@@ -76,7 +82,7 @@ export default function Home() {
             </div>
             <div className="flex place-content-center">
                 {suggest.length !== 0 ?
-                    <div className="absolute p-4 border-2 rounded-lg bg-white  z-10">
+                    <div className="absolute p-4 border-2 rounded-lg bg-white flex flex-col gap-y-1 z-10">
                         {
                             suggest.map((item) => {
                                 return (<p className="cursor-pointer" onClick={() => { setInputQuery(item) }} key={item}>{item}</p>)

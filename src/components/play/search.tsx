@@ -1,7 +1,7 @@
 "use client";
 
 //React
-import { useEffect, useState, useRef } from "react";
+import { useState, useRef } from "react";
 import { useDebounce } from "react-use";
 
 //Next.js
@@ -28,7 +28,6 @@ export default function Home() {
     const [inputQuery, setInputQuery] = useState("")
     const [result, setResult] = useState<Array<SearchResult> | undefined>()
     const [suggest, setSuggest] = useState([])
-    const [focusedIndex, setFocusedIndex] = useState(-1);
     const [get, setGet] = useState("")
     const inputRef = useRef<HTMLInputElement>(null)
     const getSearch = async () => {

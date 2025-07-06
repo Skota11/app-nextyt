@@ -115,7 +115,6 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
-                    console.log(PiP)
                     if (!entry.isIntersecting && props.ytid && PiP) {
                         setIsPiP(true);
                     } else {

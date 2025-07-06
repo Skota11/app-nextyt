@@ -115,7 +115,6 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
             })
             const res = await (await fetch(`/api/niconico/video?id=${props.ytid}`)).json();
             setAbout({ ...res.video, tags: res.tag.items });
-            console.log(res.video);
         }
     }
     //drawer

@@ -16,7 +16,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 //Utility Libraries
 import dayjs from 'dayjs'
 import toJaNum from "@/utils/num2ja";
-import { useCookies } from "react-cookie";
 import { SiNiconico } from "react-icons/si";
 import { LiaCommentSlashSolid, LiaCommentSolid } from "react-icons/lia";
 import AddPlaylist from "../addPlaylist";

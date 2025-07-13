@@ -20,6 +20,7 @@ import { useCookies } from "react-cookie";
 import { SiNiconico } from "react-icons/si";
 import { LiaCommentSlashSolid, LiaCommentSolid } from "react-icons/lia";
 import AddPlaylist from "../addPlaylist";
+import { useLocalStorage } from "react-use";
 
 //Play Components
 //import AddPlaylist from "./addPlaylist";
@@ -33,7 +34,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
     const observerRef = useRef<HTMLHeadingElement>(null);
     const playerRef = useRef<HTMLIFrameElement>(null);
     const [isPiP, setIsPiP] = useState(false);
-    const [cookies] = useCookies(['pip'])
+    const [PiP] = useLocalStorage("pip");
     const [muted, setMuted] = useState(false)
     const [showComment, setShowComment] = useState(true)
     //Player関係
@@ -88,7 +89,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
-                    if (!entry.isIntersecting && props.ytid && cookies.pip == "on") {
+                    if (!entry.isIntersecting && props.ytid && PiP) {
                         setIsPiP(true);
                     } else {
                         setIsPiP(false);

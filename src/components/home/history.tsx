@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 
 //fontAwesome icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClockRotateLeft, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 //Third party libraries
 import CircularProgress from "@mui/material/CircularProgress";
@@ -56,7 +56,6 @@ export default function Main() {
     }, [])
     return (
         <div className='mt-2'>
-            <h1 className='text-lg my-4'><FontAwesomeIcon icon={faClockRotateLeft} className='mr-2' />視聴履歴</h1>
             <div className="mx-4">
                 {
                     result == undefined ?

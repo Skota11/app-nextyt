@@ -18,7 +18,7 @@ export default function Home() {
     }
     return (
         <div>
-            <h1 className='text-lg my-4'><FontAwesomeIcon icon={faList} className='mr-2' /><span>Playlist</span><button title="新しいプレイリストを作成" onClick={newPlaylist}> <FontAwesomeIcon icon={faPlus} className="mr-1 text-sm" /><span className="text-sm">新しく作成</span></button></h1>
+            <h1 className='text-lg my-4 flex gap-x-2 items-center'><span><FontAwesomeIcon icon={faList} className='mr-2' />Playlist</span><button title="新しいプレイリストを作成" onClick={newPlaylist}> <FontAwesomeIcon icon={faPlus} className="mr-1 text-sm" /><span className="text-sm">新しく作成</span></button></h1>
         </div>
     );
 }

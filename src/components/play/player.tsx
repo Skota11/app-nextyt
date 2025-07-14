@@ -160,9 +160,11 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
         await navigator.share(data)
     }
     const getAudioUrl = async (id: string) => {
+        const toastId = toast.loading("ダウンロード中")
         const res = await fetch(`/api/download/audio?id=${id}`)
         const data = await res.json()
         setAudioUrl(data.downloadUrl)
+        toast.dismiss(toastId)
     }
     useEffect(() => {
         if (isAudio) {
@@ -198,8 +200,8 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                         onEnded={props.onEnd}
                         config={{
                             youtube: {
-                                playerVars:{
-                                    vq : networkState.type === 'wifi' ? 'hd1080' : 'small',
+                                playerVars: {
+                                    vq: networkState.type === 'wifi' ? 'hd1080' : 'small',
                                 }
                             },
                         }}

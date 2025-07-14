@@ -163,6 +163,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
         const toastId = toast.loading("ダウンロード中")
         const res = await fetch(`/api/download/audio?id=${id}`)
         const data = await res.json()
+        console.log(data)
         setAudioUrl(data.downloadUrl)
         toast.dismiss(toastId)
     }
@@ -181,7 +182,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                 </div>
             </> : <></>}
             <div className={isPiP ? "fixed bottom-8 right-4 w-96 aspect-video shadow-lg z-50 bg-white rounded-xl overflow-hidden" : 'aspect-video w-full max-h-4/5 maxHeightVideo'}
-                style={isAudio ? { backgroundImage: `url(https://i.ytimg.com/vi/${props.ytid}/maxresdefault.jpg)`, backgroundRepeat: "no-repeat", backgroundPosition: "center", backgroundSize: "cover" } : { backgroundImage: "none" }}
+                style={isAudio ? { backgroundImage: `url(https://i.ytimg.com/vi/${props.ytid}/hqdefault.jpg)`, backgroundRepeat: "no-repeat", backgroundPosition: "center", backgroundSize: "cover" } : { backgroundImage: "none" }}
 
             >
                 {props.ytid ? <>

@@ -32,7 +32,7 @@ export default function Home() {
     const inputRef = useRef<HTMLInputElement>(null)
     const getSearch = async () => {
         if (inputQuery) {
-            const res = await (await fetch(`/api/search?q=${inputQuery}&get=${get}`)).json();
+            const res = await (await fetch(`/api/external/search?q=${inputQuery}&get=${get}`)).json();
             setResult(res.data)
             setInputQuery("")
         }
@@ -48,7 +48,7 @@ export default function Home() {
         () => {
             // APIを呼び出す
             const fetchSuggestions = async () => {
-                const res = await (await fetch(`/api/suggest?q=${inputQuery}`)).json()
+                const res = await (await fetch(`/api/external/suggest?q=${inputQuery}`)).json()
                 setSuggest(res.data);
             };
             fetchSuggestions();

@@ -13,9 +13,9 @@ import { headers } from 'next/headers';
 
 
 
-export default async function Child({params} : { params: Promise<{ channelId: string }> }) {
+export default async function Child({ params }: { params: Promise<{ channelId: string }> }) {
     //
-    const {channelId} = await params;
+    const { channelId } = await params;
     const headersData = await headers()
     const host = headersData.get('host')
     const protocol = headersData.get('x-forwarded-proto') ?? host?.startsWith('localhost') ? 'http' : 'https'
@@ -23,10 +23,10 @@ export default async function Child({params} : { params: Promise<{ channelId: st
     //load
     const supabase = await createClient();
     const supabase_data = await supabase.auth.getUser()
-    const currentUser: {login : boolean} | null = supabase_data.data.user ? {
-            login: true
+    const currentUser: { login: boolean } | null = supabase_data.data.user ? {
+        login: true
     } : null;
-    const { data } = await (await fetch(`${apiBase}/api/channel?id=${channelId}`)).json()
+    const { data } = await (await fetch(`${apiBase}/api/external/channel?id=${channelId}`)).json()
     const channel = data[0]
     const omit = (str: string) => {
         if (str.length > 36) {

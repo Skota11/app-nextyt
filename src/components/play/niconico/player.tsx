@@ -113,7 +113,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                 },
                 body: JSON.stringify({ id }),
             })
-            const res = await (await fetch(`/api/niconico/video?id=${props.ytid}`)).json();
+            const res = await (await fetch(`/api/external/niconico?id=${props.ytid}`)).json();
             setAbout({ ...res.video, tags: res.tag.items });
         }
     }

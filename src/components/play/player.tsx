@@ -143,7 +143,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
             const res = await (await fetch(`https://www.googleapis.com/youtube/v3/videos?part=id,snippet,statistics&id=${id}&key=AIzaSyC1KMsyjrnEfHJ3xnQtPX0DSxWHfyjUBeo`)).json();
             setAbout(res.items[0].snippet)
             setStatistic(res.items[0].statistics);
-            const res_ = await (await fetch(`/api/music?id=${id}`)).json()
+            const res_ = await (await fetch(`/api/external/music?id=${id}`)).json()
             setSongAbout(res_)
         }
     }

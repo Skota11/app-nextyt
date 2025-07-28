@@ -40,15 +40,17 @@ function Child() {
                 <Player ytid={ytid} />
             }
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                    <Tab label="検索" />
+                <Tabs centered value={value} onChange={handleChange} aria-label="basic tabs example" variant="fullWidth">
                     <Tab label="履歴" />
+                    <Tab label="検索" />
                     <Tab label="プレイリスト" />
                 </Tabs>
             </Box>
-            {value === 0 && <Search />}
-            {value === 1 && <History />}
-            {value === 2 && <Playlist />}
+            <div className="p-4 max-w-screen-xl m-auto">
+                {value === 0 && <History />}
+                {value === 1 && <Search />}
+                {value === 2 && <Playlist />}
+            </div>
         </CookiesProvider>
     )
 }

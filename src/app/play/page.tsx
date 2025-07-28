@@ -28,7 +28,7 @@ function Child() {
         setYtid(defaultId)
     }, [defaultId])
     //tabs
-    const [value, setValue] = useState(0);
+    const [value, setValue] = useState(1);
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };

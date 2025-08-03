@@ -39,7 +39,7 @@ function Child() {
                 :
                 <Player ytid={ytid} />
             }
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <Box className="pt-4" sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Tabs centered value={value} onChange={handleChange} aria-label="basic tabs example" variant="fullWidth">
                     <Tab label="履歴" />
                     <Tab label="検索" />

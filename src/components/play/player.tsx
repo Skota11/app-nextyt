@@ -13,7 +13,7 @@ import Drawer from "@mui/material/Drawer";
 
 //Font Awesome Icons
 import { faYoutube } from "@fortawesome/free-brands-svg-icons";
-import { faDownload, faEye, faMusic, faRepeat, faShareFromSquare, faThumbsUp, faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
+import { faDownload, faEye, faMusic, faRepeat, faShareFromSquare, faThumbsUp, faVolumeHigh, faExpand, faCompress } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 //Utility Libraries
@@ -48,6 +48,8 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
     const [repeat, setRepeat] = useState(false);
     const [PiP] = useLocalStorage("pip");
     const networkState = useNetworkState();
+    const [isFullscreen, setIsFullscreen] = useState(false);
+    const playerContainerRef = useRef<HTMLDivElement>(null);
 
     const handleKeyPress = useCallback((event: KeyboardEvent) => {
         // 入力要素でのキー入力を無視
@@ -84,6 +86,10 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
             case 'arrowright':
                 event.preventDefault();
                 playerRef.current?.seekTo(playerRef.current?.getCurrentTime() + 5, 'seconds');
+                break;
+            case 'f':
+                event.preventDefault();
+                handleFullscreen();
                 break;
         }
     }, []);
@@ -182,6 +188,88 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
             getAudioUrl(props.ytid)
         }
     }, [props.ytid, isAudio])
+
+    // フルスクリーン関連の関数
+    const isMobile = () => {
+        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    };
+
+    const handleFullscreen = async () => {
+        if (!playerContainerRef.current) return;
+
+        try {
+            if (!isFullscreen) {
+                // フルスクリーンに入る
+                if (playerContainerRef.current.requestFullscreen) {
+                    await playerContainerRef.current.requestFullscreen();
+                } else if ((playerContainerRef.current as any).webkitRequestFullscreen) {
+                    await (playerContainerRef.current as any).webkitRequestFullscreen();
+                } else if ((playerContainerRef.current as any).msRequestFullscreen) {
+                    await (playerContainerRef.current as any).msRequestFullscreen();
+                }
+
+                // スマホの場合は横向きにする
+                if (isMobile() && 'screen' in window && 'orientation' in window.screen) {
+                    try {
+                        await (window.screen.orientation as any).lock('landscape');
+                    } catch (error) {
+                        console.log('画面の向きをロックできませんでした:', error);
+                    }
+                }
+            } else {
+                // フルスクリーンから出る
+                if (document.exitFullscreen) {
+                    await document.exitFullscreen();
+                } else if ((document as any).webkitExitFullscreen) {
+                    await (document as any).webkitExitFullscreen();
+                } else if ((document as any).msExitFullscreen) {
+                    await (document as any).msExitFullscreen();
+                }
+
+                // スマホの場合は画面の向きロックを解除
+                if (isMobile() && 'screen' in window && 'orientation' in window.screen) {
+                    try {
+                        await (window.screen.orientation as any).unlock();
+                    } catch (error) {
+                        console.log('画面の向きロックを解除できませんでした:', error);
+                    }
+                }
+            }
+        } catch (error) {
+            console.error('フルスクリーンの切り替えに失敗しました:', error);
+        }
+    };
+
+    // フルスクリーン状態の監視
+    useEffect(() => {
+        const handleFullscreenChange = () => {
+            const isCurrentlyFullscreen = !!(
+                document.fullscreenElement ||
+                (document as any).webkitFullscreenElement ||
+                (document as any).msFullscreenElement
+            );
+            setIsFullscreen(isCurrentlyFullscreen);
+
+            // フルスクリーンから出た時にスマホの向きロックを解除
+            if (!isCurrentlyFullscreen && isMobile() && 'screen' in window && 'orientation' in window.screen) {
+                try {
+                    (window.screen.orientation as any).unlock();
+                } catch (error) {
+                    console.log('画面の向きロックを解除できませんでした:', error);
+                }
+            }
+        };
+
+        document.addEventListener('fullscreenchange', handleFullscreenChange);
+        document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+        document.addEventListener('msfullscreenchange', handleFullscreenChange);
+
+        return () => {
+            document.removeEventListener('fullscreenchange', handleFullscreenChange);
+            document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+            document.removeEventListener('msfullscreenchange', handleFullscreenChange);
+        };
+    }, []);
     return (
         <>
             {/* Player */}
@@ -190,9 +278,9 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                     <div className='w-full h-full text-white flex place-content-center bg-black'><p className='text-2xl text-center'>PictureInPictureで再生中</p></div>
                 </div>
             </> : <></>}
-            <div className={isPiP ? "fixed bottom-8 right-4 w-96 aspect-video shadow-lg z-50 bg-white rounded-xl overflow-hidden" : 'aspect-video w-full max-h-4/5 maxHeightVideo'}
+            <div className={isPiP ? "fixed bottom-8 right-4 w-96 aspect-video shadow-lg z-50 bg-white rounded-xl overflow-hidden" : 'aspect-video w-full max-h-4/5 maxHeightVideo fullscreen-container'}
                 style={isAudio ? { backgroundImage: `url(https://i.ytimg.com/vi/${props.ytid}/hqdefault.jpg)`, backgroundRepeat: "no-repeat", backgroundPosition: "center", backgroundSize: "cover" } : { backgroundImage: "none" }}
-
+                ref={playerContainerRef}
             >
                 {props.ytid ? <>
                     <ReactPlayer
@@ -366,6 +454,13 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                             )}
                         </button>
                         <button title="音声のみで再生" className='hidden w-12 h-12 border-2 rounded-full text-xs border-current flex items-center justify-center flex-shrink-0 hover:bg-gray-100 transition-colors duration-200' onClick={async () => { setIsAudio(prev => !prev) }}>{isAudio ? <FontAwesomeIcon icon={faYoutube} /> : <FontAwesomeIcon icon={faMusic} />}</button>
+                        <button
+                            title={isFullscreen ? "フルスクリーンを終了" : "フルスクリーン"}
+                            className="w-12 h-12 border-2 rounded-full text-xs border-current flex items-center justify-center flex-shrink-0 hover:bg-gray-100 transition-colors duration-200"
+                            onClick={handleFullscreen}
+                        >
+                            <FontAwesomeIcon icon={isFullscreen ? faCompress : faExpand} />
+                        </button>
                         <a
                             title="ダウンロード"
                             className="hidden w-12 h-12 border-2 rounded-full text-xs border-current flex items-center justify-center flex-shrink-0 hover:bg-gray-100 transition-colors duration-200"

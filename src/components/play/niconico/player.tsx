@@ -10,14 +10,14 @@ import { supabase } from "@/utils/supabase/client";
 import Drawer from "@mui/material/Drawer";
 
 //Font Awesome Icons
-import { faEye, faFolder, faHeart, faShareFromSquare, faVolumeHigh, faVolumeXmark } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faFolder, faHeart, faRepeat, faShareFromSquare, faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 //Utility Libraries
 import dayjs from 'dayjs'
 import toJaNum from "@/utils/num2ja";
 import { SiNiconico } from "react-icons/si";
-import { LiaCommentSlashSolid, LiaCommentSolid } from "react-icons/lia";
+import { LiaCommentSolid } from "react-icons/lia";
 import AddPlaylist from "../addPlaylist";
 import { useLocalStorage } from "react-use";
 
@@ -36,13 +36,22 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
     const [PiP] = useLocalStorage("pip");
     const [muted, setMuted] = useState(false)
     const [showComment, setShowComment] = useState(true)
+    const [repeat, setRepeat] = useState(false);
     //Player関係
     const handleMessage = (event: MessageEvent) => {
         if (event.origin === 'https://embed.nicovideo.jp') {
             switch (event.data.eventName) {
                 case "playerStatusChange":
                     if (event.data.data.playerStatus == 4) {
-                        props.onEnd?.()
+                        if (repeat) {
+                            playerRef.current?.contentWindow?.postMessage({
+                                eventName: 'play',
+                                sourceConnectorType: 1,
+                                playerId: "nicoPlayer"
+                            }, "https://embed.nicovideo.jp")
+                        } else if (props.onEnd) {
+                            props.onEnd();
+                        }
                     }
                     break;
                 case "playerMetadataChange":
@@ -205,57 +214,86 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
             {/* Controller */}
             <div className="">
                 {props.ytid !== "" ?
-                    <div className=' flex place-content-center gap-x-2'>
-                        {muted ?
-                            <button title="音を出す" className='border-2 p-2 rounded-full text-xs border-current' onClick={async () => {
+                    <div className='flex justify-center items-center gap-x-3'>
+                        <button
+                            title={muted ? "音を出す" : "消音にする"}
+                            className={`
+                                w-12 h-12 border-2 rounded-full text-xs border-current 
+                                flex items-center justify-center flex-shrink-0 relative
+                                hover:bg-gray-100 transition-colors duration-200
+                                ${muted ? 'bg-red-100 border-red-500 text-red-700' : ''}
+                            `}
+                            onClick={async () => {
                                 playerRef.current?.contentWindow?.postMessage({
                                     eventName: 'mute',
                                     data: {
-                                        mute: false
+                                        mute: !muted
                                     },
                                     sourceConnectorType: 1,
                                     playerId: "nicoPlayer"
                                 }, "https://embed.nicovideo.jp")
-                            }}><FontAwesomeIcon icon={faVolumeXmark} /></button>
-                            :
-                            <button title="消音にする" className='border-2 p-2 rounded-full text-xs border-current' onClick={async () => {
-                                playerRef.current?.contentWindow?.postMessage({
-                                    eventName: 'mute',
-                                    data: {
-                                        mute: true
-                                    },
-                                    sourceConnectorType: 1,
-                                    playerId: "nicoPlayer"
-                                }, "https://embed.nicovideo.jp")
-                            }}><FontAwesomeIcon icon={faVolumeHigh} /></button>
-                        }
-                        {showComment ?
-                            <button title="コメントを非表示にする" className='border-2 p-2 rounded-full border-current' onClick={() => {
-                                playerRef.current?.contentWindow?.postMessage({
-                                    eventName: 'commentVisibilityChange',
-                                    data: {
-                                        commentVisibility: false
-                                    },
-                                    sourceConnectorType: 1,
-                                    playerId: "nicoPlayer"
-                                }, "https://embed.nicovideo.jp")
-                            }}><LiaCommentSolid /></button>
-                            :
-                            <button title="コメントを表示する" className='border-2 p-2 rounded-full border-current' onClick={() => {
+                            }}
+                        >
+                            <FontAwesomeIcon icon={faVolumeHigh} />
+                            {muted && (
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                    <div className="w-8 h-0.5 bg-current rotate-45 transform"></div>
+                                </div>
+                            )}
+                        </button>
+                        <button
+                            title={showComment ? "コメントを非表示にする" : "コメントを表示する"}
+                            className={`
+                                w-12 h-12 border-2 rounded-full border-current 
+                                flex items-center justify-center flex-shrink-0 relative
+                                hover:bg-gray-100 transition-colors duration-200
+                                ${!showComment ? 'bg-gray-100 border-gray-500 text-gray-700' : ''}
+                            `}
+                            onClick={() => {
                                 playerRef.current?.contentWindow?.postMessage({
                                     eventName: 'commentVisibilityChange',
                                     data: {
-                                        commentVisibility: true
+                                        commentVisibility: !showComment
                                     },
                                     sourceConnectorType: 1,
                                     playerId: "nicoPlayer"
                                 }, "https://embed.nicovideo.jp")
-                            }}><LiaCommentSlashSolid /></button>
-                        }
-                        <button title="共有" className='border-2 p-2 rounded-full text-xs border-current' onClick={async () => { handleShare() }}><FontAwesomeIcon icon={faShareFromSquare} /></button>
-                        {/* <button className='border-2 p-2 rounded-full text-xs border-current' onClick={async () => { handleFullScreen() }}><FontAwesomeIcon icon={faExpand} /></button> */}
+                            }}
+                        >
+                            <LiaCommentSolid />
+                            {!showComment && (
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                    <div className="w-8 h-0.5 bg-current rotate-45 transform"></div>
+                                </div>
+                            )}
+                        </button>
+                        <button
+                            title="共有"
+                            className="w-12 h-12 border-2 rounded-full text-xs border-current flex items-center justify-center flex-shrink-0 hover:bg-gray-100 transition-colors duration-200"
+                            onClick={async () => { handleShare() }}
+                        >
+                            <FontAwesomeIcon icon={faShareFromSquare} />
+                        </button>
+                        <button
+                            title="リピート"
+                            className={`
+                                                        w-12 h-12 border-2 rounded-full text-xs border-current 
+                                                        flex items-center justify-center flex-shrink-0 relative
+                                                        hover:bg-gray-100 transition-colors duration-200
+                                                        ${repeat ? 'bg-green-100 border-green-500 text-green-700' : 'opacity-60'}
+                                                    `}
+                            onClick={async () => { setRepeat(!repeat) }}
+                        >
+                            <FontAwesomeIcon icon={faRepeat} />
+                            {!repeat && (
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                    <div className="w-8 h-0.5 bg-current rotate-45 transform"></div>
+                                </div>
+                            )}
+                        </button>
+                        {/* <button className='w-12 h-12 border-2 rounded-full text-xs border-current flex items-center justify-center flex-shrink-0 hover:bg-gray-100 transition-colors duration-200' onClick={async () => { handleFullScreen() }}><FontAwesomeIcon icon={faExpand} /></button> */}
                     </div>
-                    : <></>}
+                    : <div className=""></div>}
             </div>
         </>
     )

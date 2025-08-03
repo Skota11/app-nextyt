@@ -13,7 +13,7 @@ import Drawer from "@mui/material/Drawer";
 
 //Font Awesome Icons
 import { faYoutube } from "@fortawesome/free-brands-svg-icons";
-import { faDownload, faEye, faMusic, faShareFromSquare, faThumbsUp, faVolumeHigh, faVolumeXmark, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faDownload, faEye, faMusic, faRepeat, faShareFromSquare, faThumbsUp, faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 //Utility Libraries
@@ -45,6 +45,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
     const [isAudio, setIsAudio] = useState(false);
     const [audioUrl, setAudioUrl] = useState("");
     const [videoUrl, setVideoUrl] = useState<string | null>(null);
+    const [repeat, setRepeat] = useState(false);
     const [PiP] = useLocalStorage("pip");
     const networkState = useNetworkState();
 
@@ -147,6 +148,14 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
             setSongAbout(res_)
         }
     }
+    const onEnd = () => {
+        if (repeat) {
+            playerRef.current?.seekTo(0, 'seconds');
+            setPlaying(true);
+        } else if (props.onEnd) {
+            props.onEnd();
+        }
+    }
     //drawer
     const [openedDrawer, setOpenedDrawer] = useState(false);
     const toggleOnCloseDrawer = () => {
@@ -198,7 +207,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                         ref={playerRef}
                         onPause={() => { setPlaying(false) }}
                         onPlay={() => { setPlaying(true) }}
-                        onEnded={props.onEnd}
+                        onEnded={onEnd}
                         config={{
                             youtube: {
                                 playerVars: {
@@ -278,20 +287,88 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
             {/* Controller */}
             <div className="">
                 {props.ytid !== "" ?
-                    <div className=' flex place-content-center gap-x-2'>
-                        <button title="1倍速" className='border-2 p-2 rounded-full text-xs border-current' onClick={async () => { setPlaybackRate(1) }}><FontAwesomeIcon icon={faXmark} />1</button>
-                        <button title="1.5倍速" className='border-2 p-2 rounded-full text-xs border-current' onClick={async () => { setPlaybackRate(1.5) }}><FontAwesomeIcon icon={faXmark} />1.5</button>
-                        <button title="2倍速" className='border-2 p-2 rounded-full text-xs border-current' onClick={async () => { setPlaybackRate(2) }}><FontAwesomeIcon icon={faXmark} />2</button>
-                        {muted ?
-                            <button title="音を出す" className='border-2 p-2 rounded-full text-xs border-current' onClick={async () => { setMuted(false) }}><FontAwesomeIcon icon={faVolumeXmark} /></button>
-                            :
-                            <button title="消音にする" className='border-2 p-2 rounded-full text-xs border-current' onClick={async () => { setMuted(true) }}><FontAwesomeIcon icon={faVolumeHigh} /></button>
-                        }
-                        <button title="共有" className='border-2 p-2 rounded-full text-xs border-current' onClick={async () => { handleShare() }}><FontAwesomeIcon icon={faShareFromSquare} /></button>
-                        <button title="音声のみで再生" className='border-2 p-2 rounded-full text-xs border-current' onClick={async () => { setIsAudio(prev => !prev) }}>{isAudio ? <FontAwesomeIcon icon={faYoutube} /> : <FontAwesomeIcon icon={faMusic} />}</button>
+                    <div className='flex justify-center items-center gap-x-3'>
+                        <button
+                            title="1倍速"
+                            className={`
+                                w-12 h-12 border-2 rounded-full text-xs border-current 
+                                flex items-center justify-center gap-1 flex-shrink-0
+                                hover:bg-gray-100 transition-colors duration-200
+                                ${playbackRate === 1 ? 'bg-gray-200' : ''}
+                            `}
+                            onClick={async () => { setPlaybackRate(1) }}
+                        >
+                            <span className="text-xs font-medium">1×</span>
+                        </button>
+                        <button
+                            title="1.5倍速"
+                            className={`
+                                w-12 h-12 border-2 rounded-full text-xs border-current 
+                                flex items-center justify-center gap-1 flex-shrink-0
+                                hover:bg-gray-100 transition-colors duration-200
+                                ${playbackRate === 1.5 ? 'bg-gray-200' : ''}
+                            `}
+                            onClick={async () => { setPlaybackRate(1.5) }}
+                        >
+                            <span className="text-xs font-medium">1.5×</span>
+                        </button>
+                        <button
+                            title="2倍速"
+                            className={`
+                                w-12 h-12 border-2 rounded-full text-xs border-current 
+                                flex items-center justify-center gap-1 flex-shrink-0
+                                hover:bg-gray-100 transition-colors duration-200
+                                ${playbackRate === 2 ? 'bg-gray-200' : ''}
+                            `}
+                            onClick={async () => { setPlaybackRate(2) }}
+                        >
+                            <span className="text-xs font-medium">2×</span>
+                        </button>
+                        <button
+                            title={muted ? "音を出す" : "消音にする"}
+                            className={`
+                                w-12 h-12 border-2 rounded-full text-xs border-current 
+                                flex items-center justify-center flex-shrink-0 relative
+                                hover:bg-gray-100 transition-colors duration-200
+                                ${muted ? 'bg-red-100 border-red-500 text-red-700' : ''}
+                            `}
+                            onClick={async () => { setMuted(!muted) }}
+                        >
+                            <FontAwesomeIcon icon={faVolumeHigh} />
+                            {muted && (
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                    <div className="w-8 h-0.5 bg-current rotate-45 transform"></div>
+                                </div>
+                            )}
+                        </button>
+                        <button
+                            title="共有"
+                            className="w-12 h-12 border-2 rounded-full text-xs border-current flex items-center justify-center flex-shrink-0 hover:bg-gray-100 transition-colors duration-200"
+                            onClick={async () => { handleShare() }}
+                        >
+                            <FontAwesomeIcon icon={faShareFromSquare} />
+                        </button>
+                        <button
+                            title="リピート"
+                            className={`
+                                w-12 h-12 border-2 rounded-full text-xs border-current 
+                                flex items-center justify-center flex-shrink-0 relative
+                                hover:bg-gray-100 transition-colors duration-200
+                                ${repeat ? 'bg-green-100 border-green-500 text-green-700' : 'opacity-60'}
+                            `}
+                            onClick={async () => { setRepeat(!repeat) }}
+                        >
+                            <FontAwesomeIcon icon={faRepeat} />
+                            {!repeat && (
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                    <div className="w-8 h-0.5 bg-current rotate-45 transform"></div>
+                                </div>
+                            )}
+                        </button>
+                        <button title="音声のみで再生" className='hidden w-12 h-12 border-2 rounded-full text-xs border-current flex items-center justify-center flex-shrink-0 hover:bg-gray-100 transition-colors duration-200' onClick={async () => { setIsAudio(prev => !prev) }}>{isAudio ? <FontAwesomeIcon icon={faYoutube} /> : <FontAwesomeIcon icon={faMusic} />}</button>
                         <a
                             title="ダウンロード"
-                            className="border-2 p-2 rounded-full text-xs border-current"
+                            className="hidden w-12 h-12 border-2 rounded-full text-xs border-current flex items-center justify-center flex-shrink-0 hover:bg-gray-100 transition-colors duration-200"
                             href={videoUrl || "#"}
                             target="_blank"
                             rel="noopener noreferrer"
@@ -311,7 +388,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                             <FontAwesomeIcon icon={faDownload} />
                         </a>
                     </div>
-                    : <></>}
+                    : <div className=""></div>}
             </div>
             <Toaster position="bottom-center" />
         </>

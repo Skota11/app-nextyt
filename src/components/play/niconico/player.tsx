@@ -277,7 +277,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                             <div className='flex flex-col gap-y-8 my-8'>
                                 <div className='p-4 rounded-lg bg-gray-100 shadow-sm'>
                                     <p className="text-sm mb-2">概要欄</p>
-                                    <div className='text-sm break-all w-full' dangerouslySetInnerHTML={{ __html: (about?.description || '') as unknown as TrustedHTML }}>
+                                    <div className='text-sm break-all w-full' dangerouslySetInnerHTML={{ __html: about?.description as TrustedHTML }}>
                                     </div>
                                 </div>
                                 <div className='p-4 rounded-lg bg-gray-100 shadow-sm'>

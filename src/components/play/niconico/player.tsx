@@ -41,6 +41,13 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
     const handleMessage = (event: MessageEvent) => {
         if (event.origin === 'https://embed.nicovideo.jp') {
             switch (event.data.eventName) {
+                case "loadComplete":
+                    playerRef.current?.contentWindow?.postMessage({
+                        eventName: 'play',
+                        sourceConnectorType: 1,
+                        playerId: "nicoPlayer"
+                    }, "https://embed.nicovideo.jp")
+                    break;
                 case "playerStatusChange":
                     if (event.data.data.playerStatus == 4) {
                         if (repeat) {
@@ -69,15 +76,6 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
             window.removeEventListener('message', handleMessage);
         };
     }, [handleMessage]);
-    useEffect(() => {
-        if (about?.title) {
-            playerRef.current?.contentWindow?.postMessage({
-                eventName: 'play',
-                sourceConnectorType: 1,
-                playerId: "nicoPlayer"
-            }, "https://embed.nicovideo.jp")
-        }
-    }, [about])
     //login
     useEffect(() => {
         const f = async () => {

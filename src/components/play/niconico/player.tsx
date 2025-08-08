@@ -10,7 +10,7 @@ import { supabase } from "@/utils/supabase/client";
 import Drawer from "@mui/material/Drawer";
 
 //Font Awesome Icons
-import { faEye, faFolder, faHeart, faRepeat, faShareFromSquare, faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faFolder, faHeart, faRepeat, faRotateRight, faShareFromSquare, faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 //Utility Libraries
@@ -38,6 +38,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
     const [showComment, setShowComment] = useState(true)
     const [repeat, setRepeat] = useState(false);
     const playerContainerRef = useRef<HTMLDivElement>(null);
+    const [refreshKey, setRefreshKey] = useState(0);
     //Player関係
     const handleMessage = (event: MessageEvent) => {
         if (event.origin === 'https://embed.nicovideo.jp') {
@@ -149,7 +150,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                 ref={playerContainerRef}
             >
                 {props.ytid ? <>
-                    <iframe ref={playerRef} className="" src={`https://embed.nicovideo.jp/watch/${props.ytid}?persistence=1&oldScript=1&referer=&from=0&allowProgrammaticFullScreen=1&autoplay=1&jsapi=1&playerId=nicoPlayer`} width={"100%"} height={"100%"} allowFullScreen allow="autoplay"></iframe>
+                    <iframe ref={playerRef} key={refreshKey} src={`https://embed.nicovideo.jp/watch/${props.ytid}?persistence=1&oldScript=1&referer=&from=0&allowProgrammaticFullScreen=1&autoplay=1&jsapi=1&playerId=nicoPlayer`} width={"100%"} height={"100%"} allowFullScreen allow="autoplay"></iframe>
                     <p onClick={() => {
                         if (isPiP) {
                             window.scrollTo({
@@ -181,10 +182,6 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                                 <p className=''><FontAwesomeIcon className='mr-1' icon={faEye} />{toJaNum(about?.count.view)}</p>
                                 <p className=''><FontAwesomeIcon className='mr-1' icon={faFolder} />{toJaNum(about?.count.mylist)}</p>
                                 <p className=''><FontAwesomeIcon className='mr-1' icon={faHeart} />{toJaNum(about?.count.like)}</p>
-
-                            </div>
-                            <div className="my-4">
-                                <a className='flex gap-x-2 items-center' href={`https://nico.ms/${props.ytid}`} ><SiNiconico /> ニコニコ動画で開く</a>
                             </div>
                             {login ? <>
                                 <div>
@@ -207,6 +204,10 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <button onClick={() => { setRefreshKey(refreshKey + 1) }}><FontAwesomeIcon icon={faRotateRight} className="mr-2" />プレイヤーを再読み込み</button>
+                            <div className="my-4">
+                                <a className='flex gap-x-2 items-center' href={`https://nico.ms/${props.ytid}`} ><SiNiconico /> ニコニコ動画で開く</a>
                             </div>
                         </div>
                     </Drawer>

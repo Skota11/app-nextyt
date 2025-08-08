@@ -13,7 +13,7 @@ import Drawer from "@mui/material/Drawer";
 
 //Font Awesome Icons
 import { faYoutube } from "@fortawesome/free-brands-svg-icons";
-import { faDownload, faEye, faMusic, faRepeat, faShareFromSquare, faThumbsUp, faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
+import { faDownload, faEye, faMusic, faRepeat, faRotateRight, faShareFromSquare, faThumbsUp, faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 //Utility Libraries
@@ -49,6 +49,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
     const [PiP] = useLocalStorage("pip");
     const networkState = useNetworkState();
     const playerContainerRef = useRef<HTMLDivElement>(null);
+    const [refreshKey, setRefreshKey] = useState(0);
 
     const handleKeyPress = useCallback((event: KeyboardEvent) => {
         // 入力要素でのキー入力を無視
@@ -197,6 +198,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
             >
                 {props.ytid ? <>
                     <ReactPlayer
+                        key={refreshKey}
                         className={isPiP ? "react-player" : "react-player"}
                         url={isAudio ? audioUrl : `https://www.youtube.com/watch?v=${props.ytid}`}
                         playing={playing}
@@ -249,9 +251,6 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                                 <p className='text-sm'><FontAwesomeIcon className='mr-2' icon={faEye} />{toJaNum(statistics?.viewCount)}</p>
                                 <p className='text-sm'><FontAwesomeIcon className='mr-2' icon={faThumbsUp} /> {toJaNum(statistics?.likeCount)}</p>
                             </div>
-                            <div className="my-4">
-                                <a className='' href={`https://youtu.be/${props.ytid}`} ><FontAwesomeIcon className='mr-2' icon={faYoutube} />Youtubeで開く</a>
-                            </div>
                             {login ? <>
                                 <div>
                                     <AddPlaylist videoId={props.ytid} />
@@ -280,6 +279,10 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                                         </Linkify>
                                     </div>
                                 </div>
+                            </div>
+                            <button onClick={() => { setRefreshKey(refreshKey + 1) }}><FontAwesomeIcon icon={faRotateRight} className="mr-2" />プレイヤーを再読み込み</button>
+                            <div className="my-4">
+                                <a className='' href={`https://youtu.be/${props.ytid}`} ><FontAwesomeIcon className='mr-2' icon={faYoutube} />Youtubeで開く</a>
                             </div>
                         </div>
                     </Drawer>

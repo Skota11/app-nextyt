@@ -10,7 +10,7 @@ import { supabase } from "@/utils/supabase/client";
 import Drawer from "@mui/material/Drawer";
 
 //Font Awesome Icons
-import { faEye, faFolder, faHeart, faRepeat, faShareFromSquare, faVolumeHigh, faExpand, faCompress } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faFolder, faHeart, faRepeat, faShareFromSquare, faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 //Utility Libraries
@@ -37,7 +37,6 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
     const [muted, setMuted] = useState(false)
     const [showComment, setShowComment] = useState(true)
     const [repeat, setRepeat] = useState(false);
-    const [isFullscreen, setIsFullscreen] = useState(false);
     const playerContainerRef = useRef<HTMLDivElement>(null);
     //Player関係
     const handleMessage = (event: MessageEvent) => {
@@ -138,88 +137,6 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
         };
         await navigator.share(data)
     }
-
-    // フルスクリーン関連の関数
-    const isMobile = () => {
-        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    };
-
-    const handleFullscreen = async () => {
-        if (!playerContainerRef.current) return;
-
-        try {
-            if (!isFullscreen) {
-                // フルスクリーンに入る
-                if (playerContainerRef.current.requestFullscreen) {
-                    await playerContainerRef.current.requestFullscreen();
-                } else if ((playerContainerRef.current as any).webkitRequestFullscreen) {
-                    await (playerContainerRef.current as any).webkitRequestFullscreen();
-                } else if ((playerContainerRef.current as any).msRequestFullscreen) {
-                    await (playerContainerRef.current as any).msRequestFullscreen();
-                }
-
-                // スマホの場合は横向きにする
-                if (isMobile() && 'screen' in window && 'orientation' in window.screen) {
-                    try {
-                        await (window.screen.orientation as any).lock('landscape');
-                    } catch (error) {
-                        console.log('画面の向きをロックできませんでした:', error);
-                    }
-                }
-            } else {
-                // フルスクリーンから出る
-                if (document.exitFullscreen) {
-                    await document.exitFullscreen();
-                } else if ((document as any).webkitExitFullscreen) {
-                    await (document as any).webkitExitFullscreen();
-                } else if ((document as any).msExitFullscreen) {
-                    await (document as any).msExitFullscreen();
-                }
-
-                // スマホの場合は画面の向きロックを解除
-                if (isMobile() && 'screen' in window && 'orientation' in window.screen) {
-                    try {
-                        await (window.screen.orientation as any).unlock();
-                    } catch (error) {
-                        console.log('画面の向きロックを解除できませんでした:', error);
-                    }
-                }
-            }
-        } catch (error) {
-            console.error('フルスクリーンの切り替えに失敗しました:', error);
-        }
-    };
-
-    // フルスクリーン状態の監視
-    useEffect(() => {
-        const handleFullscreenChange = () => {
-            const isCurrentlyFullscreen = !!(
-                document.fullscreenElement ||
-                (document as any).webkitFullscreenElement ||
-                (document as any).msFullscreenElement
-            );
-            setIsFullscreen(isCurrentlyFullscreen);
-
-            // フルスクリーンから出た時にスマホの向きロックを解除
-            if (!isCurrentlyFullscreen && isMobile() && 'screen' in window && 'orientation' in window.screen) {
-                try {
-                    (window.screen.orientation as any).unlock();
-                } catch (error) {
-                    console.log('画面の向きロックを解除できませんでした:', error);
-                }
-            }
-        };
-
-        document.addEventListener('fullscreenchange', handleFullscreenChange);
-        document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
-        document.addEventListener('msfullscreenchange', handleFullscreenChange);
-
-        return () => {
-            document.removeEventListener('fullscreenchange', handleFullscreenChange);
-            document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
-            document.removeEventListener('msfullscreenchange', handleFullscreenChange);
-        };
-    }, []);
     return (
         <>
             {/* Player */}
@@ -374,13 +291,6 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                                     <div className="w-8 h-0.5 bg-current rotate-45 transform"></div>
                                 </div>
                             )}
-                        </button>
-                        <button
-                            title={isFullscreen ? "フルスクリーンを終了" : "フルスクリーン"}
-                            className="w-12 h-12 border-2 rounded-full text-xs border-current flex items-center justify-center flex-shrink-0 hover:bg-gray-100 transition-colors duration-200"
-                            onClick={handleFullscreen}
-                        >
-                            <FontAwesomeIcon icon={isFullscreen ? faCompress : faExpand} />
                         </button>
                         {/* <button className='w-12 h-12 border-2 rounded-full text-xs border-current flex items-center justify-center flex-shrink-0 hover:bg-gray-100 transition-colors duration-200' onClick={async () => { handleFullScreen() }}><FontAwesomeIcon icon={faExpand} /></button> */}
                     </div>

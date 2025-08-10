@@ -1,10 +1,5 @@
-'use client'
-
-// React
-import { useEffect, useState } from "react";
-
 // supabase
-import { supabase } from "../../utils/supabase/client";
+import {createClient} from "@/utils/supabase/server";
 
 // Home components
 import Account from "@/components/home/account";
@@ -12,25 +7,18 @@ import Account from "@/components/home/account";
 // Material UI
 import CircularProgress from '@mui/material/CircularProgress';
 
-interface User { id: string | undefined, email: string | undefined, login: boolean };
+interface User { id: string | undefined, email: string | undefined, provider : string | undefined ,login: boolean };
 
-export default function Home() {
-    //State
-    const [currentUser, setCurrentUser] = useState<User>();
-
-    useEffect(() => {
-        const f = async () => {
-            const { data } = await supabase.auth.getSession()
-            await supabase.auth.getUser()
-            if (data.session !== null) {
-                const user = await supabase.auth.getUser()
-                setCurrentUser({ id: user.data.user?.id, email: user.data.user?.email, login: true })
-            } else {
-                setCurrentUser({ id: undefined, email: undefined, login: false })
-            }
-        }
-        f()
-    }, [])
+export default async function Home() {
+    const supabase = await createClient();
+        const { data } = await supabase.auth.getUser()
+        console.log(data)
+        const currentUser: User | null = data.user ? {
+            id: data.user.id,
+            email: data.user.email,
+            provider: data.user.app_metadata.provider,
+            login: true
+        } : null;
 
     return (
         <>
@@ -43,7 +31,7 @@ export default function Home() {
                     <p className="text-center">ログインが必要です。</p>
                 </> : <>
                     <div className="flex place-content-center my-12">
-                        <div><CircularProgress color="primary" size={80} /> <p className="text-center">ログインを待っています...</p></div>
+                        <div><CircularProgress color="primary" size={80} /> <p className="text-center">アプリを起動中</p></div>
                     </div>
                 </>}
             </>}

@@ -48,7 +48,7 @@ export default async function Home() {
         </div>
       </> : <>
         <OAuth />
-        <p className="text-sm text-gray-600">
+        <p className="text-sm text-gray-600 text-center">
   本サービスを利用開始された場合、
   <a href="/terms" className="text-blue-600 underline">利用規約</a>および
   <a href="/privacy" className="text-blue-600 underline">プライバシーポリシー</a>

@@ -1,3 +1,5 @@
+"use client"
+
 //React
 import Link from "next/link";
 
@@ -11,8 +13,7 @@ import { useLocalStorage } from "react-use";
 
 //Utility Libraries
 
-
-interface User { id: string | undefined, email: string | undefined, login: boolean };
+interface User { id: string | undefined, email: string | undefined, provider:string|undefined ,login: boolean };
 
 export default function Main(props: { currentUser: User }) {
     const [pip, setPip] = useLocalStorage('pip' , false);
@@ -22,13 +23,16 @@ export default function Main(props: { currentUser: User }) {
     }
     return (
         <div className='mt-2'>
-            <h1 className='text-lg my-2'><FontAwesomeIcon icon={faUser} className='mr-2' />Account&Setting</h1>
+            <p className="mx-4"><FontAwesomeIcon icon={faUser} className='mr-2' />Account</p>
             <div className="mx-4 flex flex-col gap-y-6 ">
-                <div className="flex gap-x-4 items-center my-2">
-                    <p className='text-sm'>{props.currentUser.email}でログイン中</p>
-                    <button title="ログアウト" onClick={() => { LogOut() }} className='border-2 border-red-600 bg-red-100 p-2 rounded-lg'><FontAwesomeIcon icon={faArrowRightFromBracket} className='mr-2' />ログアウト</button>
+                <div className="flex flex-col gap-y-2 my-4">
+                    <p>アカウントはメールアドレスに紐付いています。</p>
+                    <div className='flex gap-x-4 my-1'>
+                        <p className=''>メールアドレス: {props.currentUser.email}</p>
+                        <p className=''>ログイン方法: {props.currentUser.provider}</p>
+                    </div>
+                    <button title="ログアウト" onClick={() => { LogOut() }} className='w-fit border-2 border-red-600 bg-red-100 p-2 rounded-lg'><FontAwesomeIcon icon={faArrowRightFromBracket} className='mr-2' />ログアウト</button>
                 </div>
-                <hr className="" />
                 <div>
                     <p>履歴を削除</p>
                     <div className='flex gap-x-4 my-1'>

@@ -32,7 +32,8 @@ interface SongAbout { song: boolean, title?: string, artist?: string, thumbnail?
 
 export default function Home(props: { ytid: string, onEnd?: () => void }) {
     //state
-    const [playing, setPlaying] = useState(true)
+    const [playing, setPlaying] = useState(false);
+    const [autoPlay] = useLocalStorage<boolean>('autoPlay', true);
     const [muted, setMuted] = useState(false);
     const [playbackRate, setPlaybackRate] = useState(1)
     const [about, setAbout] = useState<VideoAbout | undefined>(undefined);
@@ -110,7 +111,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
         getVideo(props.ytid)
         setSongAbout(undefined)
         setVideoUrl(null);
-        setPlaying(true);
+        if (autoPlay) { setPlaying(true); } else { setPlaying(false); }
     }, [props.ytid])
     useEffect(() => {
         if (!observerRef.current) return;

@@ -32,6 +32,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
     const [login, setLogin] = useState(false)
     const observerRef = useRef<HTMLHeadingElement>(null);
     const playerRef = useRef<HTMLIFrameElement>(null);
+    const [autoPlay] = useLocalStorage<boolean>('autoPlay', true);
     const [isPiP, setIsPiP] = useState(false);
     const [PiP] = useLocalStorage("pip");
     const [muted, setMuted] = useState(false)
@@ -44,11 +45,13 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
         if (event.origin === 'https://embed.nicovideo.jp') {
             switch (event.data.eventName) {
                 case "loadComplete":
-                    playerRef.current?.contentWindow?.postMessage({
-                        eventName: 'play',
-                        sourceConnectorType: 1,
-                        playerId: "nicoPlayer"
-                    }, "https://embed.nicovideo.jp")
+                    if (autoPlay) {
+                        playerRef.current?.contentWindow?.postMessage({
+                            eventName: 'play',
+                            sourceConnectorType: 1,
+                            playerId: "nicoPlayer"
+                        }, "https://embed.nicovideo.jp")
+                    }
                     break;
                 case "playerStatusChange":
                     if (event.data.data.playerStatus == 4) {

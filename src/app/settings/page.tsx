@@ -1,5 +1,5 @@
 // supabase
-import {createClient} from "@/utils/supabase/server";
+import { createClient } from "@/utils/supabase/server";
 
 // Home components
 import Account from "@/components/home/account";
@@ -7,18 +7,19 @@ import Account from "@/components/home/account";
 // Material UI
 import CircularProgress from '@mui/material/CircularProgress';
 
-interface User { id: string | undefined, email: string | undefined, provider : string | undefined ,login: boolean };
+interface User { id: string | undefined, userName: string, email: string | undefined, provider: string | undefined, login: boolean };
 
 export default async function Home() {
     const supabase = await createClient();
-        const { data } = await supabase.auth.getUser()
-        console.log(data)
-        const currentUser: User | null = data.user ? {
-            id: data.user.id,
-            email: data.user.email,
-            provider: data.user.app_metadata.provider,
-            login: true
-        } : null;
+    const { data } = await supabase.auth.getUser()
+    console.log(data)
+    const currentUser: User | null = data.user ? {
+        id: data.user.id,
+        email: data.user.email,
+        provider: data.user.app_metadata.provider,
+        userName: data.user.user_metadata.name,
+        login: true
+    } : null;
 
     return (
         <>

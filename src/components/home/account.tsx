@@ -15,7 +15,7 @@ import Switch from "@mui/material/Switch";
 
 //Utility Libraries
 
-interface User { id: string | undefined, email: string | undefined, provider: string | undefined, login: boolean };
+interface User { id: string | undefined, userName: string | undefined, email: string | undefined, provider: string | undefined, login: boolean };
 
 export default function Main(props: { currentUser: User }) {
     const [pip, setPip] = useLocalStorage<boolean>('pip', false);
@@ -57,7 +57,7 @@ export default function Main(props: { currentUser: User }) {
                                     />
                                 )}
                             </div>
-                            <p className="text-sm text-gray-800">動画選択後やページ読み込み後に自動で動画を再生します。ブラウザの音声ありの自動再生を許可してください。</p>
+                            <p className="text-sm text-gray-800">動画選択後やページ読み込み後に自動で動画を再生します。</p>
                             <p className="text-sm text-gray-800">連続再生を有効にするときはこの設定をオンにしないと再生されません。</p>
                         </div>
                         <div>
@@ -76,8 +76,12 @@ export default function Main(props: { currentUser: User }) {
                     <h1 className="text-xl my-6">アカウント設定</h1>
                     <div className="flex flex-col gap-y-4 mx-2">
                         <div>
-                            <p>ID</p>
+                            <p>ユーザーID</p>
                             <p className="text-gray-800">{props.currentUser.id}</p>
+                        </div>
+                        <div>
+                            <p>ユーザー名</p>
+                            <p className="text-gray-800">{props.currentUser.userName}</p>
                         </div>
                         <div>
                             <p>登録メールアドレス</p>
@@ -92,6 +96,10 @@ export default function Main(props: { currentUser: User }) {
                                 <FontAwesomeIcon icon={faArrowRightFromBracket} className="mr-2" />
                                 ログアウト
                             </button>
+                        </div>
+                        <div className="my-4">
+                            <p>退会を希望される場合は、ユーザーIDとユーザー名をわかるように登録メールアドレスからメールを送信してください。</p>
+                            <p>contact@skota11.com</p>
                         </div>
                     </div>
                 </div>

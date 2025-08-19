@@ -1,5 +1,5 @@
 //React
-import { useEffect, useState, useRef, useCallback, use } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import ReactPlayer from "react-player";
 
 //Next.js

@@ -20,6 +20,7 @@ interface User { id: string | undefined, userName: string | undefined, email: st
 export default function Main(props: { currentUser: User }) {
     const [pip, setPip] = useLocalStorage<boolean>('pip', false);
     const [autoPlay, setAutoPlay] = useLocalStorage<boolean>('autoPlay', true);
+    const [repeat, setRepeat] = useLocalStorage<boolean>('repeat', false);
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
@@ -37,28 +38,41 @@ export default function Main(props: { currentUser: User }) {
                     <div className="flex flex-col gap-y-4 mx-2">
                         <div>
                             <div className="flex items-center gap-x-2">
-                                <span>PiP</span>
                                 {mounted && (
                                     <Switch
                                         checked={pip}
                                         onChange={(e) => setPip(e.target.checked)}
                                     />
                                 )}
+                                <span>PiP</span>
                             </div>
                             <p className="text-sm text-gray-800">プレイヤーが画面外になってもミニプレイヤーで表示します。</p>
                         </div>
                         <div>
                             <div className="flex items-center gap-x-2">
-                                <span>自動再生</span>
                                 {mounted && (
                                     <Switch
                                         checked={autoPlay}
                                         onChange={(e) => setAutoPlay(e.target.checked)}
                                     />
                                 )}
+                                <span>自動再生</span>
                             </div>
                             <p className="text-sm text-gray-800">動画選択後やページ読み込み後に自動で動画を再生します。</p>
                             <p className="text-sm text-gray-800">連続再生を有効にするときはこの設定をオンにしないと再生されません。</p>
+                        </div>
+                        <div>
+                            <div className="flex items-center gap-x-2">
+                                {mounted && (
+                                    <Switch
+                                        checked={repeat}
+                                        onChange={(e) => setRepeat(e.target.checked)}
+                                    />
+                                )}
+                                <span>リピート再生</span>
+                            </div>
+                            <p className="text-sm text-gray-800">動画を再生し終わったあともう一度はじめから再生します。</p>
+                            <p className="text-sm text-gray-800">プレイヤー下のコントローラーでも変更できます。</p>
                         </div>
                         <div>
                             <div className="flex items-center gap-x-2 mb-2">

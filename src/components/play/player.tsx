@@ -1,5 +1,5 @@
 //React
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef, useCallback, use } from "react";
 import ReactPlayer from "react-player";
 
 //Next.js
@@ -46,7 +46,8 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
     const [isAudio, setIsAudio] = useState(false);
     const [audioUrl, setAudioUrl] = useState("");
     const [videoUrl, setVideoUrl] = useState<string | null>(null);
-    const [repeat, setRepeat] = useState(false);
+    const [repeat, setRepeat] = useLocalStorage("repeat", false);
+    const [mounted, setMounted] = useState(false);
     const [PiP] = useLocalStorage("pip");
     const networkState = useNetworkState();
     const playerContainerRef = useRef<HTMLDivElement>(null);
@@ -106,6 +107,9 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
             }
         }
         f()
+    }, [])
+    useEffect(() => {
+        setMounted(true);
     }, [])
     useEffect(() => {
         getVideo(props.ytid)
@@ -353,23 +357,25 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                         >
                             <FontAwesomeIcon icon={faShareFromSquare} />
                         </button>
-                        <button
-                            title="リピート"
-                            className={`
+                        {mounted && (
+                            <button
+                                title="リピート"
+                                className={`
                                 w-12 h-12 border-2 rounded-full text-xs border-current 
                                 flex items-center justify-center flex-shrink-0 relative
                                 hover:bg-gray-100 transition-colors duration-200
                                 ${repeat ? 'bg-green-100 border-green-500 text-green-700' : 'opacity-60'}
                             `}
-                            onClick={async () => { setRepeat(!repeat) }}
-                        >
-                            <FontAwesomeIcon icon={faRepeat} />
-                            {!repeat && (
-                                <div className="absolute inset-0 flex items-center justify-center">
-                                    <div className="w-8 h-0.5 bg-current rotate-45 transform"></div>
-                                </div>
-                            )}
-                        </button>
+                                onClick={async () => { setRepeat(!repeat) }}
+                            >
+                                <FontAwesomeIcon icon={faRepeat} />
+                                {!repeat && (
+                                    <div className="absolute inset-0 flex items-center justify-center">
+                                        <div className="w-8 h-0.5 bg-current rotate-45 transform"></div>
+                                    </div>
+                                )}
+                            </button>
+                        )}
                         <button title="音声のみで再生" className='hidden w-12 h-12 border-2 rounded-full text-xs border-current flex items-center justify-center flex-shrink-0 hover:bg-gray-100 transition-colors duration-200' onClick={async () => { setIsAudio(prev => !prev) }}>{isAudio ? <FontAwesomeIcon icon={faYoutube} /> : <FontAwesomeIcon icon={faMusic} />}</button>
                         <a
                             title="ダウンロード"

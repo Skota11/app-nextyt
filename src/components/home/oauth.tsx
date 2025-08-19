@@ -16,8 +16,8 @@ export default function Main() {
     }
 
     return <>
-        <div className="my-12 flex flex-col gap-y-4 border-2 border-gray-800 items-center justify-center p-4 rounded-lg shadow-lg max-w-md m-auto">
-            <p>Register / Login</p>
+        <div className="my-12 flex flex-col gap-y-4 items-center justify-center p-4 rounded-lg shadow-lg max-w-md m-auto">
+            <p>ログインまたは登録</p>
             <div className='flex flex-col gap-y-4'>
                 <button className="bg-black text-gray-100 hover:text-white shadow font-bold text-sm py-3 px-4 rounded flex justify-start items-center cursor-pointer" onClick={() => { onTwitterRegister(); }}>
                     <FontAwesomeIcon icon={faTwitter} className='mr-2 text-white' />

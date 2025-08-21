@@ -28,7 +28,7 @@ export default function Main(props: { currentUser: User }) {
     }, []);
     async function LogOut() {
         await supabase.auth.signOut()
-        window.location.reload()
+        window.location.href = "/";
     }
     return (
         <div className='mt-2'>

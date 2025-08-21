@@ -9,10 +9,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Main() {
     const onTwitterRegister = async () => {
-        supabase.auth.signInWithOAuth({ provider: "twitter" });
+        supabase.auth.signInWithOAuth({
+            provider: "twitter"
+        });
+        window.location.href = "/";
     }
     const onDiscordRegister = async () => {
-        supabase.auth.signInWithOAuth({ provider: "discord" });
+        supabase.auth.signInWithOAuth({
+            provider: "discord"
+        });
+        window.location.href = "/";
     }
 
     return <>

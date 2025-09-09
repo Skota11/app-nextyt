@@ -1,0 +1,108 @@
+//React
+import { useEffect, useState, useRef } from "react";
+
+//supabase
+import { supabase } from "@/utils/supabase/client";
+
+//Utility Libraries
+import ReactPlayer from "react-player";
+import { Toaster } from 'react-hot-toast';
+import { useLocalStorage } from "react-use";
+
+//Player Components
+import TitleAndDrawer from "./player/titleAndDrawer";
+import KeyPress from "./player/keypress";
+import Controller from "./player/controller";
+
+export default function Home(props: { ytid: string, onEnd?: () => void }) {
+    //state
+    const [playerState , setPlayerState] = useState({playing : false , muted: false , playbackRate: 1});
+    const [repeat, setRepeat] = useLocalStorage("repeat", false);
+    const [autoPlay] = useLocalStorage<boolean>('autoPlay', true);
+    const [PiP] = useLocalStorage("pip");
+    const [isLogin, setIsLogin] = useState(false)
+    const observerRef = useRef<HTMLHeadingElement>(null);
+    const playerRef = useRef<ReactPlayer>(null);
+    const [isPiP, setIsPiP] = useState(false);
+    const [refreshKey, setRefreshKey] = useState(0);
+    //login check
+    useEffect(() => {
+        const f = async () => {
+            const { data } = await supabase.auth.getSession()
+            if (data.session !== null) {
+                setIsLogin(true)
+            }
+        }
+        f()
+    }, [])
+    //AutoPlay
+    useEffect(() => {
+        if (autoPlay) { setPlayerState({ ...playerState, playing: true }); } else { setPlayerState({ ...playerState, playing: false }); }
+    }, [props.ytid])
+    //PiP observer
+    useEffect(() => {
+        if (!observerRef.current) return;
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (!entry.isIntersecting && props.ytid && PiP) {
+                        setIsPiP(true);
+                    } else {
+                        setIsPiP(false);
+                    }
+                });
+            },
+            { threshold: 0.5 }
+        );
+        observer.observe(observerRef.current);
+        return () => {
+            observer.disconnect();
+        };
+    }, [props.ytid])
+    //Player OnEnd
+    const onEnd = () => {
+        if (repeat) {
+            playerRef.current?.seekTo(0, 'seconds');
+            setPlayerState({ ...playerState, playing: true });
+        } else if (props.onEnd) {
+            props.onEnd();
+        }
+    }
+    return (
+        <>
+            {/* KeyPress */}
+            <KeyPress playerRef={playerRef} setPlayerState={setPlayerState} />
+            {/* Player */}
+            {isPiP ? <>
+                <div className='rounded-lg sm:rounded-none aspect-video w-full max-h-4/5 rounded-lg maxHeightVideo'>
+                    <div className='w-full h-full text-white flex place-content-center bg-black'><p className='text-2xl text-center'>PictureInPictureで再生中</p></div>
+                </div>
+            </> : <></>}
+            <div className={isPiP ? "fixed bottom-8 right-4 w-96 aspect-video shadow-lg z-50 bg-white rounded-xl overflow-hidden" : 'aspect-video w-full max-h-4/5 maxHeightVideo fullscreen-container'}
+            >
+                {props.ytid ? <>
+                    <ReactPlayer
+                        key={refreshKey}
+                        className={isPiP ? "react-player" : "react-player"}
+                        url={`https://www.youtube.com/watch?v=${props.ytid}`}
+                        playing={playerState.playing}
+                        playbackRate={playerState.playbackRate}
+                        muted={playerState.muted}
+                        width={"100%"}
+                        height={"100%"}
+                        controls={true}
+                        ref={playerRef}
+                        onPause={() => { setPlayerState({ ...playerState, playing: false }) }}
+                        onPlay={() => { setPlayerState({ ...playerState, playing: true }) }}
+                        onEnded={onEnd}
+                    />
+                </> : <div className='w-full h-full text-white flex place-content-center bg-black'><p className='text-2xl text-center'>動画が選択されていません</p></div>}
+            </div>
+            {/* Title&Drawer */}
+            <TitleAndDrawer isLogin={isLogin} observerRef={observerRef} setRefreshKey={setRefreshKey} ytid={props.ytid}/>
+            {/* Controller */}
+            <Controller ytid={props.ytid} playerState={playerState} setPlayerState={setPlayerState} repeat={repeat} setRepeat={setRepeat} />
+            <Toaster position="bottom-center" />
+        </>
+    )
+}

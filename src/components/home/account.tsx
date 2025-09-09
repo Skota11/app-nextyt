@@ -77,7 +77,7 @@ export default function Main(props: { currentUser: User }) {
                         <div>
                             <div className="flex items-center gap-x-2 mb-2">
                                 <span>ニコニコプレイヤー設定</span>
-                                <Link href={"/niconico/player"} className="text-blue-600 hover:text-blue-800">
+                                <Link href={"/settings/player"} className="text-blue-600 hover:text-blue-800">
                                     <FontAwesomeIcon icon={faLink} className="mr-2" />
                                     設定
                                 </Link>

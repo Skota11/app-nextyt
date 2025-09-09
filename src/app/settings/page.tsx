@@ -29,7 +29,7 @@ export default async function Home() {
                 </div>
             </> : <>
                 {currentUser ? <>
-                    <p className="text-center">ログインが必要です。</p>
+                    <p className="text-center">ログインしてください。</p>
                 </> : <>
                     <div className="flex place-content-center my-12">
                         <div><CircularProgress color="primary" size={80} /> <p className="text-center">アプリを起動中</p></div>

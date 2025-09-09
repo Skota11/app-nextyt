@@ -8,10 +8,10 @@ import * as React from 'react'
 import { useSearchParams } from "next/navigation";
 
 // スタイル
-import "./play.css"
+import "@/styles/player.css"
 
 // コンポーネント
-import Player from "@/components/play/player";
+import Player from "@/components/play/play";
 import NicoPlayer from "@/components/play/niconico/player";
 import List from "@/components/playlist/list";
 import { useRouter } from "next/navigation";

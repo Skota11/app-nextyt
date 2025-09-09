@@ -18,7 +18,7 @@ import dayjs from 'dayjs'
 import toJaNum from "@/utils/num2ja";
 import { SiNiconico } from "react-icons/si";
 import { LiaCommentSolid } from "react-icons/lia";
-import AddPlaylist from "../addPlaylist";
+import AddPlaylist from "../player/addPlaylist";
 import { useLocalStorage } from "react-use";
 
 //Play Components

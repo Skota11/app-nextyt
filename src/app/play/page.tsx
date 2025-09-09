@@ -4,9 +4,9 @@ import { Suspense, useEffect, useState } from "react";
 //Next.js
 import { useSearchParams } from "next/navigation";
 //スタイル
-import "./play.css"
+import "@/styles/player.css"
 //コンポーネント
-import Player from "@/components/play/player";
+import Player from "@/components/play/play";
 import NicoPlayer from "@/components/play/niconico/player";
 import Search from "@/components/play/search";
 import History from "@/components/home/history";
@@ -16,6 +16,28 @@ import { CookiesProvider } from "react-cookie";
 import nicoCheck from "@/utils/niconico/nicoid";
 import { Box, Tab, Tabs } from "@mui/material";
 import Playlist from "@/components/home/playlist";
+
+interface TabPanelProps {
+    children?: React.ReactNode;
+    index: number;
+    value: number;
+}
+
+function TabPanel(props: TabPanelProps) {
+    const { children, value, index, ...other } = props;
+
+    return (
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`simple-tabpanel-${index}`}
+            aria-labelledby={`simple-tab-${index}`}
+            {...other}
+        >
+            {children}
+        </div>
+    );
+}
 
 function Child() {
     const searchParams = useSearchParams();
@@ -47,9 +69,15 @@ function Child() {
                 </Tabs>
             </Box>
             <div className="p-4 max-w-screen-xl m-auto">
-                {value === 0 && <History />}
-                {value === 1 && <Search />}
-                {value === 2 && <Playlist />}
+                <TabPanel value={value} index={0}>
+                    <History />
+                </TabPanel>
+                <TabPanel value={value} index={1}>
+                    <Search />
+                </TabPanel>
+                <TabPanel value={value} index={2}>
+                    <Playlist />
+                </TabPanel>
             </div>
         </CookiesProvider>
     )

@@ -6,8 +6,8 @@ import { useSearchParams } from "next/navigation";
 //スタイル
 import "@/styles/player.css"
 //コンポーネント
-import Player from "@/components/play/play";
-import NicoPlayer from "@/components/play/niconico/player";
+import Player from "@/components/play/youtubePlayer";
+import NicoPlayer from "@/components/play/niconicoPlayer";
 import Search from "@/components/play/search";
 import History from "@/components/home/history";
 

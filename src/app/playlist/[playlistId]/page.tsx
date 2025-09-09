@@ -11,8 +11,8 @@ import { useSearchParams } from "next/navigation";
 import "@/styles/player.css"
 
 // コンポーネント
-import Player from "@/components/play/play";
-import NicoPlayer from "@/components/play/niconico/player";
+import Player from "@/components/play/youtubePlayer";
+import NicoPlayer from "@/components/play/niconicoPlayer";
 import List from "@/components/playlist/list";
 import { useRouter } from "next/navigation";
 import nicoCheck from "@/utils/niconico/nicoid";

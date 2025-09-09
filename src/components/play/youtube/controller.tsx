@@ -1,8 +1,10 @@
 import { faRepeat, faShareFromSquare, faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
+import { useLocalStorage } from "react-use";
 
-export default function Controller({ytid , playerState , setPlayerState , repeat , setRepeat} : {ytid: string , playerState: { playing: boolean; muted: boolean; playbackRate: number }, setPlayerState: React.Dispatch<React.SetStateAction<{ playing: boolean; muted: boolean; playbackRate: number }>>, repeat: boolean|undefined, setRepeat: React.Dispatch<React.SetStateAction<boolean|undefined>>}) {
+export default function Controller({ytid , playerState , setPlayerState} : {ytid: string , playerState: { playing: boolean; muted: boolean; playbackRate: number }, setPlayerState: React.Dispatch<React.SetStateAction<{ playing: boolean; muted: boolean; playbackRate: number }>>}) {
+    const [repeat, setRepeat] = useLocalStorage("repeat", false);
     const [mounted, setMounted] = useState(false);
     useEffect(() => {
         setMounted(true);

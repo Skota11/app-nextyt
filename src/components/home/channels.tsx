@@ -13,10 +13,10 @@ import Link from "next/link";
 import Skeleton from "@mui/material/Skeleton";
 import Tooltip from "@mui/material/Tooltip";
 
-interface playlist { channelId: string, channelContent: { title: string, thumbnails: { medium: { url: string } } } }
-
+//Types
+import {Channel} from "@/types/channel";
 export default function Main() {
-    const [result, setResult] = useState<Array<playlist> | undefined>(undefined)
+    const [result, setResult] = useState<Array<Channel> | undefined>(undefined)
     const getPlaylists = async () => {
         const { data } = await (await fetch('/api/database/channels')).json()
         setResult(data)
@@ -47,12 +47,11 @@ export default function Main() {
                         result.length == 0 ? <><p>ピン留めされたチャンネルはありません</p></> :
                             <>
                                 <div className="flex flex-nowrap overflow-x-auto overflow-y-hidden  content-start justify-start snap-x gap-x-4 pb-4">
-                                    {result.map((item: playlist) => {
+                                    {result.map((item: Channel) => {
                                         return (
                                             <Link key={item.channelId} className='snap-start min-w-[70px]' href={`/channel/${item.channelId}`}>
                                                 <Tooltip title={item.channelContent.title}>
                                                     <Image alt="channelImage" src={`${item.channelContent.thumbnails.medium.url}`} width={70} height={60} unoptimized className="rounded-full" />
-                                                    {/* <p className="text-center text-sm my-2">{omit(item.channelContent.title)}</p> */}
                                                 </Tooltip>
                                             </Link>
                                         )

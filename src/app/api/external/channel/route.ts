@@ -7,11 +7,11 @@ export async function GET(request: NextRequest) {
     let res;
     if (query?.charAt(0) == "@") {
         res = await fetch(`https://youtube.googleapis.com/youtube/v3/channels?part=contentDetails&part=snippet&part=statistics&forHandle=${query}&key=AIzaSyC1KMsyjrnEfHJ3xnQtPX0DSxWHfyjUBeo`, {
-            next: { revalidate: 3600 } // 1時間キャッシュ
+            next: { revalidate: 86400 } // 1dayキャッシュ
         });
     } else {
         res = await fetch(`https://youtube.googleapis.com/youtube/v3/channels?part=contentDetails&part=snippet&part=statistics&id=${query}&key=AIzaSyC1KMsyjrnEfHJ3xnQtPX0DSxWHfyjUBeo`, {
-            next: { revalidate: 3600 } // 1時間キャッシュ
+            next: { revalidate: 86400 } // 1dayキャッシュ
         });
     }
     
@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
     // レスポンスヘッダーにキャッシュ情報を追加
     return Response.json({ data }, {
         headers: {
-            'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400'
+            'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=86400'
         }
     })
 }

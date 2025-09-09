@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
     }
     
     const res = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=id,snippet,statistics&id=${id}&key=AIzaSyC1KMsyjrnEfHJ3xnQtPX0DSxWHfyjUBeo`, {
-        next: { revalidate: 3600 } // 1時間キャッシュ
+        next: { revalidate: 86400 } // 1dayキャッシュ
     });
     
     const data = await res.json();
@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
         statistics: video.statistics 
     }, {
         headers: {
-            'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=7200'
+            'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=7200'
         }
     })
 }

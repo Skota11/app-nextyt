@@ -10,23 +10,23 @@ export async function GET(request: NextRequest) {
     switch (get) {
         case "video":
             res = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${query}&key=AIzaSyC1KMsyjrnEfHJ3xnQtPX0DSxWHfyjUBeo&maxResults=50&type=video&regionCode=jp`, {
-                next: { revalidate: 600 } // 10分キャッシュ
+                next: { revalidate: 900 } // 10分キャッシュ
             });
             break;
         case "channel":
             res = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${query}&key=AIzaSyC1KMsyjrnEfHJ3xnQtPX0DSxWHfyjUBeo&maxResults=50&type=channel&regionCode=jp`, {
-                next: { revalidate: 600 } // 10分キャッシュ
+                next: { revalidate: 900 } // 10分キャッシュ
             });
             break;
         case "niconico":
             res = await fetch(`https://nico-search.deno.dev/?q=${query}`, {
-                next: { revalidate: 300 } // 5分キャッシュ（検索結果は短めに）
+                next: { revalidate: 900 } // 5分キャッシュ（検索結果は短めに）
             });
             data = (await res.json()).data;
             break;
         default:
             res = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${query}&key=AIzaSyC1KMsyjrnEfHJ3xnQtPX0DSxWHfyjUBeo&maxResults=50&type=video&type=channel&regionCode=jp`, {
-                next: { revalidate: 600 } // 10分キャッシュ
+                next: { revalidate: 900 } // 10分キャッシュ
             });
             data = (await res.json()).items;
             break;
@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
     
     return Response.json({ data }, {
         headers: {
-            'Cache-Control': 'public, s-maxage=600, stale-while-revalidate=1200'
+            'Cache-Control': 'public, s-maxage=900, stale-while-revalidate=1200'
         }
     })
 }

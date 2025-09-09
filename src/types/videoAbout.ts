@@ -12,11 +12,22 @@ export type VideoAbout = {
     }
 }
 
-export type NicoVideoAbout = {
-    title: string,
-    description: string,
-    channelId: string,
-    channelTitle: string,
-    publishedAt: string,
-    videoId: string
-}
+export type NicoVideoAbout = { 
+    title: string, 
+    channelId: string, 
+    channelTitle: string, 
+    description: string, 
+    registeredAt: string, 
+    count: { 
+        view: string, 
+        like: string, 
+        mylist: string 
+    }, 
+    tags: Array<{ name: string }> | undefined, 
+    thumbnailUrl: string, 
+    videoId: string, 
+    videoType: string, 
+    videoQuality: string, 
+    duration: number, 
+    descriptionHtml?: TrustedHTML 
+};

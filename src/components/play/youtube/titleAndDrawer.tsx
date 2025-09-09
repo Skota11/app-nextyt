@@ -8,7 +8,7 @@ import Linkify from "linkify-react";
 import { VideoAbout } from "@/types/videoAbout";
 import dayjs from "dayjs";
 import { faYoutube } from "@fortawesome/free-brands-svg-icons";
-import AddPlaylist from "./addPlaylist";
+import AddPlaylist from "../common/addPlaylist";
 
 export default function TitleAndDrawer({isLogin , observerRef , setRefreshKey , ytid} : {isLogin: boolean, observerRef: RefObject<HTMLHeadingElement | null>, setRefreshKey: (key: number | ((prevCount: number) => number)) => void , ytid:string}) {
     const [videoAbout , setVideoAbout] = useState<VideoAbout | null>(null);

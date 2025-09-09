@@ -10,14 +10,14 @@ import { Toaster } from 'react-hot-toast';
 import { useLocalStorage } from "react-use";
 
 //Player Components
-import TitleAndDrawer from "./player/titleAndDrawer";
-import KeyPress from "./player/keypress";
-import Controller from "./player/controller";
+import TitleAndDrawer from "./youtube/titleAndDrawer";
+import KeyPress from "./youtube/keypress";
+import Controller from "./youtube/controller";
 
 export default function Home(props: { ytid: string, onEnd?: () => void }) {
     //state
     const [playerState , setPlayerState] = useState({playing : false , muted: false , playbackRate: 1});
-    const [repeat, setRepeat] = useLocalStorage("repeat", false);
+    const [repeat] = useLocalStorage("repeat", false);
     const [autoPlay] = useLocalStorage<boolean>('autoPlay', true);
     const [PiP] = useLocalStorage("pip");
     const [isLogin, setIsLogin] = useState(false)
@@ -101,7 +101,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
             {/* Title&Drawer */}
             <TitleAndDrawer isLogin={isLogin} observerRef={observerRef} setRefreshKey={setRefreshKey} ytid={props.ytid}/>
             {/* Controller */}
-            <Controller ytid={props.ytid} playerState={playerState} setPlayerState={setPlayerState} repeat={repeat} setRepeat={setRepeat} />
+            <Controller ytid={props.ytid} playerState={playerState} setPlayerState={setPlayerState}/>
             <Toaster position="bottom-center" />
         </>
     )

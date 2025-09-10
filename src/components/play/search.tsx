@@ -4,10 +4,6 @@
 import { useState, useRef } from "react";
 import { useDebounce } from "react-use";
 
-//Next.js
-import Image from 'next/image'
-import Link from "next/link";
-
 //Material UI
 import Chip from "@mui/material/Chip";
 

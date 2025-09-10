@@ -37,7 +37,7 @@ export default function niconicoVideoCard({ item } : {item:SearchResult}) {
             <div className="sm:inline">
             <Link href={`/play?v=${item.id?.videoId}`}>
                 <div className="py-4 px-2 sm:px-0 flex flex-col gap-y-1">
-                    <p className="py-4 px-2 sm:px-0">{item.title}</p>
+                    <p className="">{item.title}</p>
                     <p className="text-sm text-gray-400">{item.description && omit(item.description)}</p>
                 </div>
             </Link>

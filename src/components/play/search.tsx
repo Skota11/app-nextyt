@@ -4,10 +4,6 @@
 import { useState, useRef } from "react";
 import { useDebounce } from "react-use";
 
-//Next.js
-import Image from 'next/image'
-import Link from "next/link";
-
 //Material UI
 import Chip from "@mui/material/Chip";
 
@@ -19,10 +15,11 @@ import { faYoutube } from "@fortawesome/free-brands-svg-icons";
 //React Icons
 import { SiNiconico } from "react-icons/si";
 
-//Utility Libraries
-import dayjs from "dayjs";
-
-interface SearchResult { id?: { kind: string, videoId: string, channelId: string }, snippet: { title: string, channelTitle: string, publishedAt: string, description: string, thumbnails: { medium: { url: string } } }, contentId: string, thumbnailUrl: string, title: string, description?: string };
+//types
+import { SearchResult } from "@/types/search";
+import YoutubeChannelCard from "./search/youtubeChannelCard";
+import YouTubeVideoCard from "./search/youtubeVideoCard";
+import NiconicoVideoCard from "./search/nicoVideoCard";
 
 export default function Home() {
     const [inputQuery, setInputQuery] = useState("")
@@ -37,13 +34,7 @@ export default function Home() {
             setInputQuery("")
         }
     }
-    const omit = (str: string) => {
-        if (str.length > 36) {
-            return str.substring(0, 36) + '...';
-        } else {
-            return str
-        }
-    }
+    
     useDebounce(
         () => {
             // APIを呼び出す
@@ -96,39 +87,15 @@ export default function Home() {
                         result.map((item: SearchResult) => {
                             if (item.id?.kind == "youtube#video") {
                                 return (
-                                    <Link key={item.id.videoId} className='block my-8 break-all sm:flex items-start gap-4 cursor-pointer' href={`/play?v=${item.id.videoId}`}>
-                                        <div className="flex place-content-center flex-none">
-                                            <Image src={`https://i.ytimg.com/vi/${item.id.videoId}/mqdefault.jpg`} alt="" width={120 * 2.5} height={67.5 * 2.5} className='inline rounded-md' unoptimized />
-                                        </div>
-                                        <div className='inline'>
-                                            <p>{item.snippet.title} </p>
-                                            <p className='text-slate-600 text-sm'>{item.snippet.channelTitle} ・ {dayjs(item.snippet.publishedAt).format('YYYY年MM月DD日')} </p>
-                                        </div>
-                                    </Link>
+                                    <YouTubeVideoCard key={item.id?.videoId} item={item} />
                                 )
                             } else if (item.id?.kind == "youtube#channel") {
                                 return (
-                                    <Link key={item.id.channelId} className="my-8 break-all" href={`/channel/${item.id.channelId}`}>
-                                        <div className="flex gap-x-4 items-center">
-                                            <Image alt="channelImage" src={`${item.snippet.thumbnails.medium.url}`} width={120} height={120} unoptimized className="rounded-full" />
-                                            <div>
-                                                <h1 className="text-xl">{item?.snippet.title}</h1>
-                                                <p className="text-sm text-gray-400">{omit(item.snippet.description)}</p>
-                                            </div>
-                                        </div>
-                                    </Link>
+                                    <YoutubeChannelCard key={item.id?.channelId} item={item} />
                                 )
                             } else {
                                 return (
-                                    <Link key={item.contentId} className='block my-8 break-all flex items-start gap-4 cursor-pointer' href={`/play?v=${item.contentId}`}>
-                                        <div className="flex place-content-center flex-none">
-                                            <Image src={`${item.thumbnailUrl}`} alt="" width={160 * 0.8} height={90 * 0.8} className='inline rounded-md object-cover aspect-video' unoptimized />
-                                        </div>
-                                        <div className='inline'>
-                                            <p>{item.title} </p>
-                                            <p className="text-sm text-gray-400">{item.description && omit(item.description)}</p>
-                                        </div>
-                                    </Link>
+                                    <NiconicoVideoCard key={item.contentId} item={item} />
                                 )
                             }
                         })

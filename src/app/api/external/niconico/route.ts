@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
             "X-Frontend-Id": "6",
             "X-Frontend-Version": "0"
         },
-        next: { revalidate: 3600 } // 1時間キャッシュ
+        next: { revalidate: 86400 } // 1dayキャッシュ
     });
     
     const data = await res.json();
@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
     
     return Response.json({ video, tag }, {
         headers: {
-            'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=7200'
+            'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=7200'
         }
     })
 }

@@ -24,8 +24,10 @@ export default function YouTubeVideoCard({item}: {item:SearchResult}) {
             </Link>
             <div className="sm:inline">
             <Link href={`/play?v=${item.id?.videoId}`}>
-                <p className="py-4 px-2 sm:px-0">{item.snippet.title}</p>
-                <p className='text-slate-600 text-sm'>{item.snippet.channelTitle} ・ {dayjs(item.snippet.publishedAt).format('YYYY年MM月DD日')} </p>
+                <div className="py-4 px-2 sm:px-0 flex flex-col gap-y-1">
+                    <p className="py-4 px-2 sm:px-0">{item.snippet.title}</p>
+                    <p className='text-slate-600 text-sm'>{item.snippet.channelTitle} ・ {dayjs(item.snippet.publishedAt).format('YYYY年MM月DD日')} </p>
+                </div>
             </Link>
             </div>
         </div>

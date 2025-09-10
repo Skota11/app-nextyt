@@ -4,15 +4,18 @@ import { faStickyNote, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "@mui/material/Button";
 
+import toast from "react-hot-toast";
+
 export default function AddUserChannels({id} : { id: string }) {
     const addUserChannels = async () => {
-        fetch('/api/database/channels', {
+        await fetch('/api/database/channels', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ id: id }),
         })
+        toast.success('チャンネルをピン留めしました。', { duration: 4000 });
     }
     const deleteUserChannels = async () => {
         await fetch('/api/database/channels', {
@@ -22,6 +25,7 @@ export default function AddUserChannels({id} : { id: string }) {
             },
             body: JSON.stringify({ id: id }),
         })
+        toast.success('チャンネルのピン留めを解除しました。', { duration: 4000 });
     }
     return (
         <div className="my-4 flex gap-x-4">

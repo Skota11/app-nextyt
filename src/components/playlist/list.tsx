@@ -2,8 +2,6 @@
 import { useEffect, useRef, useState } from 'react';
 
 // Next.js
-import Image from 'next/image'
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 // Font Awesome Icons
@@ -20,16 +18,17 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 
 // Third Party Libraries
 import Swal from 'sweetalert2'
-import { SiNiconico } from 'react-icons/si';
 import nicoCheck from '@/utils/niconico/nicoid';
-import nicoImg from '@/utils/niconico/nicoimg';
+import NicoVideoCard from './cards/nicoVideoCard';
 
-interface playlist { videoId: string, videoContent: { title: string, channelTitle: string, thumbnail: { url: string, middleUrl: string | null, largeUrl: string | null } } }
+// Types
+import { Playlist } from '@/types/playlist';
+import VideoCard from './cards/youtubeVideoCard';
 
 export default function Main(props: { playlistId: string, ytid: string, setNextYtid: (ytid: string) => void, setAutoPlay: (autoPlay: boolean) => void }) {
     const router = useRouter();
     const [deleteLoading, setDeleteLoading] = useState<Array<string>>([])
-    const [result, setResult] = useState<Array<playlist> | undefined>(undefined)
+    const [result, setResult] = useState<Array<Playlist> | undefined>(undefined)
     const [name, setName] = useState("")
     const [autoPlay, setAutoPlay] = useState(false)
     const inputRef = useRef<HTMLInputElement>(null)
@@ -145,65 +144,13 @@ export default function Main(props: { playlistId: string, ytid: string, setNextY
                                 </div>
                             </>
                             :
-                            result.length == 0 ? <><p>取得できません</p></> : result.map((item: playlist) => {
+                            result.length == 0 ? <><p>取得できません</p></> : result.map((item: Playlist) => {
                                 return (
                                     <div key={item.videoId}>
                                         {nicoCheck(item.videoId) ? (
-                                            <div className={`relative my-6 break-all sm:flex items-start gap-4 cursor-pointer rounded-lg shadow-md hover:bg-gray-100 transition-colors ${props.ytid === item.videoId ? 'border-2 border-sky-500' : ''}`}>
-                                                <Link href={`/playlist/${props.playlistId}?v=${item.videoId}`} className="flex-none">
-                                                    <div className="relative place-content-center w-full">
-                                                        <Image src={nicoImg(item.videoContent.thumbnail)} alt="" width={120 * 2.5} height={67.5 * 2.5} className='inline sm:rounded-md rounded-t-lg aspect-video object-cover w-full sm:w-[300px]' unoptimized />
-                                                        <div className="absolute bottom-2 right-2 bg-white place-content-center p-1 rounded-sm">
-                                                            <p className="flex items-center text-sm"><SiNiconico className="m-1" />ニコニコ動画</p>
-                                                        </div>
-                                                    </div>
-                                                </Link>
-                                                <div className='sm:inline'>
-                                                    <Link href={`/playlist/${props.playlistId}?v=${item.videoId}`}>
-                                                        <p className="py-4 px-2 sm:px-0">{item.videoContent.title}</p>
-                                                    </Link>
-                                                </div>
-                                                <div className="absolute sm:top-auto top-2 sm:bottom-2 right-2 bg-red-500 rounded-full w-8 h-8 place-content-center">
-                                                    {deleteLoading.includes(item.videoId) ? (
-                                                        <CircularProgress color="primary" size={20} />
-                                                    ) : (
-                                                        <p className="flex place-content-center">
-                                                            <button title="動画を削除" onClick={e => { e.preventDefault(); deletePlaylist(item.videoId) }}>
-                                                                <FontAwesomeIcon icon={faTrash} className="" />
-                                                            </button>
-                                                        </p>
-                                                    )}
-                                                </div>
-                                            </div>
+                                            <NicoVideoCard props={props} item={item} deleteLoading={deleteLoading} deletePlaylist={deletePlaylist} />
                                         ) : (
-                                            <div className={`relative my-6 break-all sm:flex items-start gap-4 cursor-pointer rounded-lg shadow-md hover:bg-gray-100 transition-colors ${props.ytid === item.videoId ? 'border-2 border-sky-500' : ''}`}>
-                                                <Link href={`/playlist/${props.playlistId}?v=${item.videoId}`} className="flex-none">
-                                                    <div className="flex place-content-center w-full relative">
-                                                        <Image src={`https://i.ytimg.com/vi/${item.videoId}/mqdefault.jpg`} alt="" width={120 * 2.5} height={67.5 * 2.5} className='inline sm:rounded-md rounded-t-lg aspect-video object-cover w-full sm:w-[300px]' unoptimized />
-                                                    </div>
-                                                </Link>
-                                                <div className='sm:inline'>
-                                                    <Link href={`/playlist/${props.playlistId}?v=${item.videoId}`}>
-                                                        <div className='py-4 px-2 sm:px-0 flex flex-col gap-y-1'>
-                                                            <p className="">{item.videoContent.title}</p>
-                                                            <p className='text-slate-600 text-sm'>{item.videoContent.channelTitle}</p>
-                                                        </div>
-                                                    </Link>
-                                                </div>
-                                                <div className="absolute sm:top-auto top-2 sm:bottom-2 right-2 bg-red-500 rounded-full w-8 h-8 place-content-center">
-                                                    {deleteLoading.includes(item.videoId) ? (
-                                                        <p className="flex place-content-center">
-                                                            <CircularProgress color="primary" size={20} />
-                                                        </p>
-                                                    ) : (
-                                                        <p className="flex place-content-center">
-                                                            <button title="動画を削除" onClick={e => { e.preventDefault(); deletePlaylist(item.videoId) }}>
-                                                                <FontAwesomeIcon icon={faTrash} className="" />
-                                                            </button>
-                                                        </p>
-                                                    )}
-                                                </div>
-                                            </div>
+                                            <VideoCard props={props} item={item} deleteLoading={deleteLoading} deletePlaylist={deletePlaylist} />
                                         )}
                                     </div>
                                 )

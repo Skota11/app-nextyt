@@ -2,7 +2,7 @@
 import { createClient } from "@/utils/supabase/server";
 
 // Home components
-import Account from "@/components/home/account";
+import Account from "@/components/home/settings";
 
 // Material UI
 import CircularProgress from '@mui/material/CircularProgress';

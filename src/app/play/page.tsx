@@ -8,8 +8,8 @@ import "@/styles/player.css"
 //コンポーネント
 import Player from "@/components/play/youtubePlayer";
 import NicoPlayer from "@/components/play/niconicoPlayer";
-import Search from "@/components/play/search";
-import History from "@/components/home/history";
+import Search from "@/components/search/search";
+import History from "@/components/history/history";
 
 //Utility Libraries
 import { CookiesProvider } from "react-cookie";

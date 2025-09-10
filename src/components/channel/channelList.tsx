@@ -8,10 +8,11 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import Image from 'next/image';
 import dayjs from 'dayjs';
 
+import { Toaster } from 'react-hot-toast';
+
 interface videoList { snippet: { resourceId: { videoId: string, kind: string }, title: string, channelTitle: string, publishedAt: string } }
 
 export default function ChannelList({ channelId }: { channelId: string }) {
-
     const [videos, setVideos] = useState<Array<videoList> | undefined>(undefined)
     const [get, setGet] = useState("video")
     const [state_nextPageToken, state_setNextPageToken] = useState("")
@@ -96,5 +97,6 @@ export default function ChannelList({ channelId }: { channelId: string }) {
                 })}
             </InfiniteScroll>
         </>}
+        <Toaster position="bottom-center" />
     </>)
 }

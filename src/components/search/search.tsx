@@ -17,9 +17,9 @@ import { SiNiconico } from "react-icons/si";
 
 //types
 import { SearchResult } from "@/types/search";
-import YoutubeChannelCard from "./search/youtubeChannelCard";
-import YouTubeVideoCard from "./search/youtubeVideoCard";
-import NiconicoVideoCard from "./search/nicoVideoCard";
+import YoutubeChannelCard from "./cards/youtubeChannelCard";
+import YouTubeVideoCard from "./cards/youtubeVideoCard";
+import NiconicoVideoCard from "./cards/nicoVideoCard";
 
 export default function Home() {
     const [inputQuery, setInputQuery] = useState("")

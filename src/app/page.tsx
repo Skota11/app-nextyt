@@ -5,13 +5,13 @@ import Link from "next/link";
 import { createClient } from "../utils/supabase/server";
 
 // Home components
-import History from "@/components/home/history";
+import History from "@/components/history/history";
 import OAuth from "@/components/home/oauth";
 import Playlist from "@/components/home/playlist";
 import Channels from "@/components/home/channels";
 
 // Play components
-import Search from "@/components/play/search";
+import Search from "@/components/search/search";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faClockRotateLeft, faUser } from "@fortawesome/free-solid-svg-icons";
 import PlaylistHead from "@/components/home/playlistHead";

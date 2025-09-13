@@ -14,7 +14,7 @@ import Skeleton from "@mui/material/Skeleton";
 import Tooltip from "@mui/material/Tooltip";
 
 //Types
-import {Channel} from "@/types/channel";
+import {Channel} from "@/types/db";
 export default function Main() {
     const [result, setResult] = useState<Array<Channel> | undefined>(undefined)
     const getPlaylists = async () => {

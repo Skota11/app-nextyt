@@ -4,10 +4,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 //types
-import { History } from "@/types/history";
+import { VideoAbout } from "@/types/db";
 import CircularProgress from "@mui/material/CircularProgress";
 
-export default function VideoCard ({item , deleteLoading , deleteHistory} : {item: History , deleteLoading: Array<string> , deleteHistory: (id: string) => Promise<void>}) {
+export default function VideoCard ({item , deleteLoading , deleteHistory} : {item: VideoAbout , deleteLoading: Array<string> , deleteHistory: (id: string) => Promise<void>}) {
     return (
         <div
             key={item.videoId}

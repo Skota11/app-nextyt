@@ -9,12 +9,12 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import nicoCheck from "@/utils/niconico/nicoid";
 
 //Types
-import { History } from "@/types/history";
+import { VideoAbout } from "@/types/db";
 import NicoVideoCard from "./cards/nicoVideoCard";
 import VideoCard from "./cards/youtubeVideoCard";
 
 export default function Main() {
-    const [result, setResult] = useState<Array<History> | undefined>(undefined)
+    const [result, setResult] = useState<Array<VideoAbout> | undefined>(undefined)
     const [page, setPage] = useState(2);
     const [hasMore, setHasMore] = useState(true)
     const [deleteLoading, setDeleteLoading] = useState<Array<string>>([])
@@ -24,7 +24,7 @@ export default function Main() {
     }
     const getMoreHistory = async () => {
         const { data } = await (await fetch(`/api/database/history?page=${page}`)).json()
-        setResult(prevItems => [...(prevItems as Array<History>), ...data]);
+        setResult(prevItems => [...(prevItems as Array<VideoAbout>), ...data]);
         setPage(prevPage => prevPage + 1);
         if (data.length < 50) {
             setHasMore(false)
@@ -64,7 +64,7 @@ export default function Main() {
                                     hasMore={hasMore}
                                     loader={<CircularProgress color="primary" size={40} />}
                                 >
-                                    {result.map((item: History) => {
+                                    {result.map((item: VideoAbout) => {
                                         return (
                                             <div key={item.videoId}>
                                                 {nicoCheck(item.videoId) ?

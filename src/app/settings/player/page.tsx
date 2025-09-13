@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react"
-import "./play.css"
+import "@/styles/player.css"
 
 export default function Main() {
     const playerRef = useRef<HTMLIFrameElement>(null)

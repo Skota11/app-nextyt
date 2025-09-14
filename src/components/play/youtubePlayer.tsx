@@ -59,6 +59,28 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
             observer.disconnect();
         };
     }, [props.ytid])
+    //fullscreen observer
+    useEffect(() => {
+        const handleFullscreenChange = () => {
+            if (document.fullscreenElement == playerRef.current?.getInternalPlayer()?.getIframe()) {
+                const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                if (isMobile && screen.orientation && 'lock' in screen.orientation) {
+                    (screen.orientation as ScreenOrientation & { lock: (orientation: string) => Promise<void> }).lock("landscape").catch((error: Error) => {
+                        console.log("Screen orientation lock failed:", error);
+                    });
+                }
+            } else {
+                // フルスクリーンを終了した時に画面の向きのロックを解除
+                if (screen.orientation) {
+                    screen.orientation.unlock();
+                }
+            }
+        }
+        document.addEventListener("fullscreenchange", handleFullscreenChange);
+        return () => {
+            document.removeEventListener("fullscreenchange", handleFullscreenChange);
+        }
+    }, [])
     //Player OnEnd
     const onEnd = () => {
         if (repeat) {

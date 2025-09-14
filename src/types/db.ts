@@ -1,4 +1,4 @@
-export type Playlist = { 
+export type VideoAbout = { 
     videoId: string,
     videoContent: { 
         title: string, 
@@ -8,5 +8,17 @@ export type Playlist = {
             middleUrl: string | null, 
             largeUrl: string | null 
         } 
+    } 
+}
+
+export type Channel = { 
+    channelId: string, 
+    channelContent: { 
+        title: string, 
+        thumbnails: { 
+            medium: { 
+                url: string 
+            } 
+        }
     } 
 }

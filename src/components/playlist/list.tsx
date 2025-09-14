@@ -22,13 +22,13 @@ import nicoCheck from '@/utils/niconico/nicoid';
 import NicoVideoCard from './cards/nicoVideoCard';
 
 // Types
-import { Playlist } from '@/types/playlist';
+import { VideoAbout } from '@/types/db';
 import VideoCard from './cards/youtubeVideoCard';
 
 export default function Main(props: { playlistId: string, ytid: string, setNextYtid: (ytid: string) => void, setAutoPlay: (autoPlay: boolean) => void }) {
     const router = useRouter();
     const [deleteLoading, setDeleteLoading] = useState<Array<string>>([])
-    const [result, setResult] = useState<Array<Playlist> | undefined>(undefined)
+    const [result, setResult] = useState<Array<VideoAbout> | undefined>(undefined)
     const [name, setName] = useState("")
     const [autoPlay, setAutoPlay] = useState(false)
     const inputRef = useRef<HTMLInputElement>(null)
@@ -144,7 +144,7 @@ export default function Main(props: { playlistId: string, ytid: string, setNextY
                                 </div>
                             </>
                             :
-                            result.length == 0 ? <><p>取得できません</p></> : result.map((item: Playlist) => {
+                            result.length == 0 ? <><p>取得できません</p></> : result.map((item: VideoAbout) => {
                                 return (
                                     <div key={item.videoId}>
                                         {nicoCheck(item.videoId) ? (

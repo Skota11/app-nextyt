@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 //Types
-import { History } from "@/types/history";
+import { VideoAbout } from "@/types/db";
 import nicoImg from "@/utils/niconico/nicoimg";
 import Link from "next/link";
 import { SiNiconico } from "react-icons/si";
@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import CircularProgress from "@mui/material/CircularProgress";
 
-export default function NicoVideoCard({item , deleteLoading , deleteHistory} : {item: History, deleteLoading: string[], deleteHistory: (id: string) => void}) {
+export default function NicoVideoCard({item , deleteLoading , deleteHistory} : {item: VideoAbout, deleteLoading: string[], deleteHistory: (id: string) => void}) {
     return (
         <div
             key={item.videoId}

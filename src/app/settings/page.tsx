@@ -2,7 +2,7 @@
 import { createClient } from "@/utils/supabase/server";
 
 // Home components
-import Account from "@/components/home/settings";
+import Settings from "@/components/home/settings";
 
 // Material UI
 import CircularProgress from '@mui/material/CircularProgress';
@@ -25,7 +25,7 @@ export default async function Home() {
         <>
             {currentUser?.login ? <>
                 <div className="p-4 max-w-screen-xl m-auto">
-                    <Account currentUser={currentUser} />
+                    <Settings currentUser={currentUser} />
                 </div>
             </> : <>
                 {currentUser ? <>

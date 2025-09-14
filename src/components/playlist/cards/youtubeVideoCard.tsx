@@ -5,9 +5,9 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import CircularProgress from '@mui/material/CircularProgress';
 
 //types
-import { Playlist } from "@/types/playlist";
+import { VideoAbout } from "@/types/db";
 
-export default function VideoCard({item, props, deleteLoading, deletePlaylist} : {props : {ytid:string , playlistId:string  } , item: Playlist , deleteLoading: Array<string> , deletePlaylist: (id: string) => void }) {
+export default function VideoCard({item, props, deleteLoading, deletePlaylist} : {props : {ytid:string , playlistId:string  } , item: VideoAbout , deleteLoading: Array<string> , deletePlaylist: (id: string) => void }) {
     return (
         <div
             className={`relative my-6 break-all sm:flex items-start gap-4 cursor-pointer rounded-lg shadow-md hover:bg-gray-100 transition-colors ${

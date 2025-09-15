@@ -20,7 +20,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
     const [autoPlay] = useLocalStorage<boolean>('autoPlay', true);
     const [isPiP, setIsPiP] = useState(false);
     const [PiP] = useLocalStorage("pip");
-    const [repeat] = useLocalStorage("repeat", false);
+    const [repeat , setRepeat] = useLocalStorage("repeat", false);
     const [refreshKey, setRefreshKey] = useState(0);
     //Player関係
     const handleMessage = (event: MessageEvent) => {
@@ -122,7 +122,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
             {/* Title&Drawer */}
             <TitleAndDrawer ytid={props.ytid} isLogin={isLogin} observerRef={observerRef} setRefreshKey={setRefreshKey} />
             {/* Controller */}
-            <Controller ytid={props.ytid} playerState={playerState} playerRef={playerRef} />
+            <Controller ytid={props.ytid} playerState={playerState} playerRef={playerRef} repeat={repeat} setRepeat={setRepeat}/>
         </>
     )
 }

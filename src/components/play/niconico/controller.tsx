@@ -2,10 +2,8 @@ import { faRepeat, faShareFromSquare, faVolumeHigh } from "@fortawesome/free-sol
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useEffect, useState } from "react";
 import { LiaCommentSolid } from "react-icons/lia"
-import { useLocalStorage } from "react-use";
 
-export default function Controller({ytid , playerState , playerRef}: {ytid: string , playerState: {muted: boolean , showComment: boolean} , playerRef: React.RefObject<HTMLIFrameElement | null>}) {
-    const [repeat, setRepeat] = useLocalStorage("repeat", false);
+export default function Controller({ytid , playerState , playerRef , repeat , setRepeat}: {ytid: string , playerState: {muted: boolean , showComment: boolean} , playerRef: React.RefObject<HTMLIFrameElement | null> , repeat: boolean|undefined , setRepeat: React.Dispatch<React.SetStateAction<boolean | undefined>>}) {
     const [mounted, setMounted] = useState(false);
     useEffect(() => {
         setMounted(true);

@@ -17,7 +17,7 @@ import Controller from "./youtube/controller";
 export default function Home(props: { ytid: string, onEnd?: () => void }) {
     //state
     const [playerState , setPlayerState] = useState({playing : false , muted: false , playbackRate: 1});
-    const [repeat] = useLocalStorage("repeat", false);
+    const [repeat , setRepeat] = useLocalStorage("repeat", false);
     const [autoPlay] = useLocalStorage<boolean>('autoPlay', true);
     const [PiP] = useLocalStorage("pip");
     const [isLogin, setIsLogin] = useState(false)
@@ -123,7 +123,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
             {/* Title&Drawer */}
             <TitleAndDrawer isLogin={isLogin} observerRef={observerRef} setRefreshKey={setRefreshKey} ytid={props.ytid}/>
             {/* Controller */}
-            <Controller ytid={props.ytid} playerState={playerState} setPlayerState={setPlayerState}/>
+            <Controller ytid={props.ytid} playerState={playerState} setPlayerState={setPlayerState} setRepeat={setRepeat} repeat={repeat}/>
             <Toaster position="bottom-center" />
         </>
     )

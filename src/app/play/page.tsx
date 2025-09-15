@@ -14,30 +14,9 @@ import History from "@/components/history/history";
 //Utility Libraries
 import { CookiesProvider } from "react-cookie";
 import nicoCheck from "@/utils/niconico/nicoid";
-import { Box, Tab, Tabs } from "@mui/material";
 import Playlist from "@/components/home/playlist";
 
-interface TabPanelProps {
-    children?: React.ReactNode;
-    index: number;
-    value: number;
-}
-
-function TabPanel(props: TabPanelProps) {
-    const { children, value, index, ...other } = props;
-
-    return (
-        <div
-            role="tabpanel"
-            hidden={value !== index}
-            id={`simple-tabpanel-${index}`}
-            aria-labelledby={`simple-tab-${index}`}
-            {...other}
-        >
-            {children}
-        </div>
-    );
-}
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 function Child() {
     const searchParams = useSearchParams();
@@ -46,14 +25,18 @@ function Child() {
         defaultId = ""
     }
     const [ytid, setYtid] = useState(defaultId)
+    const [activeTab, setActiveTab] = useState("search")
+    const [mountedTabs, setMountedTabs] = useState(new Set(["search"]))
+    
     useEffect(() => {
         setYtid(defaultId)
     }, [defaultId])
-    //tabs
-    const [value, setValue] = useState(1);
-    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-        setValue(newValue);
-    };
+    
+    const handleTabChange = (value: string) => {
+        setActiveTab(value)
+        setMountedTabs(prev => new Set([...prev, value]))
+    }
+    
     return (
         <CookiesProvider>
             {nicoCheck(ytid) ?
@@ -61,24 +44,30 @@ function Child() {
                 :
                 <Player ytid={ytid} />
             }
-            <Box className="pt-4" sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                <Tabs centered value={value} onChange={handleChange} aria-label="basic tabs example" variant="fullWidth">
-                    <Tab label="履歴" />
-                    <Tab label="検索" />
-                    <Tab label="プレイリスト" />
-                </Tabs>
-            </Box>
-            <div className="p-4 max-w-screen-xl m-auto">
-                <TabPanel value={value} index={0}>
-                    <History />
-                </TabPanel>
-                <TabPanel value={value} index={1}>
-                    <Search />
-                </TabPanel>
-                <TabPanel value={value} index={2}>
-                    <Playlist />
-                </TabPanel>
-            </div>
+            <Tabs value={activeTab} onValueChange={handleTabChange} className="p-4 max-w-screen-xl m-auto">
+                <div className="mt-4 mb-12">
+                    {mountedTabs.has("history") && (
+                        <div style={{ display: activeTab === "history" ? "block" : "none" }}>
+                            <History />
+                        </div>
+                    )}
+                    {mountedTabs.has("search") && (
+                        <div style={{ display: activeTab === "search" ? "block" : "none" }}>
+                            <Search />
+                        </div>
+                    )}
+                    {mountedTabs.has("playlist") && (
+                        <div style={{ display: activeTab === "playlist" ? "block" : "none" }}>
+                            <Playlist />
+                        </div>
+                    )}
+                </div>
+                <TabsList className="fixed bottom-4 left-4 shadow-2xl backdrop-blur-sm bg-background/95 border h-10">
+                    <TabsTrigger value="history">履歴</TabsTrigger>
+                    <TabsTrigger value="search">検索</TabsTrigger>
+                    <TabsTrigger value="playlist">プレイリスト</TabsTrigger>
+                </TabsList>
+            </Tabs>
         </CookiesProvider>
     )
 }

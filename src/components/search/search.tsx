@@ -103,9 +103,6 @@ export default function Home() {
                         <></>
                 }
             </div>
-            <button onClick={() => { inputRef.current?.focus() }} className="md:hidden fixed left-4 bottom-4 z-50 border-2 px-4 py-3 rounded-full bg-white shadow-lg hover:bg-gray-100 transition-all">
-                <p><FontAwesomeIcon icon={faSearch} /></p>
-            </button>
         </div>
     )
 }

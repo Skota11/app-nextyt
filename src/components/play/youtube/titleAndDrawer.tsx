@@ -56,6 +56,7 @@ export default function TitleAndDrawer({isLogin , observerRef , setRefreshKey , 
                                 PaperProps={{
                                     sx: { width: "90%", maxWidth: "512px" },
                                 }}
+                                className="z-20"
                             >
                                 <p className='mt-4 text-center cursor-pointer' onClick={() => { setOpenedDrawer(false) }}>閉じる</p>
                                 <div className='p-8'>

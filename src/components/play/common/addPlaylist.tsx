@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react"
 
 // Material UI
-import Button from "@mui/material/Button"
 import FormControl from "@mui/material/FormControl"
 import InputLabel from "@mui/material/InputLabel"
 import MenuItem from "@mui/material/MenuItem"
@@ -10,6 +9,8 @@ import Select from "@mui/material/Select"
 
 // Toast Notifications
 import toast, { Toaster } from 'react-hot-toast';
+
+import {Button} from '@/components/ui/button'
 
 interface playlist { playlistId: string, playlistName: string }
 
@@ -41,8 +42,9 @@ export default function Main(props: { videoId: string }) {
         <>
             <div className="flex items-center">
                 <FormControl sx={{ m: 1, minWidth: 240 }}>
-                    <InputLabel id="demo-simple-select-label">Playlist</InputLabel>
+                    <InputLabel id="demo-simple-select-label">プレイリストを選択</InputLabel>
                     <Select
+                        variant="standard"
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                         value={selectId}
@@ -56,7 +58,7 @@ export default function Main(props: { videoId: string }) {
                         })}
                     </Select>
                 </FormControl>
-                <Button variant="contained" onClick={addClickHandler}>追加</Button>
+                <Button variant="outline" onClick={addClickHandler}>追加</Button>
                 <Toaster position="bottom-center" />
             </div>
         </>

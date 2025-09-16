@@ -13,7 +13,7 @@ import Channels from "@/components/home/channels";
 // Play components
 import Search from "@/components/search/search";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight, faClockRotateLeft, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faClockRotateLeft, faUser } from "@fortawesome/free-solid-svg-icons";
 import PlaylistHead from "@/components/home/playlistHead";
 
 

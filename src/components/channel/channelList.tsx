@@ -1,6 +1,5 @@
 "use client"
 
-import Chip from '@mui/material/Chip';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -9,6 +8,7 @@ import dayjs from 'dayjs';
 
 import { Toaster } from 'react-hot-toast';
 import { Spinner } from '@/components/ui/shadcn-io/spinner';
+import { Badge } from '../ui/badge';
 
 interface videoList { snippet: { resourceId: { videoId: string, kind: string }, title: string, channelTitle: string, publishedAt: string } }
 
@@ -46,30 +46,42 @@ export default function ChannelList({ channelId }: { channelId: string }) {
     }, [])
     return (<>
         <div className="flex gap-x-4 my-4 overflow-x-scroll w-full">
-            <Chip label={"動画"} onClick={() => { setGet("video") }}
+            <Badge onClick={() => { setGet("video") }}
+                
+                variant={get == "video" ? "default" : "outline"}
+            >
+                動画
+            </Badge>
+            <Badge onClick={(() => { setGet("popular_video") })}
+                className=''
+                variant={get == "popular_video" ? "default" : "outline"}
+            >
+                人気の動画
+            </Badge>
+            <Badge onClick={() => { setGet("live") }}
                 color="info"
-                variant={get == "video" ? "filled" : "outlined"}
-            />
-            <Chip label={"人気の動画"} onClick={(() => { setGet("popular_video") })}
+                variant={get == "live" ? "default" : "outline"}
+            >
+                ライブ配信
+            </Badge>
+            <Badge onClick={(() => { setGet("popular_live") })}
                 color="info"
-                variant={get == "popular_video" ? "filled" : "outlined"}
-            ></Chip>
-            <Chip label={"ライブ配信"} onClick={() => { setGet("live") }}
+                variant={get == "popular_live" ? "default" : "outline"}
+            >
+                人気のライブ配信
+            </Badge>
+            <Badge onClick={() => { setGet("shorts") }}
                 color="info"
-                variant={get == "live" ? "filled" : "outlined"}
-            ></Chip>
-            <Chip label={"人気のライブ配信"} onClick={(() => { setGet("popular_live") })}
+                variant={get == "shorts" ? "default" : "outline"}
+            >
+                ショート動画
+            </Badge>
+            <Badge onClick={(() => { setGet("popular_shorts") })}
                 color="info"
-                variant={get == "popular_live" ? "filled" : "outlined"}
-            ></Chip>
-            <Chip label={"ショート動画"} onClick={() => { setGet("shorts") }}
-                color="info"
-                variant={get == "shorts" ? "filled" : "outlined"}
-            ></Chip>
-            <Chip label={"人気のショート動画"} onClick={(() => { setGet("popular_shorts") })}
-                color="info"
-                variant={get == "popular_shorts" ? "filled" : "outlined"}
-            ></Chip>
+                variant={get == "popular_shorts" ? "default" : "outline"}
+            >
+                人気のショート動画
+            </Badge>
         </div>
         {videos == undefined ? <>
             <><Spinner variant="ring" /></>
@@ -85,7 +97,7 @@ export default function ChannelList({ channelId }: { channelId: string }) {
                         <>
                             <Link key={item.snippet.resourceId.videoId} className='block my-8 break-all sm:flex items-start gap-4 cursor-pointer' onClick={() => { }} href={`/play?v=${item.snippet.resourceId.videoId}`}>
                                 <div className="flex place-content-center flex-none">
-                                    <Image src={`https://i.ytimg.com/vi/${item.snippet.resourceId.videoId}/mqdefault.jpg`} alt="" width={120 * 2.5} height={67.5 * 2.5} className='inline rounded-md' unoptimized />
+                                    <Image src={`https://i.ytimg.com/vi/${item.snippet.resourceId.videoId}/mqoutline.jpg`} alt="" width={120 * 2.5} height={67.5 * 2.5} className='inline rounded-md' unoptimized />
                                 </div>
                                 <div className='inline'>
                                     <p>{item.snippet.title} </p>

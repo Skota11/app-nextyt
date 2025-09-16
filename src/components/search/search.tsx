@@ -61,7 +61,7 @@ export default function Home() {
                     <div className="flex gap-x-4 mt-2">
                         <Badge 
                             variant={get == "" ? "default" : "outline"}
-                            className={`cursor-pointer transition-colors`}
+                            className={`cursor-pointer`}
                             onClick={() => { setGet("") }}
                         >
                             <FontAwesomeIcon icon={faYoutube} className="mr-1" />
@@ -69,7 +69,7 @@ export default function Home() {
                         </Badge>
                         <Badge 
                             variant={get == "niconico" ? "default" : "outline"}
-                            className={`cursor-pointer transition-colors`}
+                            className={`cursor-pointer`}
                             onClick={() => { setGet("niconico") }}
                         >
                             <SiNiconico className="mr-1" />

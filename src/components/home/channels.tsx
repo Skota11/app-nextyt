@@ -10,8 +10,7 @@ import { faStickyNote } from "@fortawesome/free-solid-svg-icons";
 //Next.js
 import Image from "next/image"
 import Link from "next/link";
-import Tooltip from "@mui/material/Tooltip";
-
+import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
 //Types
 import {Channel} from "@/types/db";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -49,9 +48,16 @@ export default function Main() {
                                     {result.map((item: Channel) => {
                                         return (
                                             <Link key={item.channelId} className='snap-start min-w-[70px]' href={`/channel/${item.channelId}`}>
-                                                <Tooltip title={item.channelContent.title}>
-                                                    <Image alt="channelImage" src={`${item.channelContent.thumbnails.medium.url}`} width={70} height={60} unoptimized className="rounded-full" />
-                                                </Tooltip>
+                                                <TooltipProvider>
+                                                    <Tooltip>
+                                                    <TooltipTrigger>
+                                                        <Image alt="channelImage" src={`${item.channelContent.thumbnails.medium.url}`} width={70} height={60} unoptimized className="rounded-full" />
+                                                    </TooltipTrigger>
+                                                    <TooltipContent>
+                                                        {item.channelContent.title}
+                                                    </TooltipContent>
+                                                    </Tooltip>
+                                                </TooltipProvider>
                                             </Link>
                                         )
                                     })}

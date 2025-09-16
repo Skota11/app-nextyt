@@ -12,8 +12,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { LuArrowDownUp } from "react-icons/lu";
 
 // Material UI
-import Switch from '@mui/material/Switch';
-import FormControlLabel from '@mui/material/FormControlLabel';
 
 // Third Party Libraries
 import Swal from 'sweetalert2'
@@ -24,6 +22,8 @@ import NicoVideoCard from './cards/nicoVideoCard';
 import { VideoAbout } from '@/types/db';
 import VideoCard from './cards/youtubeVideoCard';
 import { Spinner } from '@/components/ui/shadcn-io/spinner';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '../ui/label';
 
 export default function Main(props: { playlistId: string, ytid: string, setNextYtid: (ytid: string) => void, setAutoPlay: (autoPlay: boolean) => void }) {
     const router = useRouter();
@@ -110,27 +110,23 @@ export default function Main(props: { playlistId: string, ytid: string, setNextY
         }
     }, [props.ytid])
 
-    const handleAutoPlayChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const checked = event.target.checked;
-        setAutoPlay(checked);
-        props.setAutoPlay(checked);
+    const handleAutoPlayChange = (e:boolean) => {
+        setAutoPlay(e);
+        props.setAutoPlay(e);
     };
-
     return (
         <>
             <div className="p-4 max-w-screen-xl m-auto">
                 <input className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-1.5' value={name} onChange={onInputChange} ref={inputRef} />
-                <div className='mb-4 flex gap-x-4 items-center'>
-                    <FormControlLabel
-                        control={
-                            <Switch
+                <div className=' my-4 flex gap-x-4 items-center'>
+                    <div className='flex gap-x-2 items-center'>
+                        <Switch
+                                id='autoPlay'
                                 checked={autoPlay}
-                                onChange={handleAutoPlayChange}
-                                color="primary"
-                            />
-                        }
-                        label="連続再生"
-                    />
+                                onCheckedChange={handleAutoPlayChange}
+                        />
+                        <Label htmlFor='autoPlay'>連続再生</Label>
+                    </div>
                     <button onClick={listReverse}><LuArrowDownUp /></button>
                     <button onClick={() => { inputRef.current?.focus() }}><FontAwesomeIcon icon={faPencil} /></button>
                     <button onClick={listDelete}><FontAwesomeIcon className='text-red-700' icon={faTrash} /></button>

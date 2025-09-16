@@ -11,7 +11,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightFromBracket, faLink } from "@fortawesome/free-solid-svg-icons";
 import { useLocalStorage } from "react-use";
 import { useState, useEffect } from "react";
-import Switch from "@mui/material/Switch";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "../ui/label";
 
 //Utility Libraries
 
@@ -37,49 +38,51 @@ export default function Main(props: { currentUser: User }) {
                     <h1 className="text-xl my-6">プレイヤー設定</h1>
                     <div className="flex flex-col gap-y-4 mx-2">
                         <div>
-                            <div className="flex items-center gap-x-2">
+                            <div className="flex items-center gap-x-2 my-2">
                                 {mounted && (
                                     <Switch
+                                        id="pip"
                                         checked={pip}
-                                        onChange={(e) => setPip(e.target.checked)}
+                                        onCheckedChange={(e) => setPip(e)}
                                     />
                                 )}
-                                <span>PiP</span>
+                                <Label htmlFor="pip">PiP</Label>
                             </div>
                             <p className="text-sm text-gray-800">プレイヤーが画面外になってもミニプレイヤーで表示します。</p>
                         </div>
                         <div>
-                            <div className="flex items-center gap-x-2">
+                            <div className="flex items-center gap-x-2 my-2">
                                 {mounted && (
                                     <Switch
+                                        id="autoPlay"
                                         checked={autoPlay}
-                                        onChange={(e) => setAutoPlay(e.target.checked)}
+                                        onCheckedChange={(e) => setAutoPlay(e)}
                                     />
                                 )}
-                                <span>自動再生</span>
+                                <Label htmlFor="autoPlay">自動再生</Label>
                             </div>
                             <p className="text-sm text-gray-800">動画選択後やページ読み込み後に自動で動画を再生します。</p>
                             <p className="text-sm text-gray-800">連続再生を有効にするときはこの設定をオンにしないと再生されません。</p>
                         </div>
                         <div>
-                            <div className="flex items-center gap-x-2">
+                            <div className="flex items-center gap-x-2 my-2">
                                 {mounted && (
                                     <Switch
+                                        id="repeat"
                                         checked={repeat}
-                                        onChange={(e) => setRepeat(e.target.checked)}
+                                        onCheckedChange={(e) => setRepeat(e)}
                                     />
                                 )}
-                                <span>リピート再生</span>
+                                <Label htmlFor="repeat">リピート再生</Label>
                             </div>
                             <p className="text-sm text-gray-800">動画を再生し終わったあともう一度はじめから再生します。</p>
                             <p className="text-sm text-gray-800">プレイヤー下のコントローラーでも変更できます。</p>
                         </div>
                         <div>
                             <div className="flex items-center gap-x-2 mb-2">
-                                <span>ニコニコプレイヤー設定</span>
                                 <Link href={"/settings/player"} className="text-blue-600 hover:text-blue-800">
                                     <FontAwesomeIcon icon={faLink} className="mr-2" />
-                                    設定
+                                    プレイヤー設定
                                 </Link>
                             </div>
                             <p className="text-sm text-gray-800">スマホでのニコニコ再生時にプレイヤーの音量設定を変更できます。</p>

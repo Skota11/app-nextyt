@@ -2,7 +2,7 @@
 
 import { faStickyNote, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Button from "@mui/material/Button";
+import {Button} from "@/components/ui/button";
 
 import toast from "react-hot-toast";
 
@@ -29,8 +29,8 @@ export default function AddUserChannels({id} : { id: string }) {
     }
     return (
         <div className="my-4 flex gap-x-4">
-                        <Button color="success" startIcon={<FontAwesomeIcon icon={faStickyNote} />} onClick={addUserChannels}>ピン留め</Button>
-                        <Button color="warning" startIcon={<FontAwesomeIcon icon={faTrash} />} onClick={deleteUserChannels}>解除</Button>
+            <Button color="success" onClick={addUserChannels}><FontAwesomeIcon icon={faStickyNote} /> ピン留め</Button>
+            <Button color="warning" onClick={deleteUserChannels}><FontAwesomeIcon icon={faTrash} /> 解除</Button>
         </div>
     );
 }

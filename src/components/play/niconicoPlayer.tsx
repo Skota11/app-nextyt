@@ -105,7 +105,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                     <div className='w-full h-full text-white flex place-content-center bg-black'><p className='text-2xl text-center'>PictureInPictureで再生中</p></div>
                 </div>
             </> : <></>}
-            <div className={isPiP ? "fixed bottom-8 right-4 w-96 aspect-video shadow-lg z-50 bg-white rounded-xl overflow-hidden" : 'aspect-video w-full max-h-4/5 maxHeightVideo fullscreen-container'}
+            <div className={isPiP ? "fixed md:bottom-4 bottom-16 right-4 w-96 aspect-video shadow-lg z-50 bg-white rounded-xl overflow-hidden" : 'aspect-video w-full max-h-4/5 maxHeightVideo fullscreen-container'}
             >
                 {props.ytid ? <>
                     <iframe ref={playerRef} key={refreshKey} src={`https://embed.nicovideo.jp/watch/${props.ytid}?persistence=1&oldScript=1&referer=&from=0&allowProgrammaticFullScreen=1&autoplay=1&jsapi=1&playerId=nicoPlayer`} width={"100%"} height={"100%"} allowFullScreen allow="autoplay"></iframe>

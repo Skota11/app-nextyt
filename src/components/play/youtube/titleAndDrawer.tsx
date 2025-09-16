@@ -1,5 +1,4 @@
 import { RefObject, useEffect, useState } from "react";
-import Drawer from "@mui/material/Drawer"
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faRotateRight, faThumbsUp } from "@fortawesome/free-solid-svg-icons";
@@ -9,13 +8,11 @@ import { VideoAbout } from "@/types/videoAbout";
 import dayjs from "dayjs";
 import { faYoutube } from "@fortawesome/free-brands-svg-icons";
 import AddPlaylist from "../common/addPlaylist";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function TitleAndDrawer({isLogin , observerRef , setRefreshKey , ytid} : {isLogin: boolean, observerRef: RefObject<HTMLHeadingElement | null>, setRefreshKey: (key: number | ((prevCount: number) => number)) => void , ytid:string}) {
     const [videoAbout , setVideoAbout] = useState<VideoAbout | null>(null);
-    const [openedDrawer, setOpenedDrawer] = useState(false);
-    const toggleOnCloseDrawer = () => {
-        setOpenedDrawer(false);
-    }
     //動画情報の取得
     const getVideoAbout = async (id:string) => {
         if (id !== "") {
@@ -47,21 +44,24 @@ export default function TitleAndDrawer({isLogin , observerRef , setRefreshKey , 
     return (
         <>
         <div className='px-2 py-2'>
-                        <div>
-                            <h1 ref={observerRef} className='m-2 break-all text-lg cursor-pointer' onClick={() => { setOpenedDrawer(true) }}>{videoAbout?.snippet.title}</h1>
-                            <Drawer
-                                anchor={'left'}
-                                open={openedDrawer}
-                                onClose={toggleOnCloseDrawer}
-                                PaperProps={{
-                                    sx: { width: "90%", maxWidth: "512px" },
-                                }}
-                                className="z-20"
+                        <Sheet>
+                            <SheetTrigger>
+                                <h1 ref={observerRef} className='m-2 break-all text-lg cursor-pointer'>{videoAbout?.snippet.title}</h1>
+                            </SheetTrigger>
+                            <SheetContent
+                                side={'left'}
+                                className="w-[90vw] max-w-[512px] md:max-w-[512px] lg:max-w-[512px]"
                             >
-                                <p className='mt-4 text-center cursor-pointer' onClick={() => { setOpenedDrawer(false) }}>閉じる</p>
-                                <div className='p-8'>
-                                    <h1 className='text-xl'>{videoAbout?.snippet.title}</h1>
-                                    <Link href={`/channel/${videoAbout?.snippet.channelId}`}><p className='text-lg text-slate-600' onClick={() => { }}>{videoAbout?.snippet.channelTitle}</p></Link>
+                                <ScrollArea className='h-full'>
+                                    <SheetHeader>
+                                        <SheetTitle>
+                                            {videoAbout?.snippet.title}
+                                        </SheetTitle>
+                                        <SheetDescription>
+                                            <Link href={`/channel/${videoAbout?.snippet.channelId}`}>{videoAbout?.snippet.channelTitle}</Link>
+                                        </SheetDescription>
+                                    </SheetHeader>
+                                    
                                     <div className='sm:flex gap-x-4 my-4 gap-y-4'>
                                         <p className='text-sm'>{dayjs(videoAbout?.snippet.publishedAt).format('YYYY年MM月DD日')}</p>
                                         <p className='text-sm'><FontAwesomeIcon className='mr-2' icon={faEye} />{toJaNum(videoAbout?.statistics.viewCount)}</p>
@@ -86,9 +86,9 @@ export default function TitleAndDrawer({isLogin , observerRef , setRefreshKey , 
                                     <div className="my-4">
                                         <a className='' href={`https://youtu.be/${ytid}`} ><FontAwesomeIcon className='mr-2' icon={faYoutube} />Youtubeで開く</a>
                                     </div>
-                                </div>
-                            </Drawer>
-                        </div>
+                                </ScrollArea>
+                            </SheetContent>
+                        </Sheet>
                     </div>
         </>
     )

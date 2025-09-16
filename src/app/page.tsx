@@ -38,7 +38,6 @@ export default async function Home() {
           </div>
           <div className="relative grid place-content-center my-2">
             <Search />
-            <p className="absolute right-0 bottom-0"><Link className="p-2 rounded-full bg-gray-100 items-center flex gap-x-2" href={"/play"}><FontAwesomeIcon icon={faArrowRight} /><span>play</span></Link></p>
           </div>
           <Channels />
           <PlaylistHead />

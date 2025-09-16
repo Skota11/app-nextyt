@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 //Next.js
 import Link from "next/link";
-import Skeleton from "@mui/material/Skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface playlist { playlistId: string, playlistName: string }
 
@@ -25,8 +25,8 @@ export default function Main() {
                     result == undefined ?
                         <>
                             <div className="grid grid-rows-1 gap-y-2">
-                                <Skeleton variant="rounded" width={210} height={20} animation="wave" />
-                                <Skeleton variant="rounded" width={210} height={20} animation="wave" />
+                                <Skeleton className='w-[210px] h-[20px] animate-pulse' />
+                                <Skeleton className='w-[210px] h-[20px] animate-pulse' />
                             </div>
                         </>
                         :

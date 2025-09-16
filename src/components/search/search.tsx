@@ -4,8 +4,8 @@
 import { useState, useRef } from "react";
 import { useDebounce } from "react-use";
 
-//Material UI
-import Chip from "@mui/material/Chip";
+//shadcn/ui
+import { Badge } from "@/components/ui/badge";
 
 //Font Awesome Icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -59,14 +59,22 @@ export default function Home() {
                         <button type="submit" className='py-2 px-4 rounded-r-full bg-gray-100'><FontAwesomeIcon icon={faSearch} /></button>
                     </div>
                     <div className="flex gap-x-4 mt-2">
-                        <Chip icon={<FontAwesomeIcon icon={faYoutube} className="m-1" />} label={"Youtube"} onClick={() => { setGet("") }}
-                            variant={get == "" ? "filled" : "outlined"}
-                            color="info"
-                        />
-                        <Chip icon={<SiNiconico className="m-1" />} label={"ニコニコ動画"} onClick={(() => { setGet("niconico") })}
-                            variant={get == "niconico" ? "filled" : "outlined"}
-                            color="info"
-                        ></Chip>
+                        <Badge 
+                            variant={get == "" ? "default" : "outline"}
+                            className={`cursor-pointer transition-colors`}
+                            onClick={() => { setGet("") }}
+                        >
+                            <FontAwesomeIcon icon={faYoutube} className="mr-1" />
+                            Youtube
+                        </Badge>
+                        <Badge 
+                            variant={get == "niconico" ? "default" : "outline"}
+                            className={`cursor-pointer transition-colors`}
+                            onClick={() => { setGet("niconico") }}
+                        >
+                            <SiNiconico className="mr-1" />
+                            ニコニコ動画
+                        </Badge>
                     </div>
                 </form>
             </div>

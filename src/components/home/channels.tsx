@@ -10,11 +10,12 @@ import { faStickyNote } from "@fortawesome/free-solid-svg-icons";
 //Next.js
 import Image from "next/image"
 import Link from "next/link";
-import Skeleton from "@mui/material/Skeleton";
 import Tooltip from "@mui/material/Tooltip";
 
 //Types
 import {Channel} from "@/types/db";
+import { Skeleton } from "@/components/ui/skeleton";
+
 export default function Main() {
     const [result, setResult] = useState<Array<Channel> | undefined>(undefined)
     const getPlaylists = async () => {
@@ -33,12 +34,10 @@ export default function Main() {
                         <>
                             <div className="flex gap-x-4">
                                 <div>
-                                    <Skeleton variant="circular" width={70} height={70} />
-                                    <Skeleton variant="rounded" width={70} height={20} animation="wave" className="my-2" />
+                                    <Skeleton className='w-[70px] h-[70px] rounded-full' />
                                 </div>
                                 <div>
-                                    <Skeleton variant="circular" width={70} height={70} />
-                                    <Skeleton variant="rounded" width={70} height={20} animation="wave" className="my-2" />
+                                    <Skeleton className='w-[70px] h-[70px] rounded-full' />
                                 </div>
                             </div>
                         </>

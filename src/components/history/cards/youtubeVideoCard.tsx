@@ -5,7 +5,8 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 //types
 import { VideoAbout } from "@/types/db";
-import CircularProgress from "@mui/material/CircularProgress";
+
+import { Spinner } from "@/components/ui/shadcn-io/spinner";
 
 export default function VideoCard ({item , deleteLoading , deleteHistory} : {item: VideoAbout , deleteLoading: Array<string> , deleteHistory: (id: string) => Promise<void>}) {
     return (
@@ -33,7 +34,7 @@ export default function VideoCard ({item , deleteLoading , deleteHistory} : {ite
             <div className="absolute sm:top-auto top-2 sm:bottom-2 right-2 bg-red-500 rounded-full w-8 h-8 place-content-center">
             {deleteLoading.includes(item.videoId) ? (
                 <p className="flex place-content-center">
-                <CircularProgress color="primary" size={20} />
+                <Spinner variant="ring" />
                 </p>
             ) : (
                 <p className="flex place-content-center">

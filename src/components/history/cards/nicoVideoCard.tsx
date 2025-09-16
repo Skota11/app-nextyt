@@ -7,7 +7,8 @@ import Link from "next/link";
 import { SiNiconico } from "react-icons/si";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import CircularProgress from "@mui/material/CircularProgress";
+
+import { Spinner } from "@/components/ui/shadcn-io/spinner";
 
 export default function NicoVideoCard({item , deleteLoading , deleteHistory} : {item: VideoAbout, deleteLoading: string[], deleteHistory: (id: string) => void}) {
     return (
@@ -40,7 +41,7 @@ export default function NicoVideoCard({item , deleteLoading , deleteHistory} : {
             </div>
             <div className="absolute sm:top-auto top-2 sm:bottom-2 right-2 bg-red-500 rounded-full w-8 h-8 place-content-center">
             {deleteLoading.includes(item.videoId) ? (
-                <CircularProgress color="primary" size={20} />
+                <Spinner variant="ring" />
             ) : (
                 <p className="flex place-content-center">
                 <button

@@ -1,6 +1,5 @@
 // Next.js
 import Image from 'next/image'
-import { Skeleton } from "@mui/material";
 // Font Awesome icons
 // Custom utilities
 import num2ja from "@/utils/num2ja";
@@ -10,6 +9,7 @@ import { createClient } from "@/utils/supabase/server";
 import AddUserChannels from "@/components/channel/addUserChannels";
 import ChannelList from "@/components/channel/channelList";
 import { headers } from 'next/headers';
+import { Skeleton } from '@/components/ui/skeleton';
 
 
 
@@ -42,7 +42,7 @@ export default async function Child({ params }: { params: Promise<{ channelId: s
                     {channel ? <>
                         <Image alt="channelImage" src={`${channel?.snippet.thumbnails.medium.url}`} width={120} height={120} unoptimized className="rounded-full" />
                     </> : <>
-                        <Skeleton animation="wave" variant="circular" width={120} height={120} />
+                        <Skeleton className='w-[120px] h-[120px]' />
                     </>}
                     <div>
                         {channel ? <>

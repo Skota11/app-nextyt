@@ -12,7 +12,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { LuArrowDownUp } from "react-icons/lu";
 
 // Material UI
-import CircularProgress from '@mui/material/CircularProgress';
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
@@ -24,6 +23,7 @@ import NicoVideoCard from './cards/nicoVideoCard';
 // Types
 import { VideoAbout } from '@/types/db';
 import VideoCard from './cards/youtubeVideoCard';
+import { Spinner } from '@/components/ui/shadcn-io/spinner';
 
 export default function Main(props: { playlistId: string, ytid: string, setNextYtid: (ytid: string) => void, setAutoPlay: (autoPlay: boolean) => void }) {
     const router = useRouter();
@@ -140,7 +140,7 @@ export default function Main(props: { playlistId: string, ytid: string, setNextY
                         result == undefined ?
                             <>
                                 <div className='flex place-content-center'>
-                                    <CircularProgress color="primary" size={40} />
+                                    <Spinner variant='ring' />
                                 </div>
                             </>
                             :

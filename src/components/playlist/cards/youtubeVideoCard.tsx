@@ -2,10 +2,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import CircularProgress from '@mui/material/CircularProgress';
 
 //types
 import { VideoAbout } from "@/types/db";
+import { Spinner } from "@/components/ui/shadcn-io/spinner";
 
 export default function VideoCard({item, props, deleteLoading, deletePlaylist} : {props : {ytid:string , playlistId:string  } , item: VideoAbout , deleteLoading: Array<string> , deletePlaylist: (id: string) => void }) {
     return (
@@ -42,7 +42,7 @@ export default function VideoCard({item, props, deleteLoading, deletePlaylist} :
             <div className="absolute sm:top-auto top-2 sm:bottom-2 right-2 bg-red-500 rounded-full w-8 h-8 place-content-center">
             {deleteLoading.includes(item.videoId) ? (
                 <p className="flex place-content-center">
-                <CircularProgress color="primary" size={20} />
+                <Spinner variant="ring" />
                 </p>
             ) : (
                 <p className="flex place-content-center">

@@ -1,7 +1,6 @@
 "use client"
 
 import Chip from '@mui/material/Chip';
-import CircularProgress from '@mui/material/CircularProgress';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -9,6 +8,7 @@ import Image from 'next/image';
 import dayjs from 'dayjs';
 
 import { Toaster } from 'react-hot-toast';
+import { Spinner } from '@/components/ui/shadcn-io/spinner';
 
 interface videoList { snippet: { resourceId: { videoId: string, kind: string }, title: string, channelTitle: string, publishedAt: string } }
 
@@ -72,13 +72,13 @@ export default function ChannelList({ channelId }: { channelId: string }) {
             ></Chip>
         </div>
         {videos == undefined ? <>
-            <><CircularProgress color="primary" size={40} /></>
+            <><Spinner variant="ring" /></>
         </> : <>
             <InfiniteScroll
                 dataLength={videos.length}
                 next={getMoreVideos}
                 hasMore={hasMore}
-                loader={<CircularProgress color="primary" size={40} />}
+                loader={<Spinner variant="ring" />}
             >
                 {videos.map((item) => {
                     return (

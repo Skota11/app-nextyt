@@ -5,7 +5,7 @@ import { createClient } from "@/utils/supabase/server";
 import Settings from "@/components/home/settings";
 
 // Material UI
-import CircularProgress from '@mui/material/CircularProgress';
+import { Spinner } from "@/components/ui/shadcn-io/spinner";
 
 interface User { id: string | undefined, userName: string, email: string | undefined, provider: string | undefined, login: boolean };
 
@@ -32,7 +32,7 @@ export default async function Home() {
                     <p className="text-center">ログインしてください。</p>
                 </> : <>
                     <div className="flex place-content-center my-12">
-                        <div><CircularProgress color="primary" size={80} /> <p className="text-center">アプリを起動中</p></div>
+                        <div><Spinner /> <p className="text-center">アプリを起動中</p></div>
                     </div>
                 </>}
             </>}

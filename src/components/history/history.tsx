@@ -4,7 +4,7 @@
 import { useEffect, useState } from "react";
 
 //Third party libraries
-import CircularProgress from "@mui/material/CircularProgress";
+
 import InfiniteScroll from "react-infinite-scroll-component";
 import nicoCheck from "@/utils/niconico/nicoid";
 
@@ -12,6 +12,7 @@ import nicoCheck from "@/utils/niconico/nicoid";
 import { VideoAbout } from "@/types/db";
 import NicoVideoCard from "./cards/nicoVideoCard";
 import VideoCard from "./cards/youtubeVideoCard";
+import { Spinner } from "@/components/ui/shadcn-io/spinner";
 
 export default function Main() {
     const [result, setResult] = useState<Array<VideoAbout> | undefined>(undefined)
@@ -54,7 +55,7 @@ export default function Main() {
             <div className="mx-4">
                 {
                     result == undefined ?
-                        <><CircularProgress color="primary" size={40} /></>
+                        <><Spinner variant="ring"/></>
                         :
                         result.length == 0 ? <><p>視聴履歴はありません</p></> :
                             <>
@@ -62,7 +63,7 @@ export default function Main() {
                                     dataLength={result.length}
                                     next={getMoreHistory}
                                     hasMore={hasMore}
-                                    loader={<CircularProgress color="primary" size={40} />}
+                                    loader={<Spinner variant="ring" />}
                                 >
                                     {result.map((item: VideoAbout) => {
                                         return (

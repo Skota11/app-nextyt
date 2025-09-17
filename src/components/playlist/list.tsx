@@ -14,7 +14,6 @@ import { LuArrowDownUp } from "react-icons/lu";
 // Material UI
 
 // Third Party Libraries
-import Swal from 'sweetalert2'
 import nicoCheck from '@/utils/niconico/nicoid';
 import NicoVideoCard from './cards/nicoVideoCard';
 
@@ -23,7 +22,8 @@ import { VideoAbout } from '@/types/db';
 import VideoCard from './cards/youtubeVideoCard';
 import { Spinner } from '@/components/ui/shadcn-io/spinner';
 import { Switch } from '@/components/ui/switch';
-import { Label } from '../ui/label';
+import { Label } from '@/components/ui/label';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 
 export default function Main(props: { playlistId: string, ytid: string, setNextYtid: (ytid: string) => void, setAutoPlay: (autoPlay: boolean) => void }) {
     const router = useRouter();
@@ -74,26 +74,14 @@ export default function Main(props: { playlistId: string, ytid: string, setNextY
         }
     }
     const listDelete = async () => {
-        Swal.fire({
-            title: `プレイリストを削除しますか？`,
-            showDenyButton: true,
-            confirmButtonText: "削除",
-            denyButtonText: `やめる`
-        }).then(async (result) => {
-            /* Read more about isConfirmed, isDenied below */
-            if (result.isConfirmed) {
-                await fetch(`/api/database/playlist/${props.playlistId}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ id: 'full' }),
-                })
-                router.push(`/`);
-            } else if (result.isDenied) {
-
-            }
-        });
+        await fetch(`/api/database/playlist/${props.playlistId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: 'full' }),
+        })
+        router.push(`/`);
     }
     useEffect(() => {
         getPlaylistName()
@@ -129,7 +117,24 @@ export default function Main(props: { playlistId: string, ytid: string, setNextY
                     </div>
                     <button onClick={listReverse}><LuArrowDownUp /></button>
                     <button onClick={() => { inputRef.current?.focus() }}><FontAwesomeIcon icon={faPencil} /></button>
-                    <button onClick={listDelete}><FontAwesomeIcon className='text-red-700' icon={faTrash} /></button>
+                    <AlertDialog >
+                        <AlertDialogTrigger asChild>
+                            <button><FontAwesomeIcon className='text-red-700' icon={faTrash} /></button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>本当に削除しますか？</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    このプレイリストを削除します。
+                                    削除したプレイリストは復元できません。
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel>キャンセル</AlertDialogCancel>
+                                <AlertDialogAction onClick={listDelete}>続行</AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
                 </div>
                 <div className='mx-4'>
                     {

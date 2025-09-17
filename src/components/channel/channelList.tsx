@@ -45,39 +45,39 @@ export default function ChannelList({ channelId }: { channelId: string }) {
         getChannelPlaylist(channelId)
     }, [])
     return (<>
-        <div className="flex gap-x-4 my-4 overflow-x-scroll w-full">
+        <div className="flex flex-nowarp gap-x-4 my-4 overflow-x-auto w-full content-start justify-start snap-x pb-2">
             <Badge onClick={() => { setGet("video") }}
-                
+                className="flex-shrink-0 snap-start"
                 variant={get == "video" ? "default" : "outline"}
             >
                 動画
             </Badge>
             <Badge onClick={(() => { setGet("popular_video") })}
-                className=''
+                className="flex-shrink-0 snap-start"
                 variant={get == "popular_video" ? "default" : "outline"}
             >
                 人気の動画
             </Badge>
             <Badge onClick={() => { setGet("live") }}
-                color="info"
+                className="flex-shrink-0 snap-start"
                 variant={get == "live" ? "default" : "outline"}
             >
                 ライブ配信
             </Badge>
             <Badge onClick={(() => { setGet("popular_live") })}
-                color="info"
+                className="flex-shrink-0 snap-start"
                 variant={get == "popular_live" ? "default" : "outline"}
             >
                 人気のライブ配信
             </Badge>
             <Badge onClick={() => { setGet("shorts") }}
-                color="info"
+                className="flex-shrink-0 snap-start"
                 variant={get == "shorts" ? "default" : "outline"}
             >
                 ショート動画
             </Badge>
             <Badge onClick={(() => { setGet("popular_shorts") })}
-                color="info"
+                className="flex-shrink-0 snap-start"
                 variant={get == "popular_shorts" ? "default" : "outline"}
             >
                 人気のショート動画
@@ -97,7 +97,7 @@ export default function ChannelList({ channelId }: { channelId: string }) {
                         <>
                             <Link key={item.snippet.resourceId.videoId} className='block my-8 break-all sm:flex items-start gap-4 cursor-pointer' onClick={() => { }} href={`/play?v=${item.snippet.resourceId.videoId}`}>
                                 <div className="flex place-content-center flex-none">
-                                    <Image src={`https://i.ytimg.com/vi/${item.snippet.resourceId.videoId}/mqoutline.jpg`} alt="" width={120 * 2.5} height={67.5 * 2.5} className='inline rounded-md' unoptimized />
+                                    <Image src={`https://i.ytimg.com/vi/${item.snippet.resourceId.videoId}/mqdefault.jpg`} alt={`${item.snippet.title}のサムネイル`} width={120 * 2.5} height={67.5 * 2.5} className='inline rounded-md' unoptimized />
                                 </div>
                                 <div className='inline'>
                                     <p>{item.snippet.title} </p>

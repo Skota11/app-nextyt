@@ -1,5 +1,6 @@
 import { RefObject, useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faRotateRight, faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import toJaNum from "@/utils/num2ja";
@@ -14,6 +15,21 @@ import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle } f
 
 export default function TitleAndDrawer({ isLogin, observerRef, setRefreshKey, ytid }: { isLogin: boolean, observerRef: RefObject<HTMLHeadingElement | null>, setRefreshKey: (key: number | ((prevCount: number) => number)) => void, ytid: string }) {
     const [videoAbout, setVideoAbout] = useState<VideoAbout | null>(null);
+    const [channelInfo, setChannelInfo] = useState<{ snippet: { title: string, thumbnails: { default: { url: string } } } } | null>(null);
+
+    //チャンネル情報の取得
+    const getChannelInfo = async (channelId: string) => {
+        try {
+            const res = await fetch(`/api/external/channel?id=${channelId}`);
+            const data = await res.json();
+            if (data.data && data.data.length > 0) {
+                setChannelInfo(data.data[0]);
+            }
+        } catch (error) {
+            console.error('Failed to fetch channel data:', error);
+        }
+    };
+
     //動画情報の取得
     const getVideoAbout = async (id: string) => {
         if (id !== "") {
@@ -32,7 +48,12 @@ export default function TitleAndDrawer({ isLogin, observerRef, setRefreshKey, yt
 
                 if (data.snippet && data.statistics) {
                     setVideoAbout(data)
+                    // チャンネル情報も取得
+                    if (data.snippet.channelId) {
+                        getChannelInfo(data.snippet.channelId);
+                    }
                 }
+                console.log(data.snippet)
             } catch (error) {
                 console.error('Failed to fetch video data:', error);
             }
@@ -40,6 +61,7 @@ export default function TitleAndDrawer({ isLogin, observerRef, setRefreshKey, yt
     }
     useEffect(() => {
         setVideoAbout(null)
+        setChannelInfo(null)
         getVideoAbout(ytid)
     }, [ytid])
     //レスポンシブ
@@ -63,7 +85,10 @@ export default function TitleAndDrawer({ isLogin, observerRef, setRefreshKey, yt
                                         {videoAbout?.snippet.title}
                                     </SheetTitle>
                                     <SheetDescription>
-                                        <Link href={`/channel/${videoAbout?.snippet.channelId}`}>{videoAbout?.snippet.channelTitle}</Link>
+                                        <Link href={`/channel/${videoAbout?.snippet.channelId}`} className="flex items-center gap-x-2 place-content-center pt-2">
+                                            <Image alt="channelImage" src={channelInfo?.snippet?.thumbnails?.default?.url || '/icon-192x192.png'} width={40} height={40} unoptimized className="rounded-full" />
+                                            <span>{videoAbout?.snippet.channelTitle}</span>
+                                        </Link>
                                     </SheetDescription>
                                 </SheetHeader>
 
@@ -101,7 +126,10 @@ export default function TitleAndDrawer({ isLogin, observerRef, setRefreshKey, yt
                                         {videoAbout?.snippet.title}
                                     </DrawerTitle>
                                     <DrawerDescription>
-                                        <Link href={`/channel/${videoAbout?.snippet.channelId}`}>{videoAbout?.snippet.channelTitle}</Link>
+                                        <Link href={`/channel/${videoAbout?.snippet.channelId}`} className="flex items-center gap-x-2 place-content-center pt-2">
+                                            <Image alt="channelImage" src={channelInfo?.snippet?.thumbnails?.default?.url || '/icon-192x192.png'} width={40} height={40} unoptimized className="rounded-full" />
+                                            <span>{videoAbout?.snippet.channelTitle}</span>
+                                        </Link>
                                     </DrawerDescription>
                                 </DrawerHeader>
                                 <div className='flex gap-x-4 my-4 gap-y-4 flex-nowrap'>

@@ -126,6 +126,10 @@ export default function TitleAndDrawer({ ytid, isLogin, observerRef, setRefreshK
                                         </div>
                                     </div>
                                 </div>
+                                <button onClick={() => { setRefreshKey((prev) => prev + 1) }}><FontAwesomeIcon icon={faRotateRight} className="mr-2" />プレイヤーを再読み込み</button>
+                                <div className="my-4">
+                                    <a className='flex gap-x-2 items-center' href={`https://nico.ms/${ytid}`} ><SiNiconico /> ニコニコ動画で開く</a>
+                                </div>
                             </ScrollArea>
                         </DrawerContent>
                     </Drawer>

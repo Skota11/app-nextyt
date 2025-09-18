@@ -67,7 +67,7 @@ export default function TitleAndDrawer({ isLogin, observerRef, setRefreshKey, yt
                                     </SheetDescription>
                                 </SheetHeader>
 
-                                <div className='sm:flex gap-x-4 my-4 gap-y-4'>
+                                <div className='flex gap-x-4 my-4 gap-y-4 flex-nowrap'>
                                     <p className='text-sm'>{dayjs(videoAbout?.snippet.publishedAt).format('YYYY年MM月DD日')}</p>
                                     <p className='text-sm'><FontAwesomeIcon className='mr-2' icon={faEye} />{toJaNum(videoAbout?.statistics.viewCount)}</p>
                                     <p className='text-sm'><FontAwesomeIcon className='mr-2' icon={faThumbsUp} /> {toJaNum(videoAbout?.statistics.likeCount)}</p>
@@ -104,7 +104,7 @@ export default function TitleAndDrawer({ isLogin, observerRef, setRefreshKey, yt
                                         <Link href={`/channel/${videoAbout?.snippet.channelId}`}>{videoAbout?.snippet.channelTitle}</Link>
                                     </DrawerDescription>
                                 </DrawerHeader>
-                                <div className='sm:flex gap-x-4 my-4 gap-y-4'>
+                                <div className='flex gap-x-4 my-4 gap-y-4 flex-nowrap'>
                                     <p className='text-sm'>{dayjs(videoAbout?.snippet.publishedAt).format('YYYY年MM月DD日')}</p>
                                     <p className='text-sm'><FontAwesomeIcon className='mr-2' icon={faEye} />{toJaNum(videoAbout?.statistics.viewCount)}</p>
                                     <p className='text-sm'><FontAwesomeIcon className='mr-2' icon={faThumbsUp} /> {toJaNum(videoAbout?.statistics.likeCount)}</p>

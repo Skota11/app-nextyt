@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import AddPlaylist from "../common/addPlaylist";
 import dayjs from "dayjs";
 import { SiNiconico } from "react-icons/si";
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useMedia } from "react-use";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";

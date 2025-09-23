@@ -67,6 +67,7 @@ export default function TitleAndDrawer({ isLogin, observerRef, setRefreshKey, yt
     }
     useEffect(() => {
         setVideoAbout(null)
+        setSongInfo(null)
         setChannelInfo(null)
         getVideoAbout(ytid)
     }, [ytid])

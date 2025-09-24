@@ -4,7 +4,7 @@ import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faRotateRight, faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import toJaNum from "@/utils/num2ja";
-import { VideoAbout } from "@/types/videoAbout";
+import { SongInfo, VideoAbout } from "@/types/videoAbout";
 import dayjs from "dayjs";
 import { faYoutube } from "@fortawesome/free-brands-svg-icons";
 import AddPlaylist from "../common/addPlaylist";
@@ -12,11 +12,12 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useMedia } from 'react-use'
 import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
+import SongSection from "./drawer/song";
 
 export default function TitleAndDrawer({ isLogin, observerRef, setRefreshKey, ytid }: { isLogin: boolean, observerRef: RefObject<HTMLHeadingElement | null>, setRefreshKey: (key: number | ((prevCount: number) => number)) => void, ytid: string }) {
     const [videoAbout, setVideoAbout] = useState<VideoAbout | null>(null);
     const [channelInfo, setChannelInfo] = useState<{ snippet: { title: string, thumbnails: { default: { url: string } } } } | null>(null);
-    const [songInfo, setSongInfo] = useState<{ song: boolean, title: string, artist: string, thumbnail: string } | null>(null);
+    const [songInfo, setSongInfo] = useState<SongInfo | null>(null);
     //チャンネル情報の取得
     const getChannelInfo = async (channelId: string) => {
         try {
@@ -110,17 +111,7 @@ export default function TitleAndDrawer({ isLogin, observerRef, setRefreshKey, yt
                                     </div>
                                 </> : <></>}
                                 <div className='flex flex-col gap-y-8 my-8'>
-                                    {songInfo?.song ? <>
-                                        <div className="p-4 rounded-lg bg-gray-100 shadow-sm">
-                                            <p className="text-sm mb-2">音楽</p>
-                                            <div className="flex items-center gap-x-4">
-                                                <Image alt="songThumbnail" src={songInfo.thumbnail} width={80} height={80} unoptimized className="rounded-md" />
-                                                <div>
-                                                    <p className="font-bold">{songInfo.title}</p>
-                                                    <p className="text-sm">{songInfo.artist}</p>
-                                                </div>
-                                            </div>
-                                        </div></> : <></>}
+                                    {songInfo?.song ? <SongSection songInfo={songInfo} /> : <></>}
                                     <div className='p-4 rounded-lg bg-gray-100 shadow-sm'>
                                         <p className="text-sm mb-2">概要欄</p>
                                         <div className='text-sm break-all w-full'>
@@ -161,17 +152,7 @@ export default function TitleAndDrawer({ isLogin, observerRef, setRefreshKey, yt
                                     </div>
                                 </> : <></>}
                                 <div className='flex flex-col gap-y-8 my-8'>
-                                    {songInfo?.song ? <>
-                                        <div className="p-4 rounded-lg bg-gray-100 shadow-sm">
-                                            <p className="text-sm mb-2">音楽</p>
-                                            <div className="flex items-center gap-x-4">
-                                                <Image alt="songThumbnail" src={songInfo.thumbnail} width={80} height={80} unoptimized className="rounded-md" />
-                                                <div>
-                                                    <p className="font-bold">{songInfo.title}</p>
-                                                    <p className="text-sm">{songInfo.artist}</p>
-                                                </div>
-                                            </div>
-                                        </div></> : <></>}
+                                    {songInfo?.song ? <SongSection songInfo={songInfo} /> : <></>}
                                     <div className='p-4 rounded-lg bg-gray-100 shadow-sm'>
                                         <p className="text-sm mb-2">概要欄</p>
                                         <div className='text-sm break-all w-full'>

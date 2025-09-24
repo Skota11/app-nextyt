@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Image from 'next/image';
 import dayjs from 'dayjs';
-
 import { Toaster } from 'react-hot-toast';
 import { Spinner } from '@/components/ui/shadcn-io/spinner';
 import { Badge } from '../ui/badge';

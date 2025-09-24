@@ -1,8 +1,5 @@
 // React
 import { useEffect, useState } from "react"
-
-// Material UI
-
 // Toast Notifications
 import toast, { Toaster } from 'react-hot-toast';
 

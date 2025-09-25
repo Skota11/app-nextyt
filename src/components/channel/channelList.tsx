@@ -96,7 +96,7 @@ export default function ChannelList({ channelId }: { channelId: string }) {
                         <>
                             <Link key={item.snippet.resourceId.videoId} className='block my-8 break-all sm:flex items-start gap-4 cursor-pointer' onClick={() => { }} href={`/play?v=${item.snippet.resourceId.videoId}`}>
                                 <div className="flex place-content-center flex-none">
-                                    <Image src={`https://i.ytimg.com/vi/${item.snippet.resourceId.videoId}/mqdefault.jpg`} alt={`${item.snippet.title}のサムネイル`} width={120 * 2.5} height={67.5 * 2.5} className='inline rounded-md' unoptimized />
+                                    <Image src={`https://i.ytimg.com/vi/${item.snippet.resourceId.videoId}/hqdefault.jpg`} alt={`${item.snippet.title}のサムネイル`} width={120 * 2.5} height={67.5 * 2.5} className='inline rounded-md' unoptimized />
                                 </div>
                                 <div className='inline'>
                                     <p>{item.snippet.title} </p>

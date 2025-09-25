@@ -13,7 +13,7 @@ export default function YouTubeVideoCard({item}: {item:SearchResult}) {
             <Link href={`/play?v=${item.id?.videoId}`} className="flex-none">
             <div className="flex place-content-center w-full relative">
                 <Image
-                src={`https://i.ytimg.com/vi/${item.id?.videoId}/mqdefault.jpg`}
+                src={`https://i.ytimg.com/vi/${item.id?.videoId}/hqdefault.jpg`}
                 alt=""
                 width={120 * 2.5}
                 height={67.5 * 2.5}

@@ -21,7 +21,7 @@ export default function VideoCard ({item , deleteLoading , deleteHistory} : {ite
             <Link href={`/play?v=${item.videoId}`} className="flex-none">
             <div className="flex place-content-center w-full relative">
                 <Image
-                src={`https://i.ytimg.com/vi/${item.videoId}/mqdefault.jpg`}
+                src={`https://i.ytimg.com/vi/${item.videoId}/hqdefault.jpg`}
                 alt=""
                 width={120 * 2.5}
                 height={67.5 * 2.5}

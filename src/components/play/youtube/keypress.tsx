@@ -11,6 +11,7 @@ const handleKeyPress = useCallback((event: KeyboardEvent) => {
         switch (event.key.toLowerCase()) {
             case ' ':
             case 'space':
+                event.preventDefault(); // スクロール防止
                 setPlayerState(prev => ({ ...prev, playing: !prev.playing }));
                 break;
             case 'm':

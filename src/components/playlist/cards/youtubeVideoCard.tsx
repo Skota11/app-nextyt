@@ -54,7 +54,7 @@ export default function VideoCard({item, props, deleteLoading, deletePlaylist} :
                             deleteLoading.includes(item.videoId) ? (
                                 <Spinner variant="ring" />
                             ) : (
-                                <Button onClick={() => deletePlaylist(item.videoId)}>履歴から削除</Button>
+                                <Button onClick={() => deletePlaylist(item.videoId)}>削除</Button>
                             )
                         }
                     </div>

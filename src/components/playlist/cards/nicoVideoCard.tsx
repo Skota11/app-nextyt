@@ -53,7 +53,7 @@ export default function niconicoVideoCard({ props , item , deleteLoading , delet
                             deleteLoading.includes(item.videoId) ? (
                                 <Spinner variant="ring" />
                             ) : (
-                                <Button onClick={() => deletePlaylist(item.videoId)}>履歴から削除</Button>
+                                <Button onClick={() => deletePlaylist(item.videoId)}>削除</Button>
                             )
                         }
                     </div>

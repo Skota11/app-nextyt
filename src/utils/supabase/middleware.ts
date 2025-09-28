@@ -2,7 +2,7 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 const url = "https://jwefzgvvgzjesamosqdn.supabase.co"
-const key: string | undefined = process.env.NEXT_PUBLIC_KEY
+const key: string | undefined = process.env.NEXT_PUBLIC_SUPABSE_ANON_KEY
 
 export async function updateSession(request: NextRequest) {
     let supabaseResponse = NextResponse.next({

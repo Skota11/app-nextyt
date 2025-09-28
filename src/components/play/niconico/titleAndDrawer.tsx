@@ -44,7 +44,7 @@ export default function TitleAndDrawer({ ytid, isLogin, observerRef, setRefreshK
                             side={'left'}
                             className="w-[90vw] max-w-[512px] md:max-w-[512px] lg:max-w-[512px]"
                         >
-                            <ScrollArea className='h-full'>
+                            <ScrollArea className='h-full pt-4'>
                                 <SheetHeader>
                                     <SheetTitle>
                                         {videoAbout?.title}

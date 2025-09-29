@@ -10,15 +10,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export default function Main() {
     const onTwitterRegister = async () => {
         supabase.auth.signInWithOAuth({
-            provider: "twitter"
+            provider: "twitter",
+            options: { redirectTo: `${location.origin}/auth/callback` }
         });
-        window.location.href = "/";
     }
     const onDiscordRegister = async () => {
         supabase.auth.signInWithOAuth({
-            provider: "discord"
+            provider: "discord",
+            options: { redirectTo: `${location.origin}/auth/callback` }
         });
-        window.location.href = "/";
     }
 
     return <>
@@ -29,7 +29,6 @@ export default function Main() {
                     <FontAwesomeIcon icon={faTwitter} className='mr-2 text-white' />
                     <span>Twitterでログイン</span>
                 </button>
-
                 <button className='bg-black text-gray-100 hover:text-white shadow font-bold text-sm py-3 px-4 rounded flex justify-start items-center cursor-pointer' onClick={() => { onDiscordRegister(); }}>
                     <FontAwesomeIcon icon={faDiscord} className='mr-2 text-white' />
                     <span>Discordでログイン</span>

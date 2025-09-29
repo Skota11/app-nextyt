@@ -2,8 +2,6 @@
 
 import useSWRInfinite from "swr/infinite";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { useState } from "react";
-
 import nicoCheck from "@/utils/niconico/nicoid";
 import { VideoAbout } from "@/types/db";
 import NicoVideoCard from "./cards/nicoVideoCard";
@@ -27,7 +25,6 @@ export default function History() {
     size,
     setSize,
     mutate,
-    error,
     isValidating,
     isLoading, // SWR v2 以降
   } = useSWRInfinite<VideoAbout[]>(getKey, fetcher, {

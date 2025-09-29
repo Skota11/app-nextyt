@@ -6,7 +6,6 @@ import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 //types
 import { VideoAbout } from "@/types/db";
 
-import { Spinner } from "@/components/ui/shadcn-io/spinner";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverTrigger } from "@/components/ui/popover";
 import { PopoverContent } from "@radix-ui/react-popover";

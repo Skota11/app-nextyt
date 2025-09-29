@@ -8,7 +8,6 @@ import { SiNiconico } from "react-icons/si";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 
-import { Spinner } from "@/components/ui/shadcn-io/spinner";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import AddPlaylist from "@/components/play/common/addPlaylist";

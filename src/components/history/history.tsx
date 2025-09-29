@@ -8,6 +8,7 @@ import NicoVideoCard from "./cards/nicoVideoCard";
 import VideoCard from "./cards/youtubeVideoCard";
 import { Spinner } from "@/components/ui/shadcn-io/spinner";
 import { fetcher } from "@/lib/fetcher";
+import { useEffect } from "react";
 
 const PAGE_SIZE = 50;
 
@@ -19,7 +20,7 @@ const getKey = (pageIndex: number, previousPageData: VideoAbout[] | null) => {
   return `/api/database/history?page=${pageIndex + 1}`;
 };
 
-export default function History() {
+export default function History({isActive}: {isActive?: boolean}) {
   const {
     data,
     size,
@@ -67,6 +68,11 @@ export default function History() {
       mutate();
     }
   };
+  //
+  useEffect(() => {
+    if (!isActive) return;
+    mutate();
+  } , [isActive])
   // 初回ロード
   if (isLoading && items.length === 0) {
     return (

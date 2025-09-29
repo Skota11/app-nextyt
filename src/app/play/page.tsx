@@ -48,7 +48,7 @@ function Child() {
                 <div className="mt-4 mb-12">
                     {mountedTabs.has("history") && (
                         <div style={{ display: activeTab === "history" ? "block" : "none" }}>
-                            <History />
+                            <History isActive={activeTab === "history"}/>
                         </div>
                     )}
                     {mountedTabs.has("search") && (

@@ -2,7 +2,7 @@
 import Link from "next/link";
 
 // supabase
-import { createClient } from "../utils/supabase/server";
+import { isLoggedIn } from "@/utils/supabase/isLogin";
 
 // Home components
 import History from "@/components/history/history";
@@ -16,20 +16,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClockRotateLeft, faUser } from "@fortawesome/free-solid-svg-icons";
 import PlaylistHead from "@/components/home/playlistHead";
 
-
-interface User { id: string | undefined, email: string | undefined, login: boolean };
-
 export default async function Home() {
-  const supabase = await createClient();
-  const { data } = await supabase.auth.getUser()
-  const currentUser: User | null = data.user ? {
-    id: data.user.id,
-    email: data.user.email,
-    login: true
-  } : null;
+  const { loggedIn } = await isLoggedIn();
+  console.log("Home loggedIn:", loggedIn);
   return (
     <>
-      {currentUser?.login ? <>
+      {loggedIn ? <>
         <div className="p-4 max-w-screen-xl m-auto">
           <div className="text-right">
             <Link href={"/settings"} className="text-blue-700 hover:text-blue-900">

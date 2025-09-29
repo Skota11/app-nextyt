@@ -12,7 +12,7 @@ import { Popover, PopoverTrigger } from "@/components/ui/popover";
 import { PopoverContent } from "@radix-ui/react-popover";
 import AddPlaylist from "@/components/play/common/addPlaylist";
 
-export default function VideoCard ({item , deleteLoading , deleteHistory} : {item: VideoAbout , deleteLoading: Array<string> , deleteHistory: (id: string) => Promise<void>}) {
+export default function VideoCard ({item , deleteHistory} : {item: VideoAbout , deleteHistory: (id: string) => Promise<void>}) {
     return (
         <div
             key={item.videoId}
@@ -43,13 +43,7 @@ export default function VideoCard ({item , deleteLoading , deleteHistory} : {ite
                 </PopoverTrigger>
                 <PopoverContent className="border bg-white rounded-lg p-4 z-[120] shadow-lg" asChild>
                     <div className="flex flex-col gap-4">
-                        {
-                            deleteLoading.includes(item.videoId) ? (
-                                <Spinner variant="ring" />
-                            ) : (
-                                <Button onClick={() => deleteHistory(item.videoId)}>履歴から削除</Button>
-                            )
-                        }
+                        <Button onClick={() => deleteHistory(item.videoId)}>履歴から削除</Button>
                         <div className="flex flex-col gap-1">
                             <p className="text-sm">プレイリストに追加</p>
                             <AddPlaylist videoId={item.videoId} />

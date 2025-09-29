@@ -18,7 +18,6 @@ import PlaylistHead from "@/components/home/playlistHead";
 
 export default async function Home() {
   const { loggedIn } = await isLoggedIn();
-  console.log("Home loggedIn:", loggedIn);
   return (
     <>
       {loggedIn ? <>

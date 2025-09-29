@@ -66,7 +66,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
                 if (isMobile && screen.orientation && 'lock' in screen.orientation) {
                     (screen.orientation as ScreenOrientation & { lock: (orientation: string) => Promise<void> }).lock("landscape").catch((error: Error) => {
-                        console.log("Screen orientation lock failed:", error);
+                        console.error("Screen orientation lock failed:", error);
                     });
                 }
             } else {

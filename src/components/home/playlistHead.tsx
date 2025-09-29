@@ -16,6 +16,7 @@ export default function Home() {
             },
             body: JSON.stringify({}),
         })).json()
+        toast.dismiss('newPlaylist')
         router.push(`/playlist/${res.id}`)
     }
     return (

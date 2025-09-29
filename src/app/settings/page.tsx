@@ -12,7 +12,6 @@ interface User { id: string | undefined, userName: string, email: string | undef
 export default async function Home() {
     const supabase = await createClient();
     const { data } = await supabase.auth.getUser()
-    console.log(data)
     const currentUser: User | null = data.user ? {
         id: data.user.id,
         email: data.user.email,

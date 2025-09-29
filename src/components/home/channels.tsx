@@ -47,7 +47,7 @@ export default function Main() {
                                 <div className="flex flex-nowrap overflow-x-auto overflow-y-hidden  content-start justify-start snap-x gap-x-4 pb-4">
                                     {result.map((item: Channel) => {
                                         return (
-                                            <Link key={item.channelId} className='snap-start min-w-[70px]' href={`/channel/${item.channelId}`}>
+                                            <Link key={item.channelId} className='snap-start min-w-[70px]' href={`/channel/${item.channelId}`} prefetch={false}>
                                                 <TooltipProvider>
                                                     <Tooltip>
                                                     <TooltipTrigger>

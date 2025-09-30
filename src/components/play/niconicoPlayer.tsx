@@ -10,6 +10,7 @@ import { supabase } from "@/utils/supabase/client";
 import { useLocalStorage } from "react-use";
 import TitleAndDrawer from "./niconico/titleAndDrawer";
 import Controller from "./niconico/controller";
+import { Toaster } from "react-hot-toast";
 
 export default function Home(props: { ytid: string, onEnd?: () => void }) {
     //state
@@ -123,6 +124,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
             <TitleAndDrawer ytid={props.ytid} isLogin={isLogin} observerRef={observerRef} setRefreshKey={setRefreshKey} />
             {/* Controller */}
             <Controller ytid={props.ytid} playerState={playerState} playerRef={playerRef} repeat={repeat} setRepeat={setRepeat}/>
+            <Toaster position="bottom-center" />
         </>
     )
 }

@@ -11,8 +11,10 @@ import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import AddPlaylist from "@/components/play/common/addPlaylist";
+import { useAddQueue } from "@/hooks/queue/useAddQueue";
 
-export default function NicoVideoCard({item , deleteHistory} : {item: VideoAbout, deleteHistory: (id: string) => void}) {
+export default function NicoVideoCard({item , deleteHistory , isPlayerPage} : {item: VideoAbout, deleteHistory: (id: string) => void , isPlayerPage?: boolean}) {
+    const addQueue = useAddQueue()
     return (
         <div
             key={item.videoId}
@@ -49,7 +51,11 @@ export default function NicoVideoCard({item , deleteHistory} : {item: VideoAbout
                 </PopoverTrigger>
                 <PopoverContent className="border bg-white rounded-lg p-4 z-[120] shadow-lg" asChild>
                     <div className="flex flex-col gap-4">
-                        <Button onClick={() => deleteHistory(item.videoId)}>履歴から削除</Button>
+                        {isPlayerPage && (
+                            <Button onClick={() => {addQueue(item.videoId)}}>次に再生</Button>
+                        )}
+                        <Button onClick={() => deleteHistory(item.videoId)} variant={"destructive"}>履歴から削除</Button>
+                        
                         <div className="flex flex-col gap-1">
                             <p className="text-sm">プレイリストに追加</p>
                             <AddPlaylist videoId={item.videoId} />

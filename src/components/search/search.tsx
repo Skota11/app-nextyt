@@ -20,8 +20,12 @@ import { SearchResult } from "@/types/search";
 import YoutubeChannelCard from "./cards/youtubeChannelCard";
 import YouTubeVideoCard from "./cards/youtubeVideoCard";
 import NiconicoVideoCard from "./cards/nicoVideoCard";
+import { usePathname } from "next/navigation";
 
 export default function Home() {
+    //next Router
+    const pathname = usePathname();
+    //state
     const [inputQuery, setInputQuery] = useState("")
     const [result, setResult] = useState<Array<SearchResult> | undefined>()
     const [suggest, setSuggest] = useState([])
@@ -95,7 +99,7 @@ export default function Home() {
                         result.map((item: SearchResult) => {
                             if (item.id?.kind == "youtube#video") {
                                 return (
-                                    <YouTubeVideoCard key={item.id?.videoId} item={item} />
+                                    <YouTubeVideoCard key={item.id?.videoId} item={item} isPlayerPage={pathname == "/play"} />
                                 )
                             } else if (item.id?.kind == "youtube#channel") {
                                 return (
@@ -103,7 +107,7 @@ export default function Home() {
                                 )
                             } else {
                                 return (
-                                    <NiconicoVideoCard key={item.contentId} item={item} />
+                                    <NiconicoVideoCard key={item.contentId} item={item} isPlayerPage={pathname == "/play"}/>
                                 )
                             }
                         })

@@ -1,7 +1,7 @@
 // React
 import { useEffect, useState } from "react"
 // Toast Notifications
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 import {Button} from '@/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -51,7 +51,6 @@ export default function Main(props: { videoId: string }) {
                         </SelectContent>
                     </Select>
                 <Button variant="outline" onClick={addClickHandler}>追加</Button>
-                <Toaster position="bottom-center" />
             </div>
         </>
     )

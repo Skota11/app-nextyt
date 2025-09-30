@@ -11,7 +11,7 @@ import nicoImg from "@/utils/niconico/nicoimg";
 import { SiNiconico } from "react-icons/si";
 import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 
-export default function niconicoVideoCard({ props , item , deleteLoading , deletePlaylist } : {props : {ytid:string , playlistId:string  } , item: VideoAbout , deleteLoading: Array<string> , deletePlaylist: (id: string) => void }) {
+export default function NiconicoVideoCard({ props , item , deleteLoading , deletePlaylist } : {props : {ytid:string , playlistId:string  } , item: VideoAbout , deleteLoading: Array<string> , deletePlaylist: (id: string) => void }) {
     return (
         <div
             className={`relative my-6 break-all sm:flex items-start gap-4 cursor-pointer rounded-lg shadow-md hover:bg-gray-100 transition-colors ${

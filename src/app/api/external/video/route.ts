@@ -19,7 +19,6 @@ export async function GET(request: NextRequest) {
     }
 
     const video = data.items[0];
-    console.log(video)
     return Response.json({
         snippet: video.snippet,
         statistics: video.statistics

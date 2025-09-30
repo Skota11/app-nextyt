@@ -52,7 +52,7 @@ export default function NicoVideoCard({item , deleteHistory , isPlayerPage} : {i
                 <PopoverContent className="border bg-white rounded-lg p-4 z-[120] shadow-lg" asChild>
                     <div className="flex flex-col gap-4">
                         {isPlayerPage && (
-                            <Button onClick={() => {addQueue(item.videoId)}}>次に再生</Button>
+                            <Button onClick={() => {addQueue(item.videoId)}}>再生キューに追加</Button>
                         )}
                         <Button onClick={() => deleteHistory(item.videoId)} variant={"destructive"}>履歴から削除</Button>
                         

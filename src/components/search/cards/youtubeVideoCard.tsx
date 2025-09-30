@@ -48,7 +48,7 @@ export default function YouTubeVideoCard({item , isPlayerPage}: {item:SearchResu
                         {isPlayerPage && (
                             <Button onClick={() => {
                                 if(item.id?.videoId){addQueue(item.id.videoId)}
-                            }}>次に再生</Button>
+                            }}>再生キューに追加</Button>
                         )}
                         <div className="flex flex-col gap-1">
                             <p className="text-sm">プレイリストに追加</p>

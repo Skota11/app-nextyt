@@ -19,7 +19,7 @@ export function useAddQueue() {
             list.push(id);
         }
         params.set('queue', list.join(','));
-        toast.success('キューに追加しました');
+        toast.success('再生キューに追加しました', { duration: 800 });
         router.push(`${pathname}?${params.toString()}`, { scroll: false });
     };
 }

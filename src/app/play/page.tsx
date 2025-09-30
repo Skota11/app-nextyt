@@ -28,6 +28,7 @@ function Child() {
     const [ytid, setYtid] = useState(defaultId)
     const [activeTab, setActiveTab] = useState("search")
     const [mountedTabs, setMountedTabs] = useState(new Set(["search"]))
+    const [showQueueTrigger, setShowQueueTrigger] = useState(!!searchParams.get('queue'));
     
     useEffect(() => {
         setYtid(defaultId)
@@ -37,6 +38,21 @@ function Child() {
         setActiveTab(value)
         setMountedTabs(prev => new Set([...prev, value]))
     }
+    // queue が無くなったら検索タブへ戻す + トリガー退場アニメーション制御
+    useEffect(() => {
+        const hasQueue = !!searchParams.get('queue');
+        if (hasQueue && !showQueueTrigger) {
+            setShowQueueTrigger(true); // 即座に表示(入場アニメ)
+        }
+        if (!hasQueue && activeTab === 'queue') {
+            setActiveTab('search');
+        }
+        if (!hasQueue && showQueueTrigger) {
+            // 退場アニメ後に非表示へ (300ms == duration-300)
+            const t = setTimeout(() => setShowQueueTrigger(false), 300);
+            return () => clearTimeout(t);
+        }
+    }, [searchParams, activeTab, showQueueTrigger]);
     // 再生終了時に queue の先頭を再生し、消費した要素を削除
     const handlePlayerEnd = () => {
         // 最新の検索パラメータを取得（クロージャで古い queue を参照しないため）
@@ -87,10 +103,17 @@ function Child() {
                         </div>
                     )}
                 </div>
-                <TabsList className="fixed bottom-4 left-4 shadow-2xl backdrop-blur-sm bg-background/95 border h-10">
+                <TabsList className="fixed bottom-4 left-4 shadow-2xl backdrop-blur-sm bg-background/95 border h-10 flex">
                     <TabsTrigger value="history">履歴</TabsTrigger>
                     <TabsTrigger value="search">検索</TabsTrigger>
-                    <TabsTrigger value="queue">キュー</TabsTrigger>
+                    {showQueueTrigger && (
+                        <div
+                            className={`transition-all duration-300 ease-in-out flex items-stretch mx-1 ${searchParams.get('queue') ? 'translate-x-0 opacity-100' : '-translate-x-4 opacity-0'}`}
+                            aria-hidden={!searchParams.get('queue')}
+                        >
+                            <TabsTrigger value="queue">再生キュー</TabsTrigger>
+                        </div>
+                    )}
                 </TabsList>
             </Tabs>
         </CookiesProvider>

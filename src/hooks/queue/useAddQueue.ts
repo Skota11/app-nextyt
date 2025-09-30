@@ -1,7 +1,6 @@
 'use client';
 
 import { usePathname, useSearchParams, useRouter } from 'next/navigation';
-import toast from 'react-hot-toast';
 
 export function useAddQueue() {
     const pathname = usePathname();
@@ -19,7 +18,6 @@ export function useAddQueue() {
             list.push(id);
         }
         params.set('queue', list.join(','));
-        toast.success('再生キューに追加しました', { duration: 800 });
         router.push(`${pathname}?${params.toString()}`, { scroll: false });
     };
 }

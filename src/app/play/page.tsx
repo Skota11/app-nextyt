@@ -18,6 +18,7 @@ import QueueList from "@/components/play/queue";
 
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import PresenceSlide from "@/components/animation/presenceSlide";
+import { Badge } from "@/components/ui/badge";
 
 function Child() {
     const searchParams = useSearchParams();
@@ -116,6 +117,9 @@ function Child() {
                             onExited={() => setShowQueueTrigger(false)}
                             className="flex items-stretch mx-1"
                         >
+                            <Badge className="absolute -top-2 -right-2 rounded-full w-6 h-6 place-content-center" >
+                                {searchParams.get('queue')?.split(',').filter(Boolean).length || 0}
+                            </Badge>
                             <TabsTrigger value="queue">再生キュー</TabsTrigger>
                         </PresenceSlide>
                     )}

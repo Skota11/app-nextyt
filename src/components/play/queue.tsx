@@ -60,7 +60,7 @@ export default function QueueList() {
 			params.delete('queue');
 		}
 		const qs = params.toString();
-		router.replace(`${pathname}${qs ? `?${qs}` : ''}`);
+		router.replace(`${pathname}${qs ? `?${qs}` : ''}` , { scroll: false });
 	};
 
 	const playNow = useCallback((id: string, removeAlso?: boolean) => {
@@ -106,12 +106,12 @@ export default function QueueList() {
 															key={id}
 															className={`flex gap-4 items-center p-3 rounded-md border ${active ? 'bg-primary/10 border-primary' : 'bg-background'}`}
 														>
-											<div className="flex-1 min-w-0 cursor-pointer" onClick={() => playNow(id)}>
+											<div className="flex-1 min-w-0">
 												<p className="text-sm font-medium break-all line-clamp-2">{title}</p>
-												<p className="text-xs text-muted-foreground flex gap-x-1 items-center"><span>{index + 1}番目</span>{isNico ? <SiNiconico className='inline' /> : <FontAwesomeIcon icon={faYoutube} />}</p>
+												<p className="text-xs text-muted-foreground flex gap-x-1 items-center">{isNico ? <SiNiconico className='inline' /> : <FontAwesomeIcon icon={faYoutube} />} <span>{index + 1}番目</span></p>
 											</div>
-											<div className="flex flex-col gap-1">
-												<Button size="sm" variant="outline" onClick={() => playNow(id, true)}>今すぐ</Button>
+											<div className="flex flex-col gap-1 items-end">
+												<Button size="sm" variant="outline" onClick={() => playNow(id, true)}>今すぐ再生</Button>
 												<Button size="icon" variant="ghost" onClick={() => removeFromQueue(id)} aria-label="remove">
 													<X className="w-4 h-4" />
 												</Button>

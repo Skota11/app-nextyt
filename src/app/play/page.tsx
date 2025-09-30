@@ -17,6 +17,7 @@ import nicoCheck from "@/utils/niconico/nicoid";
 import QueueList from "@/components/play/queue";
 
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import PresenceSlide from "@/components/animation/presenceSlide";
 
 function Child() {
     const searchParams = useSearchParams();
@@ -28,7 +29,10 @@ function Child() {
     const [ytid, setYtid] = useState(defaultId)
     const [activeTab, setActiveTab] = useState("search")
     const [mountedTabs, setMountedTabs] = useState(new Set(["search"]))
+    // queue タブトリガーのプレゼンス制御用フラグ
     const [showQueueTrigger, setShowQueueTrigger] = useState(!!searchParams.get('queue'));
+    // 実際に表示要求されているか (URL に queue= が存在するか)
+    const hasQueue = !!searchParams.get('queue');
     
     useEffect(() => {
         setYtid(defaultId)
@@ -40,19 +44,16 @@ function Child() {
     }
     // queue が無くなったら検索タブへ戻す + トリガー退場アニメーション制御
     useEffect(() => {
-        const hasQueue = !!searchParams.get('queue');
-        if (hasQueue && !showQueueTrigger) {
-            setShowQueueTrigger(true); // 即座に表示(入場アニメ)
-        }
+        // queue パラメータが無くなったら検索タブへ戻す
         if (!hasQueue && activeTab === 'queue') {
             setActiveTab('search');
         }
-        if (!hasQueue && showQueueTrigger) {
-            // 退場アニメ後に非表示へ (300ms == duration-300)
-            const t = setTimeout(() => setShowQueueTrigger(false), 300);
-            return () => clearTimeout(t);
+        // 表示要求が来たらマウント
+        if (hasQueue && !showQueueTrigger) {
+            setShowQueueTrigger(true);
         }
-    }, [searchParams, activeTab, showQueueTrigger]);
+        // 非表示要求 (hasQueue=false) の場合は PresenceSlide 側の exit 完了後に onExited でアンマウント
+    }, [hasQueue, activeTab, showQueueTrigger]);
     // 再生終了時に queue の先頭を再生し、消費した要素を削除
     const handlePlayerEnd = () => {
         // 最新の検索パラメータを取得（クロージャで古い queue を参照しないため）
@@ -107,12 +108,16 @@ function Child() {
                     <TabsTrigger value="history">履歴</TabsTrigger>
                     <TabsTrigger value="search">検索</TabsTrigger>
                     {showQueueTrigger && (
-                        <div
-                            className={`transition-all duration-300 ease-in-out flex items-stretch mx-1 ${searchParams.get('queue') ? 'translate-x-0 opacity-100' : '-translate-x-4 opacity-0'}`}
-                            aria-hidden={!searchParams.get('queue')}
+                        <PresenceSlide
+                            in={hasQueue}
+                            direction="left" // 左からスライドイン (必要に応じて調整)
+                            distance={32}
+                            duration={280}
+                            onExited={() => setShowQueueTrigger(false)}
+                            className="flex items-stretch mx-1"
                         >
                             <TabsTrigger value="queue">再生キュー</TabsTrigger>
-                        </div>
+                        </PresenceSlide>
                     )}
                 </TabsList>
             </Tabs>

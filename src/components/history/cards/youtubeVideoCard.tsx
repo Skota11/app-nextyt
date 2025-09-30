@@ -1,3 +1,4 @@
+'use client';
 import Link from "next/link";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,15 +12,25 @@ import { Popover, PopoverTrigger } from "@/components/ui/popover";
 import { PopoverContent } from "@radix-ui/react-popover";
 import AddPlaylist from "@/components/play/common/addPlaylist";
 import { useAddQueue } from "@/hooks/queue/useAddQueue";
+import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 export default function VideoCard ({item , deleteHistory , isPlayerPage} : {item: VideoAbout , deleteHistory: (id: string) => Promise<void> , isPlayerPage?: boolean}) {
-    const addQueue = useAddQueue()
+    const addQueue = useAddQueue();
+    const [addedState, setAddedState] = useState<"idle" | "added" | "exists">("idle");
+    const triggerFeedback = (state: "added" | "exists") => {
+        setAddedState(state);
+        setTimeout(() => setAddedState("idle"), 1200);
+    };
+    const searchParams = useSearchParams();
+    const queueParam = searchParams.get('queue');
+    const playHref = `/play?v=${item.videoId}${queueParam ? `&queue=${encodeURIComponent(queueParam)}` : ''}`;
     return (
         <div
             key={item.videoId}
             className="relative my-6 break-all sm:flex items-start gap-4 cursor-pointer rounded-lg shadow-md hover:bg-gray-100 transition-colors"
         >
-            <Link href={`/play?v=${item.videoId}`} className="flex-none">
+            <Link href={playHref} className="flex-none">
             <div className="flex place-content-center w-full relative">
                 <Image
                 src={`https://i.ytimg.com/vi/${item.videoId}/hqdefault.jpg`}
@@ -32,7 +43,7 @@ export default function VideoCard ({item , deleteHistory , isPlayerPage} : {item
             </div>
             </Link>
             <div className="sm:inline">
-            <Link href={`/play?v=${item.videoId}`}>
+            <Link href={playHref}>
                 <p className="py-4 px-2 sm:px-0">{item.videoContent.title}</p>
             </Link>
             </div>
@@ -45,7 +56,16 @@ export default function VideoCard ({item , deleteHistory , isPlayerPage} : {item
                 <PopoverContent className="border bg-white rounded-lg p-4 z-[120] shadow-lg" asChild>
                     <div className="flex flex-col gap-4">
                         {isPlayerPage && (
-                            <Button onClick={() => addQueue(item.videoId)}>再生キューに追加</Button>
+                            <Button onClick={() => {
+                                const ok = addQueue(item.videoId);
+                                triggerFeedback(ok ? "added" : "exists");
+                            }}
+                                variant={addedState === 'exists' ? 'secondary' : undefined}
+                            >
+                                {addedState === 'added' && '追加しました ✓'}
+                                {addedState === 'exists' && '既に追加済み'}
+                                {addedState === 'idle' && '再生キューに追加'}
+                            </Button>
                         )}
                         <Button onClick={() => deleteHistory(item.videoId)} variant={"destructive"}>履歴から削除</Button> 
                         <div className="flex flex-col gap-1">

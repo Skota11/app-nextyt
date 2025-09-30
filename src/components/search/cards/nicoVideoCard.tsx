@@ -1,3 +1,4 @@
+'use client';
 import Link from "next/link";
 import Image from "next/image";
 import { SiNiconico } from "react-icons/si";
@@ -9,9 +10,21 @@ import AddPlaylist from "@/components/play/common/addPlaylist";
 import { useAddQueue } from "@/hooks/queue/useAddQueue";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 export default function NiconicoVideoCard({ item , isPlayerPage} : {item:SearchResult , isPlayerPage?: boolean}) {
-    const addQueue = useAddQueue()
+    const addQueue = useAddQueue();
+    const [addedState, setAddedState] = useState<"idle" | "added" | "exists">("idle");
+    const searchParams = useSearchParams();
+    const queueParam = searchParams.get('queue');
+    // Nico は contentId と id.videoId の扱いに注意。遷移先は contentId を v として利用している既存仕様に合わせる
+    const baseId = item.contentId || item.id?.videoId;
+    const playHref = `/play?v=${baseId}${queueParam ? `&queue=${encodeURIComponent(queueParam)}` : ''}`;
+    const triggerFeedback = (state: "added" | "exists") => {
+        setAddedState(state);
+        setTimeout(() => setAddedState("idle"), 1200);
+    };
     const omit = (str: string) => {
             if (str.length > 36) {
                 return str.substring(0, 36) + '...';
@@ -24,7 +37,7 @@ export default function NiconicoVideoCard({ item , isPlayerPage} : {item:SearchR
             key={item.id?.videoId}
             className="relative my-6 break-all sm:flex items-start gap-4 cursor-pointer rounded-lg shadow-md hover:bg-gray-100 transition-colors"
         >
-            <Link href={`/play?v=${item.contentId}`} className="flex-none">
+            <Link href={playHref} className="flex-none">
             <div className="relative place-content-center w-full">
                 <Image
                 src={item.thumbnailUrl}
@@ -43,7 +56,7 @@ export default function NiconicoVideoCard({ item , isPlayerPage} : {item:SearchR
             </div>
             </Link>
             <div className="sm:inline">
-            <Link href={`/play?v=${item.id?.videoId}`}>
+            <Link href={playHref}>
                 <div className="py-4 px-2 sm:px-0 flex flex-col gap-y-1">
                     <p className="">{item.title}</p>
                     <p className="text-sm text-gray-400">{item.description && omit(item.description)}</p>
@@ -59,8 +72,16 @@ export default function NiconicoVideoCard({ item , isPlayerPage} : {item:SearchR
                     <div className="flex flex-col gap-4">
                         {isPlayerPage && (
                             <Button onClick={() => {
-                                if(item.id?.videoId){addQueue(item.id.videoId)}
-                            }}>再生キューに追加</Button>
+                                if(!item.id?.videoId) return;
+                                const ok = addQueue(item.id.videoId);
+                                triggerFeedback(ok ? "added" : "exists");
+                            }}
+                                variant={addedState === 'exists' ? 'secondary' : undefined}
+                            >
+                                {addedState === 'added' && '追加しました ✓'}
+                                {addedState === 'exists' && '既に追加済み'}
+                                {addedState === 'idle' && '再生キューに追加'}
+                            </Button>
                         )}
                         <div className="flex flex-col gap-1">
                             <p className="text-sm">プレイリストに追加</p>

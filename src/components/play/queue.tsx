@@ -1,6 +1,6 @@
 "use client";
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
-import { useCallback, useMemo, useEffect, useState } from 'react';
+import { useCallback, useMemo, useEffect, useState, useRef } from 'react';
 import nicoCheck from '@/utils/niconico/nicoid';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -18,6 +18,24 @@ export default function QueueList() {
 	const current = searchParams.get('v') || '';
 	const queueArr = useMemo(() => queueParam.split(',').filter(Boolean), [queueParam]);
 	const [metaMap, setMetaMap] = useState<Record<string, { title: string }>>({});
+	// 直近で追加されたIDを短時間ハイライトするための state
+	const [newId, setNewId] = useState<string | null>(null);
+	const prevQueueRef = useRef<string[]>([]);
+
+	// queue の変化を監視し、新しく追加されたIDを検出
+	useEffect(() => {
+		const prev = prevQueueRef.current;
+		if (queueArr.length > prev.length) {
+			const added = queueArr.find(id => !prev.includes(id));
+			if (added) {
+				setNewId(added);
+				// 一定時間後にハイライト解除
+				const t = setTimeout(() => setNewId(current => current === added ? null : current), 1600);
+				return () => clearTimeout(t);
+			}
+		}
+		prevQueueRef.current = queueArr;
+	}, [queueArr.join(',')]);
 	useEffect(() => {
 		let cancelled = false;
 		const run = async () => {
@@ -104,7 +122,7 @@ export default function QueueList() {
 									return (
 														<li
 															key={id}
-															className={`flex gap-4 items-center p-3 rounded-md border ${active ? 'bg-primary/10 border-primary' : 'bg-background'}`}
+															className={`flex gap-4 items-center p-3 rounded-md border ${active ? 'bg-primary/10 border-primary' : 'bg-background'} ${id === newId ? 'queue-new' : ''}`}
 														>
 											<div className="flex-1 min-w-0">
 												<p className="text-sm font-medium break-all line-clamp-2">{title}</p>

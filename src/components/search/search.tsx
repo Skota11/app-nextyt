@@ -42,7 +42,7 @@ export default function Home() {
         if (inputQuery) {
             const res = await (await fetch(`/api/external/search?q=${inputQuery}&get=${get}`)).json();
             setResult(res.data)
-            setInputQuery("")
+            setSuggest([])
         }
     }
     

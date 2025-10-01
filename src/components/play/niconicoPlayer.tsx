@@ -101,25 +101,25 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
     return (
         <>
             {/* Player */}
-            {isPiP ? <>
-                <div className='aspect-video w-full max-h-4/5 rounded-lg maxHeightVideo'>
+            {isPiP && (
+                <div className='aspect-video w-full rounded-lg maxHeightVideo'>
                     <div className='w-full h-full text-white flex place-content-center bg-black'><p className='text-2xl text-center'>PictureInPictureで再生中</p></div>
                 </div>
-            </> : <></>}
-            <div className={isPiP ? "fixed md:bottom-4 bottom-16 right-4 w-96 aspect-video shadow-lg z-50 bg-white rounded-xl overflow-hidden" : 'aspect-video w-full max-h-4/5 maxHeightVideo fullscreen-container'}
-            >
-                {props.ytid ? <>
+            )}
+            {props.ytid ? (
+                <div className={
+                    isPiP ? "fixed md:bottom-4 bottom-16 right-4 w-96 aspect-video shadow-lg z-50 bg-white rounded-xl overflow-hidden" : 'aspect-video w-full max-h-4/5 maxHeightVideo fullscreen-container'
+                }>
+                    {isPiP && (
+                        <div className="absolute top-2 left-2 z-10 bg-black bg-opacity-50 text-white text-xs px-2 py-1 rounded cursor-pointer" onClick={() => {window.scrollTo({ top: 0, behavior: 'smooth' });}}>上部へ戻る</div>
+                    )}
                     <iframe ref={playerRef} key={refreshKey} src={`https://embed.nicovideo.jp/watch/${props.ytid}?persistence=1&oldScript=1&referer=&from=0&allowProgrammaticFullScreen=1&autoplay=1&jsapi=1&playerId=nicoPlayer`} width={"100%"} height={"100%"} allowFullScreen allow="autoplay"></iframe>
-                    <p onClick={() => {
-                        if (isPiP) {
-                            window.scrollTo({
-                                top: 0,
-                                behavior: 'smooth'
-                            })
-                        }
-                    }} className={isPiP ? "cursor-pointer text-center text-sm" : "hidden"}>PiP</p>
-                </> : <div className='w-full h-full text-white flex place-content-center bg-black'><p className='text-2xl text-center'>動画が選択されていません</p></div>}
-            </div>
+                </div>
+            ) : (
+                <div className='aspect-video w-full maxHeightVideo text-white flex place-content-center bg-black'>
+                    <p className='text-2xl text-center'>動画が選択されていません</p>
+                </div>
+            )}
             {/* Title&Drawer */}
             <TitleAndDrawer ytid={props.ytid} isLogin={isLogin} observerRef={observerRef} setRefreshKey={setRefreshKey} />
             {/* Controller */}

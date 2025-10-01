@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 
 //Font Awesome Icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faSearch, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { faYoutube } from "@fortawesome/free-brands-svg-icons";
 
 //React Icons
@@ -31,6 +31,13 @@ export default function Home() {
     const [suggest, setSuggest] = useState([])
     const [get, setGet] = useState("")
     const inputRef = useRef<HTMLInputElement>(null)
+    const handleClear = () => {
+        setResult(undefined)
+        setSuggest([])
+        setInputQuery("")
+        // フォーカスを戻す
+        inputRef.current?.focus()
+    }
     const getSearch = async () => {
         if (inputQuery) {
             const res = await (await fetch(`/api/external/search?q=${inputQuery}&get=${get}`)).json();
@@ -60,7 +67,7 @@ export default function Home() {
                 }}>
                     <div className="flex">
                         <input ref={inputRef} type="search" className='p-2 rounded-l-full border-2 outline-0' placeholder='検索するワードを入力' onChange={(e) => { setInputQuery(e.target.value) }} value={inputQuery} />
-                        <button type="submit" className='py-2 px-4 rounded-r-full bg-gray-100'><FontAwesomeIcon icon={faSearch} /></button>
+                        <button type="submit" className='py-2 px-4 bg-gray-100 border-y-2 border-r-2 rounded-r-full'><FontAwesomeIcon icon={faSearch} /></button>
                     </div>
                     <div className="flex gap-x-4 mt-2">
                         <Badge 
@@ -79,6 +86,16 @@ export default function Home() {
                             <SiNiconico className="mr-1" />
                             ニコニコ動画
                         </Badge>
+                        {(result && result.length > 0)? (
+                            <Badge
+                                className="ml-auto"
+                                onClick={handleClear}
+                                aria-label="検索結果をクリア"
+                                variant={"destructive"}
+                            >
+                                <FontAwesomeIcon icon={faTrash} className="mr-2"/>クリア
+                            </Badge>
+                        ) : null}
                     </div>
                 </form>
             </div>

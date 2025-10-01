@@ -2,7 +2,7 @@ import { RefObject, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faRotateRight, faThumbsUp } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faHandPointer, faRotateRight, faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import toJaNum from "@/utils/num2ja";
 import { SongInfo, VideoAbout } from "@/types/videoAbout";
 import dayjs from "dayjs";
@@ -78,9 +78,24 @@ export default function TitleAndDrawer({ isLogin, observerRef, setRefreshKey, yt
     return (
         <>
             <div className='px-2 py-2'>
-                <h1 onClick={() => {
-                    setOpen(true)
-                }} ref={observerRef} className='m-2 break-all text-lg cursor-pointer'>{videoAbout?.snippet.title}</h1>
+                <h1
+                    onClick={() => setOpen(true)}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            setOpen(true);
+                        }
+                    }}
+                    ref={observerRef}
+                    role="button"
+                    tabIndex={0}
+                    aria-expanded={open}
+                    aria-label="動画の詳細を表示"
+                    className='group m-2 break-all text-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-400 rounded inline-flex items-center gap-x-2'
+                >
+                    <span className='flex-1'>{videoAbout?.snippet.title}</span>
+                    <span className='select-none text-[10px] leading-4 px-2 py-[2px] rounded bg-blue-100 text-blue-600 border border-blue-200 font-medium tracking-wide group-hover:bg-blue-200 transition-colors'><FontAwesomeIcon icon={faHandPointer} className="mr-1"/>詳細</span>
+                </h1>
                 {isWide ? (
                     <Sheet open={open} onOpenChange={setOpen}>
                         <SheetContent

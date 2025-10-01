@@ -117,7 +117,7 @@ function Child() {
                             onExited={() => setShowQueueTrigger(false)}
                             className="flex items-stretch mx-1"
                         >
-                            <Badge className="absolute -top-2 -right-2 rounded-full w-6 h-6 place-content-center" >
+                            <Badge variant={"destructive"} className="absolute -top-2 -right-2 rounded-full w-7 h-7 place-content-center" >
                                 {searchParams.get('queue')?.split(',').filter(Boolean).length || 0}
                             </Badge>
                             <TabsTrigger value="queue">再生キュー</TabsTrigger>

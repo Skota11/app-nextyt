@@ -1,6 +1,6 @@
 import { NicoVideoAbout } from "@/types/videoAbout";
 import toJaNum from "@/utils/num2ja";
-import { faEye, faFolder, faHeart, faRotateRight } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faFolder, faHandPointer, faHeart, faRotateRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import AddPlaylist from "../common/addPlaylist";
@@ -37,7 +37,24 @@ export default function TitleAndDrawer({ ytid, isLogin, observerRef, setRefreshK
     return (
         <>
             <div className='px-2 py-2'>
-                <h1 ref={observerRef} onClick={() => setOpen(true)} className='m-2 break-all text-lg cursor-pointer'>{videoAbout?.title}</h1>
+                <h1
+                                    onClick={() => setOpen(true)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter' || e.key === ' ') {
+                                            e.preventDefault();
+                                            setOpen(true);
+                                        }
+                                    }}
+                                    ref={observerRef}
+                                    role="button"
+                                    tabIndex={0}
+                                    aria-expanded={open}
+                                    aria-label="動画の詳細を表示"
+                                    className='group m-2 break-all text-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-400 rounded inline-flex items-center gap-x-2'
+                                >
+                                    <span className='flex-1'>{videoAbout?.title}</span>
+                                    <span className='select-none text-[10px] leading-4 px-2 py-[2px] rounded bg-blue-100 text-blue-600 border border-blue-200 font-medium tracking-wide group-hover:bg-blue-200 transition-colors'><FontAwesomeIcon icon={faHandPointer} className="mr-1"/>詳細</span>
+                                </h1>
                 {isWide ? (
                     <Sheet open={open} onOpenChange={setOpen}>
                         <SheetContent

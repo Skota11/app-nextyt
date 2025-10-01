@@ -34,7 +34,7 @@ export default function NiconicoVideoCard({ item , isPlayerPage} : {item:SearchR
         }
     return (
         <div
-            key={item.id?.videoId}
+            key={item.contentId || item.id?.videoId}
             className="relative my-6 break-all sm:flex items-start gap-4 cursor-pointer rounded-lg shadow-md hover:bg-gray-100 transition-colors"
         >
             <Link href={playHref} className="flex-none">
@@ -72,8 +72,8 @@ export default function NiconicoVideoCard({ item , isPlayerPage} : {item:SearchR
                     <div className="flex flex-col gap-4">
                         {isPlayerPage && (
                             <Button onClick={() => {
-                                if(!item.id?.videoId) return;
-                                const ok = addQueue(item.id.videoId);
+                                if(!item.contentId) return;
+                                const ok = addQueue(item.contentId);
                                 triggerFeedback(ok ? "added" : "exists");
                             }}
                                 variant={addedState === 'exists' ? 'secondary' : undefined}
@@ -85,7 +85,7 @@ export default function NiconicoVideoCard({ item , isPlayerPage} : {item:SearchR
                         )}
                         <div className="flex flex-col gap-1">
                             <p className="text-sm">プレイリストに追加</p>
-                            {item.id?.videoId && <AddPlaylist videoId={item.id.videoId} />}
+                            {item.contentId && <AddPlaylist videoId={item.contentId} />}
                         </div>
                     </div>
                 </PopoverContent>

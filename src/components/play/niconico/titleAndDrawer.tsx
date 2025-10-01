@@ -50,7 +50,7 @@ export default function TitleAndDrawer({ ytid, isLogin, observerRef, setRefreshK
                                     tabIndex={0}
                                     aria-expanded={open}
                                     aria-label="動画の詳細を表示"
-                                    className='group m-2 break-all text-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-400 rounded inline-flex items-center gap-x-2'
+                                    className='group m-2 break-all text-lg cursor-pointer focus:outline-none rounded inline-flex items-center gap-x-2'
                                 >
                                     <span className='flex-1'>{videoAbout?.title}</span>
                                     <span className='select-none text-[10px] leading-4 px-2 py-[2px] rounded bg-blue-100 text-blue-600 border border-blue-200 font-medium tracking-wide group-hover:bg-blue-200 transition-colors'><FontAwesomeIcon icon={faHandPointer} className="mr-1"/>詳細</span>

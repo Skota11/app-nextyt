@@ -53,7 +53,7 @@ export default function TitleAndDrawer({ ytid, isLogin, observerRef, setRefreshK
                                     className='group m-2 break-all text-lg cursor-pointer focus:outline-none rounded inline-flex items-center gap-x-2'
                                 >
                                     <span className='flex-1'>{videoAbout?.title}</span>
-                                    <span className='select-none text-[10px] leading-4 px-2 py-[2px] rounded bg-blue-100 text-blue-600 border border-blue-200 font-medium tracking-wide group-hover:bg-blue-200 transition-colors'><FontAwesomeIcon icon={faHandPointer} className="mr-1"/>詳細</span>
+                                    <span className='w-8 h-8 flex place-content-center items-center rounded-full bg-blue-100 text-blue-600 border border-blue-200 group-hover:bg-blue-200 transition-colors'><FontAwesomeIcon icon={faHandPointer} className=""/></span>
                                 </h1>
                 {isWide ? (
                     <Sheet open={open} onOpenChange={setOpen}>

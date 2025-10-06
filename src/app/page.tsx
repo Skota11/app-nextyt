@@ -14,12 +14,10 @@ import Search from "@/components/search/search";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClockRotateLeft, faUser } from "@fortawesome/free-solid-svg-icons";
 import PlaylistHead from "@/components/home/playlistHead";
-import { redirect } from "next/navigation";
 import { HomeNavigation } from "@/components/home/Navigation";
 
 export default async function Home() {
   const { loggedIn } = await isLoggedIn();
-  if (loggedIn) {
   return (
     <>
       {loggedIn ? <>
@@ -44,11 +42,12 @@ export default async function Home() {
           <History />
         </div>
       </> : 
-      <Link href={`/auth/login`}>ログインする</Link>
+      <div className="p-4 max-w-screen-xl m-auto">
+        <div>
+          <HomeNavigation />
+        </div>
+      </div>
       }
     </>
   )
-  } else {
-    redirect('/auth/login');
-  } 
 }

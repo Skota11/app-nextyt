@@ -14,7 +14,7 @@ export function HomeNavigation() {
         <NavigationMenuList>
             <NavigationMenuItem>
             <NavigationMenuTrigger>NextTube</NavigationMenuTrigger>
-            <NavigationMenuContent className="p-8 grid gap-6 md:w-[400px] lg:w-[500px]">
+            <NavigationMenuContent className="p-8 grid gap-6 w-[400px] lg:w-[500px]">
                 <NavigationMenuLink asChild>
                     <Link href={`https://www.nextyt.app`}>
                     <div className="text-sm leading-none font-medium">NextTube</div>

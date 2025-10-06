@@ -1,5 +1,5 @@
-import { LoginForm } from '@/components/email-login-form'
-import { SocialLoginForm } from '@/components/social-login-form'
+import { LoginForm } from '@/components/supabase/email-login-form'
+import { SocialLoginForm } from '@/components/supabase/social-login-form'
 
 export default function Page() {
   return (

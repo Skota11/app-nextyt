@@ -2,7 +2,7 @@
 import { useEffect, useState, useRef } from "react";
 
 //supabase
-import { supabase } from "@/utils/supabase/client";
+import { supabase } from "@/lib/supabase/client";
 
 //Utility Libraries
 import ReactPlayer from "react-player";

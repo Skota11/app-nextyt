@@ -4,7 +4,7 @@
 import Link from "next/link";
 
 //supabase
-import { supabase } from "../../utils/supabase/client";
+import { createClient } from "../../lib/supabase/client";
 
 //fontAwesome icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -19,6 +19,7 @@ import { Label } from "../ui/label";
 interface User { id: string | undefined, userName: string | undefined, email: string | undefined, provider: string | undefined, login: boolean };
 
 export default function Main(props: { currentUser: User }) {
+    const supabase = createClient();
     const [pip, setPip] = useLocalStorage<boolean>('pip', false);
     const [autoPlay, setAutoPlay] = useLocalStorage<boolean>('autoPlay', true);
     const [repeat, setRepeat] = useLocalStorage<boolean>('repeat', false);

@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 //Next.js
 
 //supabase
-import { supabase } from "@/utils/supabase/client";
+import { supabase } from "@/lib/supabase/client";
 
 //Utility Libraries
 import { useLocalStorage } from "react-use";

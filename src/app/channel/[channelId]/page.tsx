@@ -4,7 +4,7 @@ import Image from 'next/image'
 // Custom utilities
 import num2ja from "@/utils/num2ja";
 // supabase
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 
 import AddUserChannels from "@/components/channel/addUserChannels";
 import ChannelList from "@/components/channel/channelList";

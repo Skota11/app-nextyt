@@ -6,7 +6,6 @@ import { isLoggedIn } from "@/utils/supabase/isLogin";
 
 // Home components
 import History from "@/components/history/history";
-import OAuth from "@/components/home/oauth";
 import Playlist from "@/components/home/playlist";
 import Channels from "@/components/home/channels";
 
@@ -15,9 +14,11 @@ import Search from "@/components/search/search";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClockRotateLeft, faUser } from "@fortawesome/free-solid-svg-icons";
 import PlaylistHead from "@/components/home/playlistHead";
+import { redirect } from "next/navigation";
 
 export default async function Home() {
   const { loggedIn } = await isLoggedIn();
+  if (loggedIn) {
   return (
     <>
       {loggedIn ? <>
@@ -36,16 +37,12 @@ export default async function Home() {
           <h1 className='text-lg my-4'><FontAwesomeIcon icon={faClockRotateLeft} className='mr-2' />視聴履歴</h1>
           <History />
         </div>
-      </> : <>
-        <OAuth />
-        <p className="text-sm text-gray-600 text-center">
-          本サービスを利用開始された場合、
-          <a href="/terms" className="text-blue-600 underline">利用規約</a>および
-          <a href="/privacy" className="text-blue-600 underline">プライバシーポリシー</a>
-          に同意したものとみなします。
-        </p>
-      </>
+      </> : 
+      <Link href={`/auth/login`}>ログインする</Link>
       }
     </>
   )
+  } else {
+    redirect('/auth/login');
+  } 
 }

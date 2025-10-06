@@ -22,8 +22,8 @@ export default function YoutubeChannelCard({item} : {item:SearchResult}) {
                 <Image
                     alt="channelImage"
                     src={item.snippet.thumbnails.medium.url}
-                    width={120}
-                    height={120}
+                    width={80}
+                    height={80}
                     unoptimized
                     className="rounded-full"
                 />

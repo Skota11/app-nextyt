@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 //Next.js
 
 //supabase
-import { supabase } from "@/lib/supabase/client";
+import { createClient } from "@/lib/supabase/client";
 
 //Utility Libraries
 import { useLocalStorage } from "react-use";
@@ -13,6 +13,7 @@ import Controller from "./niconico/controller";
 import { Toaster } from "react-hot-toast";
 
 export default function Home(props: { ytid: string, onEnd?: () => void }) {
+    const supabase = createClient();
     //state
     const [playerState , setPlayerState] = useState({muted: false , showComment: true});
     const [isLogin, setIsLogin] = useState(false)

@@ -2,7 +2,7 @@
 import { useEffect, useState, useRef } from "react";
 
 //supabase
-import { supabase } from "@/lib/supabase/client";
+import { createClient } from "@/lib/supabase/client";
 
 //Utility Libraries
 import ReactPlayer from "react-player";
@@ -15,6 +15,7 @@ import KeyPress from "./youtube/keypress";
 import Controller from "./youtube/controller";
 
 export default function Home(props: { ytid: string, onEnd?: () => void }) {
+    const supabase = createClient();
     //state
     const [playerState , setPlayerState] = useState({playing : false , muted: false , playbackRate: 1});
     const [repeat , setRepeat] = useLocalStorage("repeat", false);

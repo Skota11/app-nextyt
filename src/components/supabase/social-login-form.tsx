@@ -10,6 +10,8 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faDiscord, faTwitter } from '@fortawesome/free-brands-svg-icons'
 
 export function SocialLoginForm({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
   const [error, setError] = useState<string | null>(null)
@@ -68,7 +70,7 @@ export function SocialLoginForm({ className, ...props }: React.ComponentPropsWit
             <div className="flex flex-col gap-6">
               {error && <p className="text-sm text-destructive-500">{error}</p>}
               <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? '読み込み中...' : 'Discord'}
+                {isLoading ? '読み込み中...' : <><FontAwesomeIcon icon={faDiscord}/> Discord</>}
               </Button>
             </div>
           </form>
@@ -76,7 +78,7 @@ export function SocialLoginForm({ className, ...props }: React.ComponentPropsWit
             <div className="flex flex-col gap-6">
               {error && <p className="text-sm text-destructive-500">{error}</p>}
               <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? '読み込み中...' : 'Twitter'}
+                {isLoading ? '読み込み中...' : <><FontAwesomeIcon icon={faTwitter} /> Twitter</>}
               </Button>
             </div>
           </form>

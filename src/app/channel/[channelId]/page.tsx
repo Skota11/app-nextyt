@@ -8,25 +8,29 @@ import { createClient } from "@/lib/supabase/server";
 
 import AddUserChannels from "@/components/channel/addUserChannels";
 import ChannelList from "@/components/channel/channelList";
-import { headers } from 'next/headers';
 import { Skeleton } from '@/components/ui/skeleton';
-
-
 
 export default async function Child({ params }: { params: Promise<{ channelId: string }> }) {
     //
     const { channelId } = await params;
-    const headersData = await headers()
-    const host = headersData.get('host')
-    const protocol = headersData.get('x-forwarded-proto') ?? host?.startsWith('localhost') ? 'http' : 'https'
-    const apiBase = `${protocol}://${host}`
     //load
     const supabase = await createClient();
     const supabase_data = await supabase.auth.getUser()
     const currentUser: { login: boolean } | null = supabase_data.data.user ? {
         login: true
     } : null;
-    const { data } = await (await fetch(`${apiBase}/api/external/channel?id=${channelId}`)).json()
+    let res;
+    if (decodeURIComponent(channelId).charAt(0) == "@") {
+        res = await fetch(`https://youtube.googleapis.com/youtube/v3/channels?part=contentDetails&part=snippet&part=statistics&forHandle=${channelId}&key=AIzaSyC1KMsyjrnEfHJ3xnQtPX0DSxWHfyjUBeo`, {
+            next: { revalidate: 86400 } // 1dayキャッシュ
+        });
+    } else {
+        res = await fetch(`https://youtube.googleapis.com/youtube/v3/channels?part=contentDetails&part=snippet&part=statistics&id=${channelId}&key=AIzaSyC1KMsyjrnEfHJ3xnQtPX0DSxWHfyjUBeo`, {
+            next: { revalidate: 86400 } // 1dayキャッシュ
+        });
+    }
+    const data = (await res.json()).items;
+    console.log(data)
     const channel = data[0]
     const omit = (str: string) => {
         if (str.length > 36) {
@@ -55,7 +59,7 @@ export default async function Child({ params }: { params: Promise<{ channelId: s
                 {channel && currentUser?.login ? <>
                     <AddUserChannels id={channelId} />
                 </> : <></>}
-                <ChannelList channelId={channelId} />
+                <ChannelList channelId={data[0].id} />
             </div>
         </>
     )

@@ -105,7 +105,7 @@ function Child() {
                         </div>
                     )}
                 </div>
-                <TabsList className="fixed bottom-4 left-4 shadow-2xl backdrop-blur-sm bg-background/95 border h-10 flex">
+                <TabsList className="fixed bottom-4 left-4 shadow-2xl border h-10 flex">
                     <TabsTrigger value="history">履歴</TabsTrigger>
                     <TabsTrigger value="search">検索</TabsTrigger>
                     {showQueueTrigger && (

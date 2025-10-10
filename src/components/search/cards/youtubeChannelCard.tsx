@@ -18,7 +18,7 @@ export default function YoutubeChannelCard({item} : {item:SearchResult}) {
             className="my-6 break-all"
             href={`/channel/${item.id?.channelId}`}
         >
-            <div className="flex gap-x-4 items-center">
+            <div className="flex gap-x-4 items-center mt-6">
                 <Image
                     alt="channelImage"
                     src={item.snippet.thumbnails.medium.url}

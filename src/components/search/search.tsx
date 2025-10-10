@@ -67,7 +67,7 @@ export default function Home() {
                 }}>
                     <div className="flex">
                         <input ref={inputRef} type="search" className='bg-gray-100 dark:text-black p-2 rounded-l-full border-2 outline-0' placeholder='検索するワードを入力' onChange={(e) => { setInputQuery(e.target.value) }} value={inputQuery} />
-                        <button type="submit" className='py-2 px-4 bg-gray-100 border-y-2 border-r-2 rounded-r-full dark:text-black text-white'><FontAwesomeIcon icon={faSearch} /></button>
+                        <button type="submit" className='py-2 px-4 bg-gray-100 border-y-2 border-r-2 rounded-r-full text-black'><FontAwesomeIcon icon={faSearch} /></button>
                     </div>
                     <div className="flex gap-x-4 mt-2">
                         <Badge 

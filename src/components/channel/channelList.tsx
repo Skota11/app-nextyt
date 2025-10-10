@@ -100,7 +100,7 @@ export default function ChannelList({ channelId }: { channelId: string }) {
                                 </div>
                                 <div className='inline'>
                                     <p>{item.snippet.title} </p>
-                                    <p className='text-slate-600 text-sm'>{item.snippet.channelTitle} ・ {dayjs(item.snippet.publishedAt).format('YYYY年MM月DD日')} </p>
+                                    <p className='text-slate-600 dark:text-slate-300 text-sm'>{item.snippet.channelTitle} ・ {dayjs(item.snippet.publishedAt).format('YYYY年MM月DD日')} </p>
                                 </div>
                             </Link>
                         </>

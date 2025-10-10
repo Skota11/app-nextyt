@@ -13,7 +13,7 @@ import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 export default function VideoCard({item, props, deleteLoading, deletePlaylist} : {props : {ytid:string , playlistId:string  } , item: VideoAbout , deleteLoading: Array<string> , deletePlaylist: (id: string) => void }) {
     return (
         <div
-            className={`relative my-6 break-all sm:flex items-start gap-4 cursor-pointer rounded-lg shadow-md hover:bg-gray-100 transition-colors ${
+            className={`relative my-6 break-all sm:flex items-start gap-4 cursor-pointer rounded-lg shadow-md hover:bg-gray-100 dark:hover:bg-popover transition-colors ${
             props.ytid === item.videoId ? 'border-2 border-sky-500' : ''
             }`}
         >
@@ -36,7 +36,7 @@ export default function VideoCard({item, props, deleteLoading, deletePlaylist} :
             <Link href={`/playlist/${props.playlistId}?v=${item.videoId}`}>
                 <div className="py-4 px-2 sm:px-0 flex flex-col gap-y-1">
                 <p>{item.videoContent.title}</p>
-                <p className="text-slate-600 text-sm">
+                <p className="text-slate-600 dark:text-slate-200 text-sm">
                     {item.videoContent.channelTitle}
                 </p>
                 </div>
@@ -44,7 +44,7 @@ export default function VideoCard({item, props, deleteLoading, deletePlaylist} :
             </div>
             <Popover>
                 <PopoverTrigger asChild>
-                    <button className="absolute sm:top-auto top-2 sm:bottom-2 right-2 w-8 h-8 bg-gray-300 rounded-full flex place-content-center items-center hover:bg-gray-400">
+                    <button className="absolute sm:top-auto top-2 sm:bottom-2 right-2 w-8 h-8 bg-gray-300 dark:bg-slate-700 rounded-full flex place-content-center items-center hover:bg-gray-400">
                         <FontAwesomeIcon icon={faEllipsis} />
                     </button>
                 </PopoverTrigger>

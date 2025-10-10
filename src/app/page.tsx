@@ -15,6 +15,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClockRotateLeft, faUser } from "@fortawesome/free-solid-svg-icons";
 import PlaylistHead from "@/components/home/playlistHead";
 import { HomeNavigation } from "@/components/home/Navigation";
+import { Button } from "@/components/ui/button";
 
 export default async function Home() {
   const { loggedIn } = await isLoggedIn();
@@ -27,9 +28,11 @@ export default async function Home() {
               <HomeNavigation />
             </div>
             <div className="col-end-3 flex place-content-end">
-              <Link href={"/settings"} className="text-blue-700 hover:text-blue-900 items-end">
-                <h1 className='text-lg my-2 inline'><FontAwesomeIcon icon={faUser} className="mr-2" />アカウントと設定</h1>
-              </Link>
+              <Button asChild variant={"link"}>
+                <Link href={"/settings"}>
+                  <h1 className='text-lg my-2 inline'><FontAwesomeIcon icon={faUser} className="mr-2" />アカウントと設定</h1>
+                </Link>
+              </Button>
             </div>
           </div>
           <div className="relative grid place-content-center my-2">

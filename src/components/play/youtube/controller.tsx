@@ -22,8 +22,8 @@ export default function Controller({ytid , playerState , setPlayerState , repeat
                             className={`
                                 w-12 h-12 border-2 rounded-full text-xs border-current 
                                 flex items-center justify-center gap-1 flex-shrink-0
-                                hover:bg-gray-100 transition-colors duration-200
-                                ${playerState.playbackRate === 1 ? 'bg-gray-200' : ''}
+                                hover:bg-gray-100 dark:hover:bg-popover transition-colors duration-200
+                                ${playerState.playbackRate === 1 ? 'bg-gray-200 dark:bg-slate-700' : ''}
                             `}
                             onClick={async () => { setPlayerState({ ...playerState, playbackRate: 1 }) }}
                         >
@@ -34,8 +34,8 @@ export default function Controller({ytid , playerState , setPlayerState , repeat
                             className={`
                                 w-12 h-12 border-2 rounded-full text-xs border-current 
                                 flex items-center justify-center gap-1 flex-shrink-0
-                                hover:bg-gray-100 transition-colors duration-200
-                                ${playerState.playbackRate === 1.5 ? 'bg-gray-200' : ''}
+                                hover:bg-gray-100 dark:hover:bg-popover transition-colors duration-200
+                                ${playerState.playbackRate === 1.5 ? 'bg-gray-200 dark:bg-slate-700' : ''}
                             `}
                             onClick={async () => { setPlayerState({ ...playerState, playbackRate: 1.5 }) }}
                         >
@@ -46,8 +46,8 @@ export default function Controller({ytid , playerState , setPlayerState , repeat
                             className={`
                                 w-12 h-12 border-2 rounded-full text-xs border-current 
                                 flex items-center justify-center gap-1 flex-shrink-0
-                                hover:bg-gray-100 transition-colors duration-200
-                                ${playerState.playbackRate === 2 ? 'bg-gray-200' : ''}
+                                hover:bg-gray-100 dark:hover:bg-popover transition-colors duration-200
+                                ${playerState.playbackRate === 2 ? 'bg-gray-200 dark:bg-slate-700' : ''}
                             `}
                             onClick={async () => { setPlayerState({ ...playerState, playbackRate: 2 }) }}
                         >
@@ -58,7 +58,7 @@ export default function Controller({ytid , playerState , setPlayerState , repeat
                             className={`
                                 w-12 h-12 border-2 rounded-full text-xs border-current 
                                 flex items-center justify-center flex-shrink-0 relative
-                                hover:bg-gray-100 transition-colors duration-200
+                                hover:bg-gray-100 dark:hover:bg-popover transition-colors duration-200
                                 ${playerState.muted ? 'bg-red-100 border-red-500 text-red-700' : ''}
                             `}
                             onClick={async () => { setPlayerState({ ...playerState, muted: !playerState.muted }) }}
@@ -72,7 +72,7 @@ export default function Controller({ytid , playerState , setPlayerState , repeat
                         </button>
                         <button
                             title="共有"
-                            className="w-12 h-12 border-2 rounded-full text-xs border-current flex items-center justify-center flex-shrink-0 hover:bg-gray-100 transition-colors duration-200"
+                            className="w-12 h-12 border-2 rounded-full text-xs border-current flex items-center justify-center flex-shrink-0 hover:bg-gray-100 dark:hover:bg-popover transition-colors duration-200"
                             onClick={async () => { handleShare() }}
                         >
                             <FontAwesomeIcon icon={faShareFromSquare} />
@@ -83,7 +83,7 @@ export default function Controller({ytid , playerState , setPlayerState , repeat
                                 className={`
                                 w-12 h-12 border-2 rounded-full text-xs border-current 
                                 flex items-center justify-center flex-shrink-0 relative
-                                hover:bg-gray-100 transition-colors duration-200
+                                hover:bg-gray-100 dark:hover:bg-popover transition-colors duration-200
                                 ${repeat ? 'bg-green-100 border-green-500 text-green-700' : 'opacity-60'}
                             `}
                                 onClick={async () => { setRepeat(!repeat) }}

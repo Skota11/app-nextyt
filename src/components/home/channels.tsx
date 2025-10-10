@@ -45,7 +45,7 @@ export default function Main() {
                         width={70}
                         height={60}
                         unoptimized
-                        className="rounded-full"
+                        className="rounded-full hover:brightness-90 transition-all aspect-square object-cover"
                       />
                     </TooltipTrigger>
                     <TooltipContent>{item.channelContent.title}</TooltipContent>

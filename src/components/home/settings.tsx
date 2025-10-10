@@ -13,6 +13,7 @@ import { useLocalStorage } from "react-use";
 import { useState, useEffect } from "react";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "../ui/label";
+import { Button } from "../ui/button";
 
 //Utility Libraries
 
@@ -49,7 +50,7 @@ export default function Main(props: { currentUser: User }) {
                                 )}
                                 <Label htmlFor="pip">PiP</Label>
                             </div>
-                            <p className="text-sm text-gray-800">プレイヤーが画面外になってもミニプレイヤーで表示します。</p>
+                            <p className="text-sm text-gray-800 dark:text-gray-200">プレイヤーが画面外になってもミニプレイヤーで表示します。</p>
                         </div>
                         <div>
                             <div className="flex items-center gap-x-2 my-2">
@@ -62,8 +63,8 @@ export default function Main(props: { currentUser: User }) {
                                 )}
                                 <Label htmlFor="autoPlay">自動再生</Label>
                             </div>
-                            <p className="text-sm text-gray-800">動画選択後やページ読み込み後に自動で動画を再生します。</p>
-                            <p className="text-sm text-gray-800">連続再生を有効にするときはこの設定をオンにしないと再生されません。</p>
+                            <p className="text-sm text-gray-800 dark:text-gray-200">動画選択後やページ読み込み後に自動で動画を再生します。</p>
+                            <p className="text-sm text-gray-800 dark:text-gray-200">連続再生を有効にするときはこの設定をオンにしないと再生されません。</p>
                         </div>
                         <div>
                             <div className="flex items-center gap-x-2 my-2">
@@ -76,8 +77,8 @@ export default function Main(props: { currentUser: User }) {
                                 )}
                                 <Label htmlFor="repeat">リピート再生</Label>
                             </div>
-                            <p className="text-sm text-gray-800">動画を再生し終わったあともう一度はじめから再生します。</p>
-                            <p className="text-sm text-gray-800">プレイヤー下のコントローラーでも変更できます。</p>
+                            <p className="text-sm text-gray-800 dark:text-gray-200">動画を再生し終わったあともう一度はじめから再生します。</p>
+                            <p className="text-sm text-gray-800 dark:text-gray-200">プレイヤー下のコントローラーでも変更できます。</p>
                         </div>
                         <div>
                             <div className="flex items-center gap-x-2 mb-2">
@@ -86,7 +87,7 @@ export default function Main(props: { currentUser: User }) {
                                     プレイヤー設定
                                 </Link>
                             </div>
-                            <p className="text-sm text-gray-800">スマホでのニコニコ再生時にプレイヤーの音量設定を変更できます。</p>
+                            <p className="text-sm text-gray-800 dark:text-gray-200">スマホでのニコニコ再生時にプレイヤーの音量設定を変更できます。</p>
                         </div>
                     </div>
                 </div>
@@ -95,25 +96,25 @@ export default function Main(props: { currentUser: User }) {
                     <div className="flex flex-col gap-y-4 mx-2">
                         <div>
                             <p>ユーザーID</p>
-                            <p className="text-gray-800">{props.currentUser.id}</p>
+                            <p className="text-gray-800 dark:text-gray-200">{props.currentUser.id}</p>
                         </div>
                         <div>
                             <p>ユーザー名</p>
-                            <p className="text-gray-800">{props.currentUser.userName}</p>
+                            <p className="text-gray-800 dark:text-gray-200">{props.currentUser.userName}</p>
                         </div>
                         <div>
                             <p>登録メールアドレス</p>
-                            <p className="text-gray-800">{props.currentUser.email}</p>
+                            <p className="text-gray-800 dark:text-gray-200">{props.currentUser.email}</p>
                         </div>
                         <div>
                             <p>ログイン方法</p>
-                            <p className="text-gray-800">{props.currentUser.provider}</p>
+                            <p className="text-gray-800 dark:text-gray-200">{props.currentUser.provider}</p>
                         </div>
                         <div>
-                            <button className="text-red-600 hover:text-red-800 text-lg" onClick={LogOut}>
+                            <Button variant={"destructive"} onClick={LogOut}>
                                 <FontAwesomeIcon icon={faArrowRightFromBracket} className="mr-2" />
                                 ログアウト
-                            </button>
+                            </Button>
                         </div>
                         <div className="my-4">
                             <p>退会を希望される場合は、ユーザーIDとユーザー名をわかるように登録メールアドレスからメールを送信してください。</p>

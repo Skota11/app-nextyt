@@ -14,7 +14,7 @@ import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 export default function NiconicoVideoCard({ props , item , deleteLoading , deletePlaylist } : {props : {ytid:string , playlistId:string  } , item: VideoAbout , deleteLoading: Array<string> , deletePlaylist: (id: string) => void }) {
     return (
         <div
-            className={`relative my-6 break-all sm:flex items-start gap-4 cursor-pointer rounded-lg shadow-md hover:bg-gray-100 transition-colors ${
+            className={`relative my-6 break-all sm:flex items-start gap-4 cursor-pointer rounded-lg shadow-md hover:bg-gray-100 dark:hover:bg-popover transition-colors ${
             props.ytid === item.videoId ? 'border-2 border-sky-500' : ''
             }`}
         >
@@ -43,7 +43,7 @@ export default function NiconicoVideoCard({ props , item , deleteLoading , delet
             </div>
             <Popover>
                 <PopoverTrigger asChild>
-                    <button className="absolute sm:top-auto top-2 sm:bottom-2 right-2 w-8 h-8 bg-gray-300 rounded-full flex place-content-center items-center hover:bg-gray-400">
+                    <button className="absolute sm:top-auto top-2 sm:bottom-2 right-2 w-8 h-8 bg-gray-300 dark:bg-slate-700 rounded-full flex place-content-center items-center hover:bg-gray-400">
                         <FontAwesomeIcon icon={faEllipsis} />
                     </button>
                 </PopoverTrigger>

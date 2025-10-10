@@ -27,7 +27,7 @@ export default function YouTubeVideoCard({item , isPlayerPage}: {item:SearchResu
     return (
         <div
             key={item.id?.videoId}
-            className="relative my-6 break-all sm:flex items-start gap-4 cursor-pointer rounded-lg shadow-md hover:bg-gray-100 transition-colors"
+            className="relative my-6 break-all sm:flex items-start gap-4 cursor-pointer rounded-lg shadow-md hover:bg-gray-100 dark:hover:bg-popover transition-colors"
         >
             <Link href={playHref} className="flex-none">
             <div className="flex place-content-center w-full relative">
@@ -45,12 +45,12 @@ export default function YouTubeVideoCard({item , isPlayerPage}: {item:SearchResu
             <Link href={playHref}>
                 <div className="py-4 px-2 sm:px-0 flex flex-col gap-y-1">
                     <p className="">{item.snippet.title}</p>
-                    <p className='text-slate-600 text-sm'>{item.snippet.channelTitle} ・ {dayjs(item.snippet.publishedAt).format('YYYY年MM月DD日')} </p>
+                    <p className='text-slate-600 dark:text-slate-200 text-sm'>{item.snippet.channelTitle} ・ {dayjs(item.snippet.publishedAt).format('YYYY年MM月DD日')} </p>
                 </div>
             </Link>
             <Popover>
                 <PopoverTrigger asChild>
-                    <button className="absolute sm:top-auto top-2 sm:bottom-2 right-2 w-8 h-8 bg-gray-300 rounded-full flex place-content-center items-center hover:bg-gray-400">
+                    <button className="absolute sm:top-auto top-2 sm:bottom-2 right-2 w-8 h-8 bg-gray-300 dark:bg-slate-700 rounded-full flex place-content-center items-center hover:bg-gray-400">
                         <FontAwesomeIcon icon={faEllipsis} />
                     </button>
                 </PopoverTrigger>
@@ -70,7 +70,7 @@ export default function YouTubeVideoCard({item , isPlayerPage}: {item:SearchResu
                             </Button>
                         )}
                         <div className="flex flex-col gap-1">
-                            <p className="text-sm">プレイリストに追加</p>
+                            <p className="text-sm dark:text-black">プレイリストに追加</p>
                             {item.id?.videoId && <AddPlaylist videoId={item.id.videoId} />}
                         </div>
                     </div>

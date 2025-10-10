@@ -28,7 +28,7 @@ export default function VideoCard ({item , deleteHistory , isPlayerPage} : {item
     return (
         <div
             key={item.videoId}
-            className="relative my-6 break-all sm:flex items-start gap-4 cursor-pointer rounded-lg shadow-md hover:bg-gray-100 transition-colors"
+            className="relative my-6 break-all sm:flex items-start gap-4 cursor-pointer rounded-lg shadow-md hover:bg-gray-100 dark:hover:bg-popover transition-colors"
         >
             <Link href={playHref} className="flex-none">
             <div className="flex place-content-center w-full relative">
@@ -49,7 +49,7 @@ export default function VideoCard ({item , deleteHistory , isPlayerPage} : {item
             </div>
             <Popover>
                 <PopoverTrigger asChild>
-                    <button className="absolute sm:top-auto top-2 sm:bottom-2 right-2 w-8 h-8 bg-gray-300 rounded-full flex place-content-center items-center hover:bg-gray-400">
+                    <button className="absolute sm:top-auto top-2 sm:bottom-2 right-2 w-8 h-8 bg-gray-300 dark:bg-slate-700 rounded-full flex place-content-center items-center hover:bg-gray-400">
                         <FontAwesomeIcon icon={faEllipsis} />
                     </button>
                 </PopoverTrigger>
@@ -69,7 +69,7 @@ export default function VideoCard ({item , deleteHistory , isPlayerPage} : {item
                         )}
                         <Button onClick={() => deleteHistory(item.videoId)} variant={"destructive"}>履歴から削除</Button> 
                         <div className="flex flex-col gap-1">
-                            <p className="text-sm">プレイリストに追加</p>
+                            <p className="text-sm dark:text-black">プレイリストに追加</p>
                             <AddPlaylist videoId={item.videoId} />
                         </div>
                     </div>

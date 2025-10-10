@@ -17,7 +17,8 @@ export type SongInfo = {
     title: string,
     artist: string,
     thumbnail: string,
-    genius_url: string | null
+    genius_url: string | null,
+    genius_id: number | null
 }
 
 export type NicoVideoAbout = {

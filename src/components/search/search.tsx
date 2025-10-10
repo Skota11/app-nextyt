@@ -66,8 +66,8 @@ export default function Home() {
                     getSearch()
                 }}>
                     <div className="flex">
-                        <input ref={inputRef} type="search" className='p-2 rounded-l-full border-2 outline-0' placeholder='検索するワードを入力' onChange={(e) => { setInputQuery(e.target.value) }} value={inputQuery} />
-                        <button type="submit" className='py-2 px-4 bg-gray-100 border-y-2 border-r-2 rounded-r-full'><FontAwesomeIcon icon={faSearch} /></button>
+                        <input ref={inputRef} type="search" className='bg-gray-100 dark:text-black p-2 rounded-l-full border-2 outline-0' placeholder='検索するワードを入力' onChange={(e) => { setInputQuery(e.target.value) }} value={inputQuery} />
+                        <button type="submit" className='py-2 px-4 bg-gray-100 border-y-2 border-r-2 rounded-r-full dark:text-black text-white'><FontAwesomeIcon icon={faSearch} /></button>
                     </div>
                     <div className="flex gap-x-4 mt-2">
                         <Badge 
@@ -101,7 +101,7 @@ export default function Home() {
             </div>
             <div className="flex place-content-center">
                 {suggest.length !== 0 ?
-                    <div className="absolute p-4 border-2 rounded-lg bg-white flex flex-col gap-y-1 z-10">
+                    <div className="absolute p-4 border-2 rounded-lg bg-white dark:bg-popover flex flex-col gap-y-1 z-10">
                         {
                             suggest.map((item) => {
                                 return (<p className="cursor-pointer" onClick={() => { setInputQuery(item) }} key={item}>{item}</p>)

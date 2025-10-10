@@ -5,6 +5,8 @@ import { Metadata } from "next";
 
 import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
+import { ThemeProvider } from "@/components/theme-provider";
+import { ToggleTheme } from "@/components/toggleTheme";
 config.autoAddCss = false
 
 const myFont = localFont({ src: '../fonts/LINESeedJP_OTF_Bd.woff2', preload: true });
@@ -19,14 +21,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ja">
       <body
         className={`${myFont.className} text-color-[#333]`}
       >
-        <div className="bg-black p-4 flex place-content-center">
-          <h1 className="text-white"> <Link href="/">NextTube</Link></h1>
-        </div>
-        {children}
+        <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+        >
+          <div className="bg-black p-4 grid grid-cols-3">
+            <h1 className="col-start-2 col-end-3 flex place-content-center text-white "> <Link href="/">NextTube</Link></h1>
+            <div className="col-end-4 flex place-content-end">
+              <ToggleTheme />
+            </div>
+          </div>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

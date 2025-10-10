@@ -2,7 +2,7 @@ import { RefObject, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faHandPointer, faRotateRight, faThumbsUp } from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown, faChevronRight, faEye, faRotateRight, faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import toJaNum from "@/utils/num2ja";
 import { SongInfo, VideoAbout } from "@/types/videoAbout";
 import dayjs from "dayjs";
@@ -94,7 +94,9 @@ export default function TitleAndDrawer({ isLogin, observerRef, setRefreshKey, yt
                     className='group m-2 break-all text-lg cursor-pointer focus:outline-none rounded inline-flex items-center gap-x-2'
                 >
                     <span className='flex-1'>{videoAbout?.snippet.title}</span>
-                    <span className='w-8 h-8 flex place-content-center items-center rounded-full bg-blue-100 text-blue-600 border border-blue-200 group-hover:bg-blue-200 transition-colors'><FontAwesomeIcon icon={faHandPointer} className=""/></span>
+                    <span className='w-8 h-8 flex place-content-center items-center rounded-full bg-blue-100 text-blue-600 border border-blue-200 group-hover:bg-blue-200 transition-colors'>
+                        {isWide ? <FontAwesomeIcon icon={faChevronRight}/> : <FontAwesomeIcon icon={faChevronDown}/> }
+                    </span>
                 </h1>
                 {isWide ? (
                     <Sheet open={open} onOpenChange={setOpen}>
@@ -127,7 +129,7 @@ export default function TitleAndDrawer({ isLogin, observerRef, setRefreshKey, yt
                                 </> : <></>}
                                 <div className='flex flex-col gap-y-8 my-8'>
                                     {songInfo?.song ? <SongSection songInfo={songInfo} /> : <></>}
-                                    <div className='p-4 rounded-lg bg-gray-100 shadow-sm'>
+                                    <div className='p-4 rounded-lg bg-gray-100 dark:bg-popover shadow-sm'>
                                         <p className="text-sm mb-2">概要欄</p>
                                         <div className='text-sm break-all w-full'>
                                             {videoAbout?.snippet.description.split(/(\n)/).map((v: string, i: number) => (i & 1 ? <br key={i} /> : v))}
@@ -168,7 +170,7 @@ export default function TitleAndDrawer({ isLogin, observerRef, setRefreshKey, yt
                                 </> : <></>}
                                 <div className='flex flex-col gap-y-8 my-8'>
                                     {songInfo?.song ? <SongSection songInfo={songInfo} /> : <></>}
-                                    <div className='p-4 rounded-lg bg-gray-100 shadow-sm'>
+                                    <div className='p-4 rounded-lg bg-gray-100 dark:bg-popover shadow-sm'>
                                         <p className="text-sm mb-2">概要欄</p>
                                         <div className='text-sm break-all w-full'>
                                             {videoAbout?.snippet.description.split(/(\n)/).map((v: string, i: number) => (i & 1 ? <br key={i} /> : v))}

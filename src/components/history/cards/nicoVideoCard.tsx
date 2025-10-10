@@ -29,7 +29,7 @@ export default function NicoVideoCard({item , deleteHistory , isPlayerPage} : {i
     return (
         <div
             key={item.videoId}
-            className="relative my-6 break-all sm:flex items-start gap-4 cursor-pointer rounded-lg shadow-md hover:bg-gray-100 transition-colors"
+            className="relative my-6 break-all sm:flex items-start gap-4 cursor-pointer rounded-lg shadow-md hover:bg-gray-100 dark:hover:bg-popover transition-colors"
         >
             <Link href={playHref} className="flex-none">
             <div className="relative place-content-center w-full">
@@ -42,7 +42,7 @@ export default function NicoVideoCard({item , deleteHistory , isPlayerPage} : {i
                 unoptimized
                 />
                 <div className="absolute bottom-2 right-2 bg-white place-content-center p-1 rounded-sm">
-                <p className="flex items-center text-sm">
+                <p className="flex items-center text-sm dark:text-black">
                     <SiNiconico className="m-1" />
                     ニコニコ動画
                 </p>
@@ -56,7 +56,7 @@ export default function NicoVideoCard({item , deleteHistory , isPlayerPage} : {i
             </div>
             <Popover>
                 <PopoverTrigger asChild>
-                    <button className="absolute sm:top-auto top-2 sm:bottom-2 right-2 w-8 h-8 bg-gray-300 rounded-full flex place-content-center items-center hover:bg-gray-400">
+                    <button className="absolute sm:top-auto top-2 sm:bottom-2 right-2 w-8 h-8 bg-gray-300 dark:bg-slate-700 rounded-full flex place-content-center items-center hover:bg-gray-400">
                         <FontAwesomeIcon icon={faEllipsis} />
                     </button>
                 </PopoverTrigger>
@@ -77,7 +77,7 @@ export default function NicoVideoCard({item , deleteHistory , isPlayerPage} : {i
                         <Button onClick={() => deleteHistory(item.videoId)} variant={"destructive"}>履歴から削除</Button>
                         
                         <div className="flex flex-col gap-1">
-                            <p className="text-sm">プレイリストに追加</p>
+                            <p className="text-sm dark:text-black">プレイリストに追加</p>
                             <AddPlaylist videoId={item.videoId} />
                         </div>
                     </div>

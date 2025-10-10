@@ -4,6 +4,7 @@ import { faList, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
 import toast , {Toaster} from "react-hot-toast";
+import { Button } from "../ui/button";
 
 export default function Home() {
     const router = useRouter()
@@ -22,7 +23,7 @@ export default function Home() {
     return (
         <>
         <div>
-            <h1 className='text-lg my-4 flex gap-x-2 items-center'><span><FontAwesomeIcon icon={faList} className='mr-2' />プレイリスト</span><button title="新しいプレイリストを作成" onClick={newPlaylist}> <FontAwesomeIcon icon={faPlus} className="mr-1 text-sm" /><span className="text-sm">新しく作成</span></button></h1>
+            <h1 className='text-lg my-4 flex gap-x-6 items-center'><span><FontAwesomeIcon icon={faList} className='mr-2' />プレイリスト</span><Button size={"sm"} title="新しいプレイリストを作成" onClick={newPlaylist}> <FontAwesomeIcon icon={faPlus} className="mr-1 text-sm" /><span className="text-sm">新しく作成</span></Button></h1>
         </div>
         <Toaster position="bottom-center" />
         </>

@@ -1,6 +1,6 @@
 import { NicoVideoAbout } from "@/types/videoAbout";
 import toJaNum from "@/utils/num2ja";
-import { faEye, faFolder, faHandPointer, faHeart, faRotateRight } from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown, faChevronRight, faEye, faFolder, faHeart, faRotateRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import AddPlaylist from "../common/addPlaylist";
@@ -53,7 +53,9 @@ export default function TitleAndDrawer({ ytid, isLogin, observerRef, setRefreshK
                                     className='group m-2 break-all text-lg cursor-pointer focus:outline-none rounded inline-flex items-center gap-x-2'
                                 >
                                     <span className='flex-1'>{videoAbout?.title}</span>
-                                    <span className='w-8 h-8 flex place-content-center items-center rounded-full bg-blue-100 text-blue-600 border border-blue-200 group-hover:bg-blue-200 transition-colors'><FontAwesomeIcon icon={faHandPointer} className=""/></span>
+                                    <span className='w-8 h-8 flex place-content-center items-center rounded-full bg-blue-100 text-blue-600 border border-blue-200 group-hover:bg-blue-200 transition-colors'>
+                                        {isWide ? <FontAwesomeIcon icon={faChevronRight}/> : <FontAwesomeIcon icon={faChevronDown}/> }
+                                    </span>
                                 </h1>
                 {isWide ? (
                     <Sheet open={open} onOpenChange={setOpen}>
@@ -83,17 +85,17 @@ export default function TitleAndDrawer({ ytid, isLogin, observerRef, setRefreshK
                                     </div>
                                 </> : <></>}
                                 <div className='flex flex-col gap-y-8 my-8'>
-                                    <div className='p-4 rounded-lg bg-gray-100 shadow-sm'>
+                                    <div className='p-4 rounded-lg bg-gray-100 dark:bg-popover shadow-sm'>
                                         <p className="text-sm mb-2">概要欄</p>
                                         <div className='text-sm break-all w-full' dangerouslySetInnerHTML={{ __html: videoAbout?.description as TrustedHTML }}>
                                         </div>
                                     </div>
-                                    <div className='p-4 rounded-lg bg-gray-100 shadow-sm'>
+                                    <div className='p-4 rounded-lg bg-gray-100 dark:bg-popover shadow-sm'>
                                         <div>
                                             <p className='text-sm mb-2'>タグ</p>
                                             <div className='flex flex-wrap gap-2'>
                                                 {videoAbout?.tags?.map((tag, index) => (
-                                                    <span key={index} className='bg-gray-300 text-gray-800 px-2 py-1 rounded-lg text-xs'>{tag.name}</span>
+                                                    <span key={index} className='bg-gray-300 dark:bg-slate-700 text-gray-800 dark:text-gray-200 px-2 py-1 rounded-lg text-xs'>{tag.name}</span>
                                                 ))}
                                             </div>
                                         </div>
@@ -127,17 +129,17 @@ export default function TitleAndDrawer({ ytid, isLogin, observerRef, setRefreshK
                                     </div>
                                 </> : <></>}
                                 <div className='flex flex-col gap-y-8 my-8'>
-                                    <div className='p-4 rounded-lg bg-gray-100 shadow-sm'>
+                                    <div className='p-4 rounded-lg bg-gray-100 dark:bg-popover shadow-sm'>
                                         <p className="text-sm mb-2">概要欄</p>
                                         <div className='text-sm break-all w-full' dangerouslySetInnerHTML={{ __html: videoAbout?.description as TrustedHTML }}>
                                         </div>
                                     </div>
-                                    <div className='p-4 rounded-lg bg-gray-100 shadow-sm'>
+                                    <div className='p-4 rounded-lg bg-gray-100 dark:bg-popover shadow-sm'>
                                         <div>
                                             <p className='text-sm mb-2'>タグ</p>
                                             <div className='flex flex-wrap gap-2'>
                                                 {videoAbout?.tags?.map((tag, index) => (
-                                                    <span key={index} className='bg-gray-300 text-gray-800 px-2 py-1 rounded-lg text-xs'>{tag.name}</span>
+                                                    <span key={index} className='bg-gray-300 dark:bg-slate-700 text-gray-800 px-2 py-1 rounded-lg text-xs'>{tag.name}</span>
                                                 ))}
                                             </div>
                                         </div>

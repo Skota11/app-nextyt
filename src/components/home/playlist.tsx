@@ -30,7 +30,7 @@ export default function Main() {
       <div className="mx-4 flex flex-col gap-y-2 max-w-md">
         {data.map(item => (
           <Link key={item.playlistId} href={`/playlist/${item.playlistId}`}>
-            <div className="rounded-lg px-4 py-2 shadow hover:bg-gray-100 transition-colors cursor-pointer border border-gray-200">
+            <div className="rounded-lg px-4 py-2 shadow hover:bg-gray-100 dark:hover:bg-popover transition-colors cursor-pointer border border-gray-200 dark:bg-popover">
               <p>{item.playlistName}</p>
             </div>
           </Link>

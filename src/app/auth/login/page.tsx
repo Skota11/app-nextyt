@@ -1,7 +1,6 @@
 import { HomeNavigation } from '@/components/home/Navigation'
 import { AnonymousLogin } from '@/components/supabase/anonymousLogin'
 import { LoginForm } from '@/components/supabase/email-login-form'
-import { SocialLoginForm } from '@/components/supabase/social-login-form'
 
 export default function Page() {
   return (

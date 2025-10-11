@@ -7,12 +7,14 @@ import Settings from "@/components/home/settings";
 // Material UI
 import { Spinner } from "@/components/ui/shadcn-io/spinner";
 
-interface User { id: string | undefined, userName: string, email: string | undefined, provider: string | undefined, login: boolean };
+interface User { id: string | undefined, userName: string, email: string | undefined, provider: string | undefined, login: boolean , is_anonymous: boolean | undefined };
 
 export default async function Home() {
     const supabase = await createClient();
     const { data } = await supabase.auth.getUser()
+    console.log(data.user)
     const currentUser: User | null = data.user ? {
+        is_anonymous: data.user.is_anonymous,
         id: data.user.id,
         email: data.user.email,
         provider: data.user.app_metadata.provider,

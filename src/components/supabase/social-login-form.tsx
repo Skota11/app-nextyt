@@ -60,11 +60,7 @@ export function SocialLoginForm({ className, ...props }: React.ComponentPropsWit
 
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
-      <Card>
-        <CardHeader>
-          <CardTitle className="">ソーシャルアカウントでログイン</CardTitle>
-        </CardHeader>
-        <CardContent>
+      <h1>またはソーシャルアカウントでログイン</h1>
           <div className='flex flex-col gap-4'>
             <form onSubmit={handleDiscordLogin}>
             <div className="flex flex-col gap-6">
@@ -83,8 +79,6 @@ export function SocialLoginForm({ className, ...props }: React.ComponentPropsWit
             </div>
           </form>
           </div>
-        </CardContent>
-      </Card>
     </div>
   )
 }

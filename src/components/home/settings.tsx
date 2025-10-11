@@ -17,7 +17,7 @@ import { Button } from "../ui/button";
 
 //Utility Libraries
 
-interface User { id: string | undefined, userName: string | undefined, email: string | undefined, provider: string | undefined, login: boolean };
+interface User { id: string | undefined, userName: string | undefined, email: string | undefined, provider: string | undefined, login: boolean , is_anonymous: boolean | undefined };
 
 export default function Main(props: { currentUser: User }) {
     const supabase = createClient();
@@ -94,6 +94,21 @@ export default function Main(props: { currentUser: User }) {
                 <div>
                     <h1 className="text-xl my-6">アカウント設定</h1>
                     <div className="flex flex-col gap-y-4 mx-2">
+                        
+                        {props.currentUser.is_anonymous ? <>
+                        <p>
+                            匿名アカウントでログインしています。
+                        </p>
+                        <p>
+                            <Button variant={"link"} size={"link"}>
+                                <Link href={"/auth/sign-up"}>
+                                    <FontAwesomeIcon icon={faLink} className="mr-2" />
+                                    メールアドレスやソーシャルアカウントで新規登録
+                                </Link>
+                            </Button>
+                        </p>
+                        </> : 
+                        <>
                         <div>
                             <p>ユーザーID</p>
                             <p className="text-gray-800 dark:text-gray-200">{props.currentUser.id}</p>
@@ -110,16 +125,23 @@ export default function Main(props: { currentUser: User }) {
                             <p>ログイン方法</p>
                             <p className="text-gray-800 dark:text-gray-200">{props.currentUser.provider}</p>
                         </div>
+                        </>
+                        }
                         <div>
                             <Button variant={"destructive"} onClick={LogOut}>
                                 <FontAwesomeIcon icon={faArrowRightFromBracket} className="mr-2" />
                                 ログアウト
                             </Button>
+                            <p className="text-destructive mt-2">
+                                {props.currentUser.is_anonymous ? "ログアウトするともう一度ログインはできません" : "" }
+                            </p>
                         </div>
+                        {!props.currentUser.is_anonymous && <>
                         <div className="my-4">
                             <p>退会を希望される場合は、ユーザーIDとユーザー名をわかるように登録メールアドレスからメールを送信してください。</p>
                             <p>contact@skota11.com</p>
                         </div>
+                        </>}
                     </div>
                 </div>
             </div>

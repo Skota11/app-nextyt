@@ -2,6 +2,8 @@
 
 import { cn } from '@/lib/utils'
 import { createClient } from '@/lib/supabase/client'
+import { Turnstile } from '@marsidev/react-turnstile'
+import { SocialLoginForm  } from './social-login-form'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -17,6 +19,7 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
+  const [captchaToken, setCaptchaToken] = useState("")
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
@@ -33,15 +36,16 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
       const { error } = await supabase.auth.signInWithPassword({
         email,
         password,
+        options: { captchaToken },
       })
       console.log("ok")
       if (error) throw error
       // Update this route to redirect to an authenticated route. The user already has an active session.
-      router.push('/')
+      window.location.href = "/"
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : 'An error occurred')
     } finally {
-      router.push("/")
+      window.location.href = "/"
       setIsLoading(false)
     }
   }
@@ -96,6 +100,11 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
                 登録する
               </Link>
             </div>
+            <div className='flex place-content-center mt-4'>
+              <Turnstile  siteKey="0x4AAAAAAB59JAA_z_BD7i2O"  onSuccess={(token:string) => {  console.log("cf");  setCaptchaToken(token)  }}/>
+            </div>
+            <hr className="my-6" />
+            <SocialLoginForm className="" />
           </form>
         </CardContent>
       </Card>

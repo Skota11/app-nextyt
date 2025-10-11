@@ -2,6 +2,7 @@
 
 import { cn } from '@/lib/utils'
 import { createClient } from '@/lib/supabase/client'
+import { Turnstile } from '@marsidev/react-turnstile'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -22,6 +23,7 @@ export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutR
   const [repeatPassword, setRepeatPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
+  const [captchaToken, setCaptchaToken] = useState("")
   const router = useRouter()
 
   const handleSignUp = async (e: React.FormEvent) => {
@@ -42,6 +44,7 @@ export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutR
         password,
         options: {
           emailRedirectTo: `${window.location.origin}/`,
+          captchaToken
         },
       })
       if (error) throw error
@@ -108,6 +111,9 @@ export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutR
               <Link href="/auth/login" className="underline underline-offset-4">
                 ログイン
               </Link>
+            </div>
+            <div className='flex place-content-center mt-4'>
+              <Turnstile  siteKey="0x4AAAAAAB59JAA_z_BD7i2O"  onSuccess={(token:string) => {  console.log("cf");  setCaptchaToken(token)  }}/>
             </div>
           </form>
         </CardContent>

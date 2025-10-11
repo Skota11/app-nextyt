@@ -2,6 +2,7 @@
 
 import { cn } from '@/lib/utils'
 import { createClient } from '@/lib/supabase/client'
+import { Turnstile } from '@marsidev/react-turnstile'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -20,6 +21,7 @@ export function ForgotPasswordForm({ className, ...props }: React.ComponentProps
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [captchaToken, setCaptchaToken] = useState("")
 
   const handleForgotPassword = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -31,6 +33,7 @@ export function ForgotPasswordForm({ className, ...props }: React.ComponentProps
       // The url which will be included in the email. This URL needs to be configured in your redirect URLs in the Supabase dashboard at https://supabase.com/dashboard/project/_/auth/url-configuration
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: `${window.location.origin}/auth/update-password`,
+        captchaToken
       })
       if (error) throw error
       setSuccess(true)
@@ -87,6 +90,9 @@ export function ForgotPasswordForm({ className, ...props }: React.ComponentProps
                 <Link href="/auth/login" className="underline underline-offset-4">
                   ログイン
                 </Link>
+              </div>
+              <div className='flex place-content-center mt-4'>
+                <Turnstile  siteKey="0x4AAAAAAB59JAA_z_BD7i2O"  onSuccess={(token:string) => {  console.log("cf");  setCaptchaToken(token)  }}/>
               </div>
             </form>
           </CardContent>

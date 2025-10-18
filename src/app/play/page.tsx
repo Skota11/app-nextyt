@@ -19,6 +19,7 @@ import QueueList from "@/components/play/queue";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import PresenceSlide from "@/components/animation/presenceSlide";
 import { Badge } from "@/components/ui/badge";
+import { useMedia } from "react-use";
 
 function Child() {
     const searchParams = useSearchParams();
@@ -37,15 +38,17 @@ function Child() {
 
     // 追加: ページ先頭では非表示、少しでもスクロールしたら表示
     const [showTabsListBar, setShowTabsListBar] = useState(false);
+    // 追加: react-use の useMedia でモバイル幅を監視
+    const isMobile = useMedia('(max-width: 640px)', false);
     useEffect(() => {
         const onScroll = () => {
-            // 1px でもスクロールしたら表示
-            setShowTabsListBar(window.scrollY > 0);
+            // スマホ幅なら常時表示、PC幅は1pxでもスクロールで表示
+            setShowTabsListBar(isMobile || window.scrollY > 0);
         };
         onScroll(); // 初期反映
         window.addEventListener('scroll', onScroll, { passive: true });
         return () => window.removeEventListener('scroll', onScroll);
-    }, []);
+    }, [isMobile]);
     
     useEffect(() => {
         setYtid(defaultId)
@@ -117,7 +120,6 @@ function Child() {
                         </div>
                     )}
                 </div>
-                {/* 変更: 外側はアンマウントせず CSS トランジションで出し入れ */}
                 <div
                     role="presentation"
                     aria-hidden={!showTabsListBar}

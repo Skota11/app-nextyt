@@ -34,6 +34,18 @@ function Child() {
     const [showQueueTrigger, setShowQueueTrigger] = useState(!!searchParams.get('queue'));
     // 実際に表示要求されているか (URL に queue= が存在するか)
     const hasQueue = !!searchParams.get('queue');
+
+    // 追加: ページ先頭では非表示、少しでもスクロールしたら表示
+    const [showTabsListBar, setShowTabsListBar] = useState(false);
+    useEffect(() => {
+        const onScroll = () => {
+            // 1px でもスクロールしたら表示
+            setShowTabsListBar(window.scrollY > 0);
+        };
+        onScroll(); // 初期反映
+        window.addEventListener('scroll', onScroll, { passive: true });
+        return () => window.removeEventListener('scroll', onScroll);
+    }, []);
     
     useEffect(() => {
         setYtid(defaultId)
@@ -105,25 +117,37 @@ function Child() {
                         </div>
                     )}
                 </div>
-                <TabsList className="fixed bottom-4 left-4 shadow-2xl border h-10 flex">
-                    <TabsTrigger value="history">履歴</TabsTrigger>
-                    <TabsTrigger value="search">検索</TabsTrigger>
-                    {showQueueTrigger && (
-                        <PresenceSlide
-                            in={hasQueue}
-                            direction="left" // 左からスライドイン (必要に応じて調整)
-                            distance={32}
-                            duration={280}
-                            onExited={() => setShowQueueTrigger(false)}
-                            className="flex items-stretch mx-1"
-                        >
-                            <Badge variant={"destructive"} className="absolute -top-2 -right-2 rounded-full w-7 h-7 place-content-center" >
-                                {searchParams.get('queue')?.split(',').filter(Boolean).length || 0}
-                            </Badge>
-                            <TabsTrigger value="queue">再生キュー</TabsTrigger>
-                        </PresenceSlide>
-                    )}
-                </TabsList>
+                {/* 変更: 外側はアンマウントせず CSS トランジションで出し入れ */}
+                <div
+                    role="presentation"
+                    aria-hidden={!showTabsListBar}
+                    className={`fixed bottom-4 left-4 z-50 transition-all duration-300 ${
+                        showTabsListBar
+                            ? "opacity-100 translate-y-0 pointer-events-auto"
+                            : "opacity-0 translate-y-8 pointer-events-none"
+                    }`}
+                    style={{ willChange: "transform, opacity" }}
+                >
+                    <TabsList className="shadow-2xl border h-10 flex">
+                        <TabsTrigger value="history">履歴</TabsTrigger>
+                        <TabsTrigger value="search">検索</TabsTrigger>
+                        {showQueueTrigger && (
+                            <PresenceSlide
+                                in={hasQueue}
+                                direction="left"
+                                distance={32}
+                                duration={280}
+                                onExited={() => setShowQueueTrigger(false)}
+                                className="flex items-stretch mx-1 relative"
+                            >
+                                <Badge variant={"destructive"} className="absolute -top-2 -right-2 rounded-full w-7 h-7 place-content-center" >
+                                    {searchParams.get('queue')?.split(',').filter(Boolean).length || 0}
+                                </Badge>
+                                <TabsTrigger value="queue">再生キュー</TabsTrigger>
+                            </PresenceSlide>
+                        )}
+                    </TabsList>
+                </div>
             </Tabs>
         </CookiesProvider>
     )

@@ -113,7 +113,7 @@ export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutR
               </Link>
             </div>
             <div className='flex place-content-center mt-4'>
-              <Turnstile  siteKey="0x4AAAAAAB59JAA_z_BD7i2O"  onSuccess={(token:string) => {  console.log("cf");  setCaptchaToken(token)  }}/>
+              <Turnstile  siteKey="0x4AAAAAAB59JAA_z_BD7i2O"  onSuccess={(token:string) => { setCaptchaToken(token)  }}/>
             </div>
           </form>
         </CardContent>

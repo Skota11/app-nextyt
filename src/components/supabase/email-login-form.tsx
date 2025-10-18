@@ -3,7 +3,7 @@
 import { cn } from '@/lib/utils'
 import { createClient } from '@/lib/supabase/client'
 import { Turnstile } from '@marsidev/react-turnstile'
-import { SocialLoginForm  } from './social-login-form'
+import { SocialLoginForm } from './social-login-form'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -36,7 +36,6 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
         password,
         options: { captchaToken },
       })
-      console.log("ok")
       if (error) throw error
       // Update this route to redirect to an authenticated route. The user already has an active session.
       window.location.href = "/"
@@ -99,11 +98,11 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
               </Link>
             </div>
             <div className='flex place-content-center mt-4'>
-              <Turnstile  siteKey="0x4AAAAAAB59JAA_z_BD7i2O"  onSuccess={(token:string) => {  console.log("cf");  setCaptchaToken(token)  }}/>
+              <Turnstile  siteKey="0x4AAAAAAB59JAA_z_BD7i2O"  onSuccess={(token:string) => {  setCaptchaToken(token)  }}/>
             </div>
-            <hr className="my-6" />
-            <SocialLoginForm className="" />
           </form>
+          <hr className="my-6" />
+          <SocialLoginForm className="" />
         </CardContent>
       </Card>
     </div>

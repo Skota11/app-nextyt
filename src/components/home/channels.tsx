@@ -22,7 +22,7 @@ export default function Main() {
       <div className="mx-4">
         {isLoading && (
           <div className="flex gap-x-4">
-            <Skeleton className="w-[70px] h-[70px] rounded-full" />
+            <Skeleton className="w-[70px] h-[70px]" />
             <Skeleton className="w-[70px] h-[70px] rounded-full" />
           </div>
         )}

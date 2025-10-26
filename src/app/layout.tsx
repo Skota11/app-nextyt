@@ -6,6 +6,7 @@ import { Metadata } from "next";
 import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { ThemeProvider } from "@/components/theme-provider";
+import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import { ToggleTheme } from "@/components/toggleTheme";
 config.autoAddCss = false
 
@@ -31,6 +32,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
         >
+          <NuqsAdapter>
           <div className="bg-black p-4 grid grid-cols-3">
             <h1 className="col-start-2 col-end-3 flex place-content-center text-white "> <Link href="/">NextTube</Link></h1>
             <div className="col-end-4 flex place-content-end">
@@ -38,6 +40,7 @@ export default function RootLayout({
             </div>
           </div>
           {children}
+          </NuqsAdapter>
         </ThemeProvider>
       </body>
     </html>

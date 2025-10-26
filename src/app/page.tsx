@@ -1,9 +1,6 @@
 // React
 import Link from "next/link";
 
-// supabase
-import { isLoggedIn } from "@/utils/supabase/isLogin";
-
 // Home components
 import History from "@/components/history/history";
 import Playlist from "@/components/home/playlist";
@@ -18,10 +15,8 @@ import { HomeNavigation } from "@/components/home/Navigation";
 import { Button } from "@/components/ui/button";
 
 export default async function Home() {
-  const { loggedIn } = await isLoggedIn();
   return (
     <>
-      {loggedIn ? <>
         <div className="p-4 max-w-screen-xl m-auto">
           <div className="grid grid-cols-2 mb-4">
             <div className="col-start-1 col-end-2">
@@ -44,13 +39,6 @@ export default async function Home() {
           <h1 className='text-lg my-4'><FontAwesomeIcon icon={faClockRotateLeft} className='mr-2' />視聴履歴</h1>
           <History />
         </div>
-      </> : 
-      <div className="p-4 max-w-screen-xl m-auto">
-        <div>
-          <HomeNavigation />
-        </div>
-      </div>
-      }
     </>
   )
 }

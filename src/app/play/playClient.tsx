@@ -1,6 +1,6 @@
 'use client'
 //React
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 //Next.js
 import { useQueryState , parseAsArrayOf, parseAsString } from 'nuqs'
 //スタイル

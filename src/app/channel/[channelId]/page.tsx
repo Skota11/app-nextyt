@@ -1,10 +1,5 @@
-// Next.js
 import Image from 'next/image'
-// Font Awesome icons
-// Custom utilities
 import num2ja from "@/utils/num2ja";
-// supabase
-import { createClient } from "@/lib/supabase/server";
 
 import AddUserChannels from "@/components/channel/addUserChannels";
 import ChannelList from "@/components/channel/channelList";
@@ -13,12 +8,6 @@ import { Skeleton } from '@/components/ui/skeleton';
 export default async function Child({ params }: { params: Promise<{ channelId: string }> }) {
     //
     const { channelId } = await params;
-    //load
-    const supabase = await createClient();
-    const supabase_data = await supabase.auth.getUser()
-    const currentUser: { login: boolean } | null = supabase_data.data.user ? {
-        login: true
-    } : null;
     let res;
     if (decodeURIComponent(channelId).charAt(0) == "@") {
         res = await fetch(`https://youtube.googleapis.com/youtube/v3/channels?part=contentDetails&part=snippet&part=statistics&forHandle=${channelId}&key=AIzaSyC1KMsyjrnEfHJ3xnQtPX0DSxWHfyjUBeo`, {
@@ -30,7 +19,6 @@ export default async function Child({ params }: { params: Promise<{ channelId: s
         });
     }
     const data = (await res.json()).items;
-    console.log(data)
     const channel = data[0]
     const omit = (str: string) => {
         if (str.length > 36) {
@@ -56,9 +44,7 @@ export default async function Child({ params }: { params: Promise<{ channelId: s
                         <p className="text-sm text-gray-400">{channel ? <>{omit(channel.snippet.description)}</> : <></>}</p>
                     </div>
                 </div>
-                {channel && currentUser?.login ? <>
-                    <AddUserChannels id={channelId} />
-                </> : <></>}
+                <AddUserChannels id={channelId} />
                 <ChannelList channelId={data[0].id} />
             </div>
         </>

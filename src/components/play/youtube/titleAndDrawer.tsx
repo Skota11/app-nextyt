@@ -13,6 +13,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useMedia } from 'react-use'
 import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
 import SongSection from "./drawer/song";
+import Linkify from "linkify-react";
 
 export default function TitleAndDrawer({ isLogin, observerRef, setRefreshKey, ytid }: { isLogin: boolean, observerRef: RefObject<HTMLHeadingElement | null>, setRefreshKey: (key: number | ((prevCount: number) => number)) => void, ytid: string }) {
     const [videoAbout, setVideoAbout] = useState<VideoAbout | null>(null);
@@ -132,7 +133,13 @@ export default function TitleAndDrawer({ isLogin, observerRef, setRefreshKey, yt
                                     <div className='p-4 rounded-lg bg-gray-100 dark:bg-popover shadow-sm'>
                                         <p className="text-sm mb-2">概要欄</p>
                                         <div className='text-sm break-all w-full'>
-                                            {videoAbout?.snippet.description.split(/(\n)/).map((v: string, i: number) => (i & 1 ? <br key={i} /> : v))}
+                                            <Linkify options={{
+                                                 target: '_blank', 
+                                                 rel: 'noopener noreferrer' , 
+                                                 className: 'text-primary underline-offset-4'
+                                                 }}>
+                                                {videoAbout?.snippet.description.split(/(\n)/).map((v: string, i: number) => (i & 1 ? <br key={i} /> : v))}
+                                            </Linkify>
                                         </div>
                                     </div>
                                 </div>
@@ -173,7 +180,9 @@ export default function TitleAndDrawer({ isLogin, observerRef, setRefreshKey, yt
                                     <div className='p-4 rounded-lg bg-gray-100 dark:bg-popover shadow-sm'>
                                         <p className="text-sm mb-2">概要欄</p>
                                         <div className='text-sm break-all w-full'>
-                                            {videoAbout?.snippet.description.split(/(\n)/).map((v: string, i: number) => (i & 1 ? <br key={i} /> : v))}
+                                            <Linkify options={{ target: '_blank', rel: 'noopener noreferrer' , className: 'text-primary underline-offset-4' }}>
+                                                {videoAbout?.snippet.description.split(/(\n)/).map((v: string, i: number) => (i & 1 ? <br key={i} /> : v))}
+                                            </Linkify>
                                         </div>
                                     </div>
                                 </div>

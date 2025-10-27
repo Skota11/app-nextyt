@@ -87,7 +87,7 @@ export default function TitleAndDrawer({ ytid, isLogin, observerRef, setRefreshK
                                 <div className='flex flex-col gap-y-8 my-8'>
                                     <div className='p-4 rounded-lg bg-gray-100 dark:bg-popover shadow-sm'>
                                         <p className="text-sm mb-2">概要欄</p>
-                                        <div className='text-sm break-all w-full' dangerouslySetInnerHTML={{ __html: videoAbout?.description as TrustedHTML }}>
+                                        <div className='text-sm break-all w-full [&_a]:text-primary [&_a]:underline-offset-4' dangerouslySetInnerHTML={{ __html: videoAbout?.description as TrustedHTML }}>
                                         </div>
                                     </div>
                                     <div className='p-4 rounded-lg bg-gray-100 dark:bg-popover shadow-sm'>
@@ -131,7 +131,7 @@ export default function TitleAndDrawer({ ytid, isLogin, observerRef, setRefreshK
                                 <div className='flex flex-col gap-y-8 my-8'>
                                     <div className='p-4 rounded-lg bg-gray-100 dark:bg-popover shadow-sm'>
                                         <p className="text-sm mb-2">概要欄</p>
-                                        <div className='text-sm break-all w-full' dangerouslySetInnerHTML={{ __html: videoAbout?.description as TrustedHTML }}>
+                                        <div className='text-sm break-all w-full [&_a]:text-primary [&_a]:underline-offset-4' dangerouslySetInnerHTML={{ __html: videoAbout?.description as TrustedHTML }}>
                                         </div>
                                     </div>
                                     <div className='p-4 rounded-lg bg-gray-100 dark:bg-popover shadow-sm'>

@@ -1,21 +1,14 @@
 'use client'
-//React
 import { useEffect, useState } from "react";
-//Next.js
 import { useQueryState , parseAsArrayOf, parseAsString } from 'nuqs'
-//スタイル
 import "@/styles/player.css"
-//コンポーネント
 import Player from "@/components/play/youtubePlayer";
 import NicoPlayer from "@/components/play/niconicoPlayer";
 import Search from "@/components/search/search";
 import History from "@/components/history/history";
-
-//Utility Libraries
 import { CookiesProvider } from "react-cookie";
 import nicoCheck from "@/utils/niconico/nicoid";
 import QueueList from "@/components/play/queue";
-
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import PresenceSlide from "@/components/animation/presenceSlide";
 import { Badge } from "@/components/ui/badge";
@@ -27,45 +20,39 @@ export default function PlayClient() {
     const [queryQueue , setQueryQueue] = useQueryState('queue' ,parseAsArrayOf(parseAsString , ',').withOptions({ clearOnDefault: true }));
     const [videoId, setVideoId] = useQueryState('v', parseAsString.withDefault(''));
     
-    // queue タブトリガーのプレゼンス制御用フラグ
     const [showQueueTrigger, setShowQueueTrigger] = useState(!!queryQueue);
     const hasQueue = !!queryQueue;
 
-    // 追加: ページ先頭では非表示、少しでもスクロールしたら表示
+    // ページ先頭でタブを非表示 ここから
     const [showTabsListBar, setShowTabsListBar] = useState(false);
     const isMobile = useMedia('(max-width: 640px)', false);
     
     useEffect(() => {
         const onScroll = () => {
-            // スマホ幅なら常時表示、PC幅は1pxでもスクロールで表示
             setShowTabsListBar(isMobile || window.scrollY > 0);
         };
-        onScroll(); // 初期反映
+        onScroll();
         window.addEventListener('scroll', onScroll, { passive: true });
         return () => window.removeEventListener('scroll', onScroll);
     }, [isMobile]);
-    
+    // ページ先頭でタブを非表示 ここまで
+
     const handleTabChange = (value: string) => {
         setActiveTab(value)
         setMountedTabs(prev => new Set([...prev, value]))
     }
     
-    // queue が無くなったら検索タブへ戻す + トリガー退場アニメーション制御
     useEffect(() => {
-        // queue パラメータが無くなったら検索タブへ戻す
         if (!hasQueue && activeTab === 'queue') {
             setActiveTab('search');
         }
-        // 表示要求が来たらマウント
         if (hasQueue && !showQueueTrigger) {
             setShowQueueTrigger(true);
         }
-        // 非表示要求 (hasQueue=false) の場合は PresenceSlide 側の exit 完了後に onExited でアンマウント
     }, [hasQueue, activeTab, showQueueTrigger]);
     
-    // 再生終了時に queue の先頭を再生し、消費した要素を削除
+    // 再生終了時の処理
     const handlePlayerEnd = () => {
-        // 最新の検索パラメータを取得（クロージャで古い queue を参照しないため）
         const list = !!queryQueue ? [...queryQueue] : [];
         const nextId = list[0];
         const rest = list.slice(1);
@@ -75,7 +62,6 @@ export default function PlayClient() {
         }
     };
 
-    // videoIdが空の場合は何も表示しない、または適切なフォールバックを表示
     if (!videoId) {
         return (
             <CookiesProvider>

@@ -15,9 +15,7 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "../ui/label";
 import { Button } from "../ui/button";
 
-//Utility Libraries
-
-interface User { id: string | undefined, userName: string | undefined, email: string | undefined, provider: string | undefined, login: boolean , is_anonymous: boolean | undefined };
+import { User } from "@supabase/supabase-js";
 
 export default function Main(props: { currentUser: User }) {
     const supabase = createClient();
@@ -115,7 +113,7 @@ export default function Main(props: { currentUser: User }) {
                         </div>
                         <div>
                             <p>ユーザー名</p>
-                            <p className="text-gray-800 dark:text-gray-200">{props.currentUser.userName}</p>
+                            <p className="text-gray-800 dark:text-gray-200">{props.currentUser.user_metadata.name}</p>
                         </div>
                         <div>
                             <p>登録メールアドレス</p>
@@ -123,7 +121,7 @@ export default function Main(props: { currentUser: User }) {
                         </div>
                         <div>
                             <p>ログイン方法</p>
-                            <p className="text-gray-800 dark:text-gray-200">{props.currentUser.provider}</p>
+                            <p className="text-gray-800 dark:text-gray-200">{props.currentUser.app_metadata.provider}</p>
                         </div>
                         </>
                         }

@@ -1,20 +1,15 @@
 "use client";
-
 //React
 import { useState, useRef } from "react";
 import { useDebounce } from "react-use";
-
 //shadcn/ui
 import { Badge } from "@/components/ui/badge";
-
 //Font Awesome Icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { faYoutube } from "@fortawesome/free-brands-svg-icons";
-
 //React Icons
 import { SiNiconico } from "react-icons/si";
-
 //types
 import { SearchResult } from "@/types/search";
 import YoutubeChannelCard from "./cards/youtubeChannelCard";
@@ -45,9 +40,12 @@ export default function Home() {
             setSuggest([])
         }
     }
-    
     useDebounce(
         () => {
+            if(inputQuery === "") {
+                setSuggest([])
+                return null;
+            }
             // APIを呼び出す
             const fetchSuggestions = async () => {
                 const res = await (await fetch(`/api/external/suggest?q=${inputQuery}`)).json()

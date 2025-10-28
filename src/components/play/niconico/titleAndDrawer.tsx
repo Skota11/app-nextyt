@@ -14,7 +14,6 @@ import useSWR from "swr";
 import { jsonFetcher } from "@/lib/swr";
 
 export default function TitleAndDrawer({ ytid, isLogin, observerRef, setRefreshKey }: { ytid: string, isLogin: boolean, observerRef: React.RefObject<HTMLHeadingElement | null>, setRefreshKey: (key: number | ((prevCount: number) => number)) => void }) {
-    // 動画情報（SWRでキャッシュ: 1日）
     const { data: nicoData } = useSWR(
         ytid ? `/api/external/niconico?id=${ytid}` : null,
         jsonFetcher,
@@ -24,7 +23,6 @@ export default function TitleAndDrawer({ ytid, isLogin, observerRef, setRefreshK
         if (!nicoData) return null;
         return { ...nicoData.video, tags: nicoData?.tag?.items } as NicoVideoAbout;
     }, [nicoData]);
-    // 履歴追加は副作用として一度だけ
     useEffect(() => {
         if (!ytid) return;
         fetch('/api/database/history', {

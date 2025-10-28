@@ -1,5 +1,4 @@
 'use client';
-//types
 import { SearchResult } from "@/types/search";
 import Link from "next/link";
 import Image from "next/image";

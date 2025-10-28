@@ -3,12 +3,12 @@
 import useSWR from "swr";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
-import { fetcher } from "@/lib/fetcher";
+import { dataFetcher } from "@/lib/swr";
 
 interface Playlist { playlistId: string; playlistName: string; }
 
 export default function Main() {
-  const { data, isLoading } = useSWR<Playlist[]>("/api/database/playlist" , fetcher);
+  const { data, isLoading } = useSWR<Playlist[]>("/api/database/playlist" , dataFetcher);
 
   if (isLoading) {
     return (

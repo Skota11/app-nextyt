@@ -8,10 +8,10 @@ import Link from "next/link";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Channel } from "@/types/db";
 import { Skeleton } from "@/components/ui/skeleton";
-import { fetcher } from "@/lib/fetcher";
+import { dataFetcher } from "@/lib/swr";
 
 export default function Main() {
-  const { data, isLoading } = useSWR<Channel[]>("/api/database/channels" , fetcher);
+  const { data, isLoading } = useSWR<Channel[]>("/api/database/channels" , dataFetcher);
 
   return (
     <div className="mt-2">

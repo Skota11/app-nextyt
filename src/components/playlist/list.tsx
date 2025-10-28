@@ -100,6 +100,7 @@ export default function Main(props: { playlistId: string, ytid: string, setNextY
 
     const handleAutoPlayChange = (e:boolean) => {
         setAutoPlay(e);
+        
         props.setAutoPlay(e);
     };
     return (

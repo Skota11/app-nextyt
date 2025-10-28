@@ -14,65 +14,42 @@ import { useMedia } from 'react-use'
 import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
 import SongSection from "./drawer/song";
 import Linkify from "linkify-react";
+import useSWR from "swr";
+import { dataFetcher, jsonFetcher } from "@/lib/swr";
 
 export default function TitleAndDrawer({ isLogin, observerRef, setRefreshKey, ytid }: { isLogin: boolean, observerRef: RefObject<HTMLHeadingElement | null>, setRefreshKey: (key: number | ((prevCount: number) => number)) => void, ytid: string }) {
-    const [videoAbout, setVideoAbout] = useState<VideoAbout | null>(null);
-    const [channelInfo, setChannelInfo] = useState<{ snippet: { title: string, thumbnails: { default: { url: string } } } } | null>(null);
-    const [songInfo, setSongInfo] = useState<SongInfo | null>(null);
-    //チャンネル情報の取得
-    const getChannelInfo = async (channelId: string) => {
-        try {
-            const res = await fetch(`/api/external/channel?id=${channelId}`);
-            const data = await res.json();
-            if (data.data && data.data.length > 0) {
-                setChannelInfo(data.data[0]);
-            }
-        } catch (error) {
-            console.error('Failed to fetch channel data:', error);
-        }
-    };
+    // 動画情報（SWRでキャッシュ）
+    const { data: videoAbout } = useSWR<VideoAbout>(
+        ytid ? `/api/external/video?id=${ytid}` : null,
+        jsonFetcher,
+        { dedupingInterval: 86_400_000, revalidateOnFocus: false }
+    );
 
-    //動画情報の取得
-    const getVideoAbout = async (id: string) => {
-        if (id !== "") {
-            // 履歴に追加
-            fetch('/api/database/history', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ id }),
-            })
-            // 動画情報
-            try {
-                const res = await fetch(`/api/external/video?id=${id}`);
-                const data = await res.json();
+    // チャンネル情報（動画情報に依存）
+    const channelId = videoAbout?.snippet?.channelId;
+    const { data: channelItems } = useSWR(
+        channelId ? `/api/external/channel?id=${channelId}` : null,
+        dataFetcher,
+        { dedupingInterval: 604_800_000, revalidateOnFocus: false }
+    );
+    const channelInfo = channelItems?.[0] ?? null;
 
-                if (data.snippet && data.statistics) {
-                    setVideoAbout(data)
-                    // チャンネル情報も取得
-                    if (data.snippet.channelId) {
-                        getChannelInfo(data.snippet.channelId);
-                    }
-                }
-            } catch (error) {
-                console.error('Failed to fetch video data:', error);
-            }
-            try {
-                const res_song = await fetch(`/api/external/music?id=${id}`);
-                const data_song = await res_song.json();
-                setSongInfo(data_song);
-            } catch (error) {
-                console.error('Failed to fetch music data:', error);
-            }
-        }
-    }
+    // 楽曲情報（外部API）
+    const { data: songInfo } = useSWR<SongInfo>(
+        ytid ? `https://yt-song.deno.dev/track?v=${ytid}` : null,
+        jsonFetcher,
+        { dedupingInterval: 604_800_000, revalidateOnFocus: false }
+    );
+
+    // 履歴追加は副作用として一度だけ
     useEffect(() => {
-        setVideoAbout(null)
-        setSongInfo(null)
-        setChannelInfo(null)
-        getVideoAbout(ytid)
-    }, [ytid])
+        if (!ytid) return;
+        fetch('/api/database/history', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: ytid }),
+        }).catch(() => {});
+    }, [ytid]);
     //レスポンシブ
     const [open, setOpen] = useState(false)
     const isWide = useMedia('(min-width: 512px)')

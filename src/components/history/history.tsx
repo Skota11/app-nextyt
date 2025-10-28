@@ -7,7 +7,7 @@ import { VideoAbout } from "@/types/db";
 import NicoVideoCard from "./cards/nicoVideoCard";
 import VideoCard from "./cards/youtubeVideoCard";
 import { Spinner } from "@/components/ui/shadcn-io/spinner";
-import { fetcher } from "@/lib/fetcher";
+import { dataFetcher } from "@/lib/swr";
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 
@@ -32,7 +32,7 @@ export default function History({isActive}: {isActive?: boolean}) {
     mutate,
     isValidating,
     isLoading, // SWR v2 以降
-  } = useSWRInfinite<VideoAbout[]>(getKey, fetcher, {
+  } = useSWRInfinite<VideoAbout[]>(getKey, dataFetcher, {
     parallel: true,
   });
 

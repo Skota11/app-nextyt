@@ -2,7 +2,7 @@ import { NicoVideoAbout } from "@/types/videoAbout";
 import toJaNum from "@/utils/num2ja";
 import { faChevronDown, faChevronRight, faEye, faFolder, faHeart, faRotateRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import AddPlaylist from "../common/addPlaylist";
 import dayjs from "dayjs";
 import { SiNiconico } from "react-icons/si";
@@ -10,27 +10,29 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useMedia } from "react-use";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
+import useSWR from "swr";
+import { jsonFetcher } from "@/lib/swr";
 
 export default function TitleAndDrawer({ ytid, isLogin, observerRef, setRefreshKey }: { ytid: string, isLogin: boolean, observerRef: React.RefObject<HTMLHeadingElement | null>, setRefreshKey: (key: number | ((prevCount: number) => number)) => void }) {
-    const [videoAbout, setVideoAbout] = useState<NicoVideoAbout | null>(null);
-    //動画情報の取得
-    const getVideoAbout = async (id: string) => {
-        if (id !== "") {
-            fetch('/api/database/history', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ id }),
-            })
-            const res = await (await fetch(`/api/external/niconico?id=${ytid}`)).json();
-            setVideoAbout({ ...res.video, tags: res.tag.items });
-        }
-    }
+    // 動画情報（SWRでキャッシュ: 1日）
+    const { data: nicoData } = useSWR(
+        ytid ? `/api/external/niconico?id=${ytid}` : null,
+        jsonFetcher,
+        { dedupingInterval: 86_400_000, revalidateOnFocus: false }
+    );
+    const videoAbout: NicoVideoAbout | null = useMemo(() => {
+        if (!nicoData) return null;
+        return { ...nicoData.video, tags: nicoData?.tag?.items } as NicoVideoAbout;
+    }, [nicoData]);
+    // 履歴追加は副作用として一度だけ
     useEffect(() => {
-        setVideoAbout(null)
-        getVideoAbout(ytid);
-    }, [ytid])
+        if (!ytid) return;
+        fetch('/api/database/history', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: ytid }),
+        }).catch(() => {});
+    }, [ytid]);
     //レスポンシブ
     const [open, setOpen] = useState(false)
     const isWide = useMedia('(min-width: 512px)')

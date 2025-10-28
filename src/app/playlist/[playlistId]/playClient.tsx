@@ -1,12 +1,8 @@
 'use client'
-
 //React
 import { useState } from "react";
 import * as React from 'react'
-
-// スタイル
 import "@/styles/player.css"
-
 // コンポーネント
 import Player from "@/components/play/youtubePlayer";
 import NicoPlayer from "@/components/play/niconicoPlayer";

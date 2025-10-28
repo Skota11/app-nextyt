@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
     }
 
     const res = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=id,snippet,statistics&id=${id}&key=AIzaSyC1KMsyjrnEfHJ3xnQtPX0DSxWHfyjUBeo`, {
-        next: { revalidate: 86400 } // 1dayキャッシュ
+        next: { revalidate: 86400 * 3 } // 1dayキャッシュ
     });
 
     const data = await res.json();

@@ -3,6 +3,7 @@ import Link from "next/link";
 import localFont from 'next/font/local'
 import { Metadata } from "next";
 
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { ThemeProvider } from "@/components/theme-provider";
@@ -40,6 +41,7 @@ export default function RootLayout({
             </div>
           </div>
           {children}
+          <SpeedInsights />
           </NuqsAdapter>
         </ThemeProvider>
       </body>

@@ -8,6 +8,8 @@ import { X } from 'lucide-react';
 import { SiNiconico } from 'react-icons/si';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faYoutube } from '@fortawesome/free-brands-svg-icons';
+import { useSWRConfig } from 'swr';
+import { jsonFetcher } from '@/lib/swr';
 
 export default function QueueList() {
     const [queryQueue, setQueryQueue] = useQueryState('queue', parseAsArrayOf(parseAsString, ',').withOptions({ clearOnDefault: true }));
@@ -18,6 +20,7 @@ export default function QueueList() {
     const [metaMap, setMetaMap] = useState<Record<string, { title: string }>>({});
     const [newId, setNewId] = useState<string | null>(null);
     const prevQueueRef = useRef<string[]>([]);
+    const { cache, mutate } = useSWRConfig();
 
     useEffect(() => {
         const prev = prevQueueRef.current;
@@ -31,36 +34,75 @@ export default function QueueList() {
             }
         }
         prevQueueRef.current = queueArr;
-    }, [queueArr.join(',')]);
+    }, [queueArr]);
 
     useEffect(() => {
         let cancelled = false;
-        const run = async () => {
-            const entries = await Promise.all(queueArr.map(async (id) => {
-                if (!id) return null;
-                try {
-                    const endpoint = nicoCheck(id) ? `/api/external/niconico?id=${id}` : `/api/external/video?id=${id}`;
-                    const res = await fetch(endpoint);
-                    if (!res.ok) return null;
-                    const data = await res.json();
-                    if (nicoCheck(id) && data.video) {
-                        return [id, { title: data.video.title }] as const;
-                    } else if (data.snippet) {
-                        return [id, { title: data.snippet.title }] as const;
-                    }
-                } catch {}
-                return null;
-            }));
-            if (cancelled) return;
-            const map: Record<string, { title: string }> = {};
-            for (const e of entries) {
-                if (e) map[e[0]] = e[1];
-            }
-            setMetaMap(map);
+
+        type YTData = { snippet?: { title?: string } };
+        type NicoData = { video?: { title?: string } };
+
+        const extractTitle = (id: string, data: unknown): string | null => {
+            try {
+                if (!data) return null;
+                if (nicoCheck(id)) {
+                    const t = (data as NicoData).video?.title;
+                    return typeof t === 'string' ? t : null;
+                }
+                const t = (data as YTData).snippet?.title;
+                return typeof t === 'string' ? t : null;
+            } catch {}
+            return null;
         };
+
+        const run = async () => {
+            // 1) まずSWRキャッシュから可能な限り取得（無駄なリクエストを削減）
+            const initialMap: Record<string, { title: string }> = {};
+            const missing: Array<{ id: string; key: string }> = [];
+
+            for (const id of queueArr) {
+                if (!id) continue;
+                const key = nicoCheck(id) ? `/api/external/niconico?id=${id}` : `/api/external/video?id=${id}`;
+                const cached = cache.get(key) as unknown;
+                const title = extractTitle(id, cached);
+                if (title) {
+                    initialMap[id] = { title };
+                } else {
+                    missing.push({ id, key });
+                }
+            }
+
+            if (!cancelled) setMetaMap(initialMap);
+
+            // 2) キャッシュに無いものだけフェッチし、SWRキャッシュにも格納
+            if (missing.length === 0) return;
+            const fetched = await Promise.all(
+                missing.map(async ({ id, key }) => {
+                    try {
+                        const data: unknown = await jsonFetcher(key);
+                        // 他コンポーネントとも共有できるようSWRキャッシュへ保存（再検証なし）
+                        if (!cancelled) await mutate(key, data, false);
+                        const t = extractTitle(id, data);
+                        return t ? ([id, { title: t }] as const) : null;
+                    } catch {
+                        return null;
+                    }
+                })
+            );
+
+            if (cancelled) return;
+            setMetaMap(prev => {
+                const next = { ...prev };
+                for (const e of fetched) {
+                    if (e) next[e[0]] = e[1];
+                }
+                return next;
+            });
+        };
+
         run();
         return () => { cancelled = true; };
-    }, [queueArr.join(',')]);
+    }, [queueArr, cache, mutate]);
 
     const playNow = useCallback((id: string, removeAlso?: boolean) => {
         let rest = queueArr;

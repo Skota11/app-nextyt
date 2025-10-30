@@ -41,9 +41,9 @@ export default function RootLayout({
             </div>
           </div>
           {children}
-          <SpeedInsights />
           </NuqsAdapter>
         </ThemeProvider>
+        <SpeedInsights />
       </body>
     </html>
   );

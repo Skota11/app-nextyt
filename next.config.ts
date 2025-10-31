@@ -3,9 +3,17 @@ import type { NextConfig } from "next";
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
+const withMDX = require('@next/mdx')({
+  extension: /\.mdx?$/,
+});
 
 const nextConfig: NextConfig = {
   /* config options here */
+  experimental: {
+    // Turbopack で MDX を解釈させる
+    mdxRs: true,
+  },
+  pageExtensions: ["ts", "tsx", "mdx"],
   images: {
     remotePatterns: [
       {
@@ -20,4 +28,4 @@ const nextConfig: NextConfig = {
   }
 };
 
-export default withBundleAnalyzer(nextConfig)
+export default withBundleAnalyzer(withMDX(nextConfig))

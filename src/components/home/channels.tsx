@@ -32,7 +32,7 @@ export default function Main() {
             {data.map(item => (
               <Link
                 key={item.channelId}
-                className="snap-start"
+                className="snap-start min-w-[70px]"
                 href={`/channel/${item.channelId}`}
                 prefetch={false}
               >

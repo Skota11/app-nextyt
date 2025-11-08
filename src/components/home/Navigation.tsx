@@ -13,7 +13,7 @@ export function HomeNavigation() {
         <NavigationMenu>
         <NavigationMenuList>
             <NavigationMenuItem>
-            <NavigationMenuTrigger>NextTube</NavigationMenuTrigger>
+            <NavigationMenuTrigger>アプリを切り替える</NavigationMenuTrigger>
             <NavigationMenuContent className="p-8 grid gap-6 w-[400px] lg:w-[500px]">
                 <NavigationMenuLink asChild>
                     <Link href={`https://www.nextyt.app`}>

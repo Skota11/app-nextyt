@@ -30,13 +30,13 @@ export default async function Home() {
               </Button>
             </div>
           </div>
-          <div className="relative grid place-content-center my-2">
+          <div className="flex place-content-center my-2">
             <Search />
           </div>
           <Channels />
           <PlaylistHead />
           <Playlist />
-          <h1 className='text-lg my-4'><FontAwesomeIcon icon={faClockRotateLeft} className='mr-2' />視聴履歴</h1>
+          <h1 className='text-xl text-bold my-4'><FontAwesomeIcon icon={faClockRotateLeft} className='mr-2' />視聴履歴</h1>
           <History />
         </div>
     </>

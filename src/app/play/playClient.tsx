@@ -97,7 +97,9 @@ export default function PlayClient() {
                     )}
                     {mountedTabs.has("search") && (
                         <div style={{ display: activeTab === "search" ? "block" : "none" }}>
-                            <Search />
+                            <div className="flex place-content-center">
+                                <Search />
+                            </div>
                         </div>
                     )}
                     {mountedTabs.has("queue") && (

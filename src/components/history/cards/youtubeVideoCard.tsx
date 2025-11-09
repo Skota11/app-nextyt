@@ -35,16 +35,19 @@ export default function VideoCard ({item , deleteHistory , isPlayerPage} : {item
                 <Image
                 src={`https://i.ytimg.com/vi/${item.videoId}/hqdefault.jpg`}
                 alt=""
-                width={120 * 2.5}
-                height={67.5 * 2.5}
-                className="inline sm:rounded-md rounded-t-lg aspect-video object-cover w-full sm:w-[300px]"
+                width={120 * 3}
+                height={67.5 * 3}
+                className="inline sm:rounded-md rounded-t-lg aspect-video object-cover w-full sm:w-[360px]"
                 unoptimized
                 />
             </div>
             </Link>
             <div className="sm:inline">
             <Link href={playHref}>
-                <p className="py-4 px-2 sm:px-0">{item.videoContent.title}</p>
+               <div className="py-4 px-2 sm:px-0 flex flex-col gap-y-1">
+                    <p className="">{item.videoContent.title}</p>
+                    <p className="hidden sm:block text-sm text-gray-600 dark:text-gray-400">{item.videoContent.channelTitle}</p>
+               </div>
             </Link>
             </div>
             <Popover>

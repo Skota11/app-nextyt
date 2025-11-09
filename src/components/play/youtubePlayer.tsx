@@ -53,7 +53,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                     }
                 });
             },
-            { threshold: 0.5 }
+            { threshold: 1 }
         );
         observer.observe(observerRef.current);
         return () => {

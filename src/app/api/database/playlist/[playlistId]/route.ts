@@ -49,6 +49,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
         } else {
             await supabase.from("playlists").insert({ playlistId: playlistId, videoId: body.id, videoContent: about })
         }
+        await supabase.from("user_playlists").update({ videos: data ? data.length + 1 : 1 }).eq("playlistId", playlistId)
         return new Response('Success', { status: 200 })
     } else {
         return new Response('Not logged in', { status: 404 })
@@ -62,12 +63,14 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
     const { playlistId } = await params
     const { data: { user } } = await supabase.auth.getUser()
     if (user) {
+        const { data }: { data: Array[] | null } = await supabase.from("playlists").select("videoId").eq("playlistId", playlistId)
         if (videoIdBody == 'full') {
             await supabase.from("playlists").delete().eq("playlistId", playlistId)
             await supabase.from("user_playlists").delete().eq("playlistId", playlistId)
             return new Response('', { status: 200 })
         } else {
             await supabase.from("playlists").delete().match({ playlistId: playlistId, videoId: videoIdBody })
+            await supabase.from("user_playlists").update({ videos: data ? data.length - 1 : 0 }).eq("playlistId", playlistId)
             return new Response('', { status: 200 })
         }
     } else {

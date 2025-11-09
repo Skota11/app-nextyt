@@ -23,9 +23,9 @@ export default function NiconicoVideoCard({ props , item , deleteLoading , delet
                 <Image
                 src={nicoImg(item.videoContent.thumbnail)}
                 alt=""
-                width={120 * 2.5}
-                height={67.5 * 2.5}
-                className="inline sm:rounded-md rounded-t-lg aspect-video object-cover w-full sm:w-[300px]"
+                width={120 * 3}
+                height={67.5 * 3}
+                className="inline sm:rounded-md rounded-t-lg aspect-video object-cover w-full sm:w-[360px]"
                 unoptimized
                 />
                 <div className="absolute bottom-2 right-2 bg-white place-content-center p-1 rounded-sm">

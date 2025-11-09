@@ -33,9 +33,9 @@ export default function YouTubeVideoCard({item , isPlayerPage}: {item:SearchResu
                 <Image
                 src={`https://i.ytimg.com/vi/${item.id?.videoId}/hqdefault.jpg`}
                 alt=""
-                width={120 * 2.5}
-                height={67.5 * 2.5}
-                className="inline sm:rounded-md rounded-t-lg aspect-video object-cover w-full sm:w-[300px]"
+                width={120 * 3}
+                height={67.5 * 3}
+                className="inline sm:rounded-md rounded-t-lg aspect-video object-cover w-full sm:w-[360px]"
                 unoptimized
                 />
             </div>

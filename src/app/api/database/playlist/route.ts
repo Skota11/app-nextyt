@@ -8,16 +8,15 @@ export async function GET(request: NextRequest) {
     if (id) {
         const { data }: { data: unknown } = await supabase
             .from('user_playlists')
-            .select("playlistId , playlistName")
+            .select("playlistId , playlistName , videos")
             .eq("playlistId", id)
         return Response.json({ data })
     } else {
-
         const { data: { user } } = await supabase.auth.getUser()
         if (user) {
             const { data }: { data: unknown } = await supabase
                 .from('user_playlists')
-                .select("playlistId , playlistName")
+                .select("playlistId , playlistName , videos")
                 .order("created_at", { ascending: false })
             return Response.json({ data })
         } else {

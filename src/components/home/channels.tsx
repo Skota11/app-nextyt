@@ -22,8 +22,8 @@ export default function Main() {
       <div className="p-4">
         {isLoading && (
           <div className="flex gap-x-4">
-            <Skeleton className="w-[70px] h-[70px]" />
-            <Skeleton className="w-[70px] h-[70px] rounded-full" />
+            <Skeleton className="w-[75px] h-[75px]" />
+            <Skeleton className="w-[75px] h-[75px] rounded-full" />
           </div>
         )}
         {!isLoading && data && data.length === 0 && <p>ピン留めされたチャンネルはありません</p>}
@@ -32,7 +32,7 @@ export default function Main() {
             {data.map(item => (
               <Link
                 key={item.channelId}
-                className="snap-start min-w-[70px]"
+                className="snap-start min-w-[75px]"
                 href={`/channel/${item.channelId}`}
                 prefetch={false}
               >
@@ -42,8 +42,8 @@ export default function Main() {
                       <Image
                         alt="channelImage"
                         src={item.channelContent.thumbnails.medium.url}
-                        width={70}
-                        height={70}
+                        width={75}
+                        height={75}
                         unoptimized
                         className="
                           border-3 border-white group-hover:border-blue-200 duration-300 rounded-full hover:brightness-90 transition-all aspect-square object-cover"

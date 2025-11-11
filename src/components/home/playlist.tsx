@@ -34,7 +34,7 @@ export default function Main() {
           <Link key={item.playlistId} href={`/playlist/${item.playlistId}`}>
             <div className="flex items-center justify-between p-6 rounded-lg border border-blue-500/10 dark:bg-popover hover:bg-gray-200/50 dark:hover:bg-gray-800/50 transition-all duration-300 cursor-pointer gap-4">
               <div className="col-start-1 col-end-4">
-                <p className="text-lg font-medium">{item.playlistName}</p>
+                <p className="text-lg font-bold">{item.playlistName}</p>
                 <p className="text-sm text-gray-800 dark:text-gray-200">{item.videos}件の動画</p>
               </div>
               <div className="col-start-4 col-end-5 justify-self-end ">

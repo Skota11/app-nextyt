@@ -98,7 +98,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
             {/* Player */}
             {isPiP && (
                 <div className='rounded-lg sm:rounded-none aspect-video w-full max-h-4/5 maxHeightVideo'>
-                    <div className='w-full h-full text-white flex place-content-center bg-black'><p className='text-2xl text-center'>PictureInPictureで再生中</p></div>
+                    <div className='w-full h-full text-white flex place-content-center items-center bg-black'><p className='text-2xl text-center'>PictureInPictureで再生中</p></div>
                 </div>
             )}
             {props.ytid ? (
@@ -129,7 +129,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                     />
                 </div>
             ) : (
-                <div className='aspect-video w-full maxHeightVideo text-white flex place-content-center bg-black'>
+                <div className='aspect-video w-full maxHeightVideo text-white flex place-content-center items-center bg-black'>
                     <p className='text-2xl text-center'>動画が選択されていません</p>
                 </div>
             )}

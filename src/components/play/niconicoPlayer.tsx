@@ -117,7 +117,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                     <iframe ref={playerRef} key={refreshKey} src={`https://embed.nicovideo.jp/watch/${props.ytid}?persistence=1&oldScript=1&referer=&from=0&allowProgrammaticFullScreen=1&autoplay=1&jsapi=1&playerId=nicoPlayer`} width={"100%"} height={"100%"} allowFullScreen allow="autoplay"></iframe>
                 </div>
             ) : (
-                <div className='aspect-video w-full maxHeightVideo text-white flex place-content-center bg-black'>
+                <div className='aspect-video w-full maxHeightVideo text-white flex place-content-center bg-black items-center'>
                     <p className='text-2xl text-center'>動画が選択されていません</p>
                 </div>
             )}

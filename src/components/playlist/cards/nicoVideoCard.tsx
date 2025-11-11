@@ -38,7 +38,7 @@ export default function NiconicoVideoCard({ props , item , deleteLoading , delet
             </Link>
             <div className="sm:inline">
             <Link href={`/playlist/${props.playlistId}?v=${item.videoId}`}>
-                <p className="py-4 px-2 sm:px-0">{item.videoContent.title}</p>
+                <p className="py-4 px-2 sm:px-0 font-bold">{item.videoContent.title}</p>
             </Link>
             </div>
             <Popover>

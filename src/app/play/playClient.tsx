@@ -62,25 +62,6 @@ export default function PlayClient() {
         }
     };
 
-    if (!videoId) {
-        return (
-            <CookiesProvider>
-                <div className="p-4 max-w-screen-xl m-auto">
-                    <p>動画が指定されていません</p>
-                    <Tabs value={activeTab} onValueChange={handleTabChange} className="mt-4">
-                        <div className="mt-4 mb-12">
-                            {mountedTabs.has("search") && (
-                                <div style={{ display: activeTab === "search" ? "block" : "none" }}>
-                                    <Search />
-                                </div>
-                            )}
-                        </div>
-                    </Tabs>
-                </div>
-            </CookiesProvider>
-        );
-    }
-
     return (
         <CookiesProvider>
             {nicoCheck(videoId) ?

@@ -12,7 +12,13 @@ import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import { ToggleTheme } from "@/components/toggleTheme";
 config.autoAddCss = false
 
-const myFont = localFont({ src: '../fonts/LINESeedJP_OTF_Bd.woff2', preload: true });
+const myFont = localFont({
+  src: [
+    { path: '../fonts/LINESeedJP_OTF_Rg.woff2', weight: '400', style: 'normal' },
+    { path: '../fonts/LINESeedJP_OTF_Bd.woff2', weight: '700', style: 'normal' },
+  ],
+  preload: true,
+});
 
 export const metadata: Metadata = {
   title: 'NextTube',
@@ -45,7 +51,7 @@ export default function RootLayout({
             <div className="max-w-screen-xl mx-auto flex items-center justify-between p-4">
               <h1 className="flex gap-x-1 items-center place-content-center">
                 <Image src={"/icon.png"} alt="NextTube" width={32} height={32} />
-                <Link href="/" className="text-xl text-bold">NextTube</Link>
+                <Link href="/" className="text-xl font-bold">NextTube</Link>
               </h1>
               <div className="flex place-content-end">
                 <ToggleTheme />

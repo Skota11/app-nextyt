@@ -36,7 +36,7 @@ export default async function Home() {
           <Channels />
           <PlaylistHead />
           <Playlist />
-          <h1 className='text-xl text-bold my-4'><FontAwesomeIcon icon={faClockRotateLeft} className='mr-2' />視聴履歴</h1>
+          <h1 className='text-xl font-bold my-4'><FontAwesomeIcon icon={faClockRotateLeft} className='mr-2' />視聴履歴</h1>
           <History />
         </div>
     </>

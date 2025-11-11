@@ -51,7 +51,7 @@ export default function NicoVideoCard({item , deleteHistory , isPlayerPage} : {i
             </Link>
             <div className="sm:inline">
             <Link href={playHref}>
-                <p className="py-4 px-2 sm:px-0">{item.videoContent.title}</p>
+                <p className="py-4 px-2 sm:px-0 font-bold">{item.videoContent.title}</p>
             </Link>
             </div>
             <Popover>

@@ -15,7 +15,7 @@ export default function Main() {
 
   return (
     <div className="mt-2">
-      <h1 className="text-xl text-bold my-4">
+      <h1 className="text-xl font-bold my-4">
         <FontAwesomeIcon icon={faGrip} className="mr-2" />
         ピン留めチャンネル
       </h1>

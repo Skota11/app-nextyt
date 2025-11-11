@@ -53,6 +53,9 @@ export default function TitleAndDrawer({ isLogin, observerRef, setRefreshKey, yt
     //レスポンシブ
     const [open, setOpen] = useState(false)
     const isWide = useMedia('(min-width: 512px)')
+    if(!videoAbout){
+        return( <></>)
+    }
     return (
         <>
             <div className='px-2 py-2'>

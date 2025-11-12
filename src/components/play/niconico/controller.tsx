@@ -1,7 +1,8 @@
-import { faRepeat, faShareFromSquare, faVolumeHigh } from "@fortawesome/free-solid-svg-icons"
+import { faRepeat, faShareFromSquare, faVolumeHigh, faVolumeXmark } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useEffect, useState } from "react";
 import { LiaCommentSolid } from "react-icons/lia"
+import { Button } from "@/components/ui/button";
 
 export default function Controller({ytid , playerState , playerRef , repeat , setRepeat}: {ytid: string , playerState: {muted: boolean , showComment: boolean} , playerRef: React.RefObject<HTMLIFrameElement | null> , repeat: boolean|undefined , setRepeat: React.Dispatch<React.SetStateAction<boolean | undefined>>}) {
     const [mounted, setMounted] = useState(false);
@@ -18,13 +19,11 @@ export default function Controller({ytid , playerState , playerRef , repeat , se
         <div className="">
                 {ytid !== "" ?
                     <div className='flex justify-center items-center gap-x-3'>
-                        <button
+                        <Button
+                            variant={playerState.muted ? "outline" : "default"}
                             title={playerState.muted ? "音を出す" : "消音にする"}
                             className={`
-                                w-12 h-12 border-2 rounded-full text-xs border-current 
-                                flex items-center justify-center flex-shrink-0 relative
-                                hover:bg-gray-100 dark:hover:bg-popover transition-colors duration-200
-                                ${playerState.muted ? 'bg-red-100 border-red-500 text-red-700' : ''}
+                                rounded-2xl h-12 w-12 font-semibold transition-all duration-200 hover:scale-105 shadow-sm
                             `}
                             onClick={async () => {
                                 playerRef.current?.contentWindow?.postMessage({
@@ -37,20 +36,13 @@ export default function Controller({ytid , playerState , playerRef , repeat , se
                                 }, "https://embed.nicovideo.jp")
                             }}
                         >
-                            <FontAwesomeIcon icon={faVolumeHigh} />
-                            {playerState.muted && (
-                                <div className="absolute inset-0 flex items-center justify-center">
-                                    <div className="w-8 h-0.5 bg-current rotate-45 transform"></div>
-                                </div>
-                            )}
-                        </button>
-                        <button
+                            {playerState.muted ? <FontAwesomeIcon icon={faVolumeXmark} /> : <FontAwesomeIcon icon={faVolumeHigh} />}
+                        </Button>
+                        <Button
+                            variant={!playerState.showComment ? "outline" : "default"}
                             title={playerState.showComment ? "コメントを非表示にする" : "コメントを表示する"}
                             className={`
-                                w-12 h-12 border-2 rounded-full border-current 
-                                flex items-center justify-center flex-shrink-0 relative
-                                hover:bg-gray-100 dark:hover:bg-popover transition-colors duration-200
-                                ${!playerState.showComment ? 'bg-gray-100 border-gray-500 text-gray-700' : ''}
+                                rounded-2xl h-12 w-12 font-semibold transition-all duration-200 hover:scale-105 shadow-sm
                             `}
                             onClick={() => {
                                 playerRef.current?.contentWindow?.postMessage({
@@ -64,37 +56,26 @@ export default function Controller({ytid , playerState , playerRef , repeat , se
                             }}
                         >
                             <LiaCommentSolid />
-                            {!playerState.showComment && (
-                                <div className="absolute inset-0 flex items-center justify-center">
-                                    <div className="w-8 h-0.5 bg-current rotate-45 transform"></div>
-                                </div>
-                            )}
-                        </button>
-                        <button
+                        </Button>
+                        <Button
+                            variant="outline"
                             title="共有"
-                            className="w-12 h-12 border-2 rounded-full text-xs border-current flex items-center justify-center flex-shrink-0 hover:bg-gray-100 dark:hover:bg-popover transition-colors duration-200"
+                            className="rounded-2xl h-12 w-12 hover:bg-accent transition-all duration-200 hover:scale-105"
                             onClick={async () => { handleShare() }}
                         >
                             <FontAwesomeIcon icon={faShareFromSquare} />
-                        </button>
+                        </Button>
                         {mounted && (
-                            <button
+                            <Button
+                                variant={repeat ? "default" : "outline"}
                                 title="リピート"
                                 className={`
-                                                        w-12 h-12 border-2 rounded-full text-xs border-current 
-                                                        flex items-center justify-center flex-shrink-0 relative
-                                                        hover:bg-gray-100 dark:hover:bg-popover transition-colors duration-200
-                                                        ${repeat ? 'bg-green-100 border-green-500 text-green-700' : 'opacity-60'}
-                                                    `}
+                                    rounded-2xl h-12 w-12 transition-all duration-200 hover:scale-105 shadow-sm
+                                `}
                                 onClick={async () => { setRepeat(!repeat) }}
                             >
                                 <FontAwesomeIcon icon={faRepeat} />
-                                {!repeat && (
-                                    <div className="absolute inset-0 flex items-center justify-center">
-                                        <div className="w-8 h-0.5 bg-current rotate-45 transform"></div>
-                                    </div>
-                                )}
-                            </button>
+                            </Button>
                         )}
                     </div>
                     : <div className=""></div>}

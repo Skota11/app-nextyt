@@ -38,7 +38,7 @@ export default async function Child({ params }: { params: Promise<{ channelId: s
                     </>}
                     <div>
                         {channel ? <>
-                            <h1 className="text-xl">{channel?.snippet.title}</h1>
+                            <h1 className="text-xl font-bold my-2">{channel?.snippet.title}</h1>
                         </> : <></>}
                         <p className="text-sm">登録者数 {num2ja(channel?.statistics.subscriberCount)}人 / {num2ja(channel?.statistics.videoCount)}本の動画</p>
                         <p className="text-sm text-gray-400">{channel ? <>{omit(channel.snippet.description)}</> : <></>}</p>

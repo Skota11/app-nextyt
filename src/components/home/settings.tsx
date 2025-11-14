@@ -35,7 +35,7 @@ export default function Main(props: { currentUser: User }) {
         <div className='mt-2'>
             <div className="mx-4 flex flex-col gap-y-6 ">
                 <div >
-                    <h1 className="text-xl my-6">プレイヤー設定</h1>
+                    <h1 className="text-xl my-6 font-bold">プレイヤー設定</h1>
                     <div className="flex flex-col gap-y-4 mx-2">
                         <div>
                             <div className="flex items-center gap-x-2 my-2">
@@ -90,7 +90,7 @@ export default function Main(props: { currentUser: User }) {
                     </div>
                 </div>
                 <div>
-                    <h1 className="text-xl my-6">アカウント設定</h1>
+                    <h1 className="text-xl my-6 font-bold">アカウント設定</h1>
                     <div className="flex flex-col gap-y-4 mx-2">
                         
                         {props.currentUser.is_anonymous ? <>

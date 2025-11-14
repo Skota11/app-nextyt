@@ -6,7 +6,7 @@ import { useDebounce } from "react-use";
 import { Badge } from "@/components/ui/badge";
 //Font Awesome Icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faSearch, faSquareArrowUpRight, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { faYoutube } from "@fortawesome/free-brands-svg-icons";
 //React Icons
 import { SiNiconico } from "react-icons/si";
@@ -57,15 +57,16 @@ export default function Home() {
         [inputQuery]
     );
     return (
-        <div className="w-full max-w-xl m-2">
-            <div className="flex place-content-center mt-4 bb-2">
+        <div className="w-full px-4 sm:px-0">
+            <div className="relative w-full max-w-xl mx-auto">
+                <div className="flex place-content-center mt-4 bb-2">
                 <form 
                 className="w-full"
                 onSubmit={(e) => {
                     e.preventDefault()
                     getSearch()
                 }}>
-                    <div className="flex w-full ">
+                    <div className="flex w-full">
                         <input ref={inputRef} type="search" className='bg-gray-100 dark:text-black p-2 rounded-l-full border-2 outline-0 w-full ' placeholder='検索するワードを入力' onChange={(e) => { setInputQuery(e.target.value) }} value={inputQuery} />
                         <button type="submit" className='py-2 px-4 bg-gray-100 border-y-2 border-r-2 rounded-r-full text-black'><FontAwesomeIcon icon={faSearch} /></button>
                     </div>
@@ -101,14 +102,31 @@ export default function Home() {
                     </div>
                 </form>
             </div>
-            <div className="flex place-content-center">
                 {suggest.length !== 0 ?
-                    <div className="absolute p-4 border-2 rounded-lg bg-white dark:bg-popover flex flex-col gap-y-1 z-10 ">
-                        {
-                            suggest.map((item) => {
-                                return (<p className="cursor-pointer" onClick={() => { setInputQuery(item) }} key={item}>{item}</p>)
-                            })
-                        }
+                    <div className="absolute inset-x-0 top-full z-20 mt-3 w-full rounded-2xl border border-border bg-white px-3 py-2 shadow-xl ring-1 ring-black/5 backdrop-blur dark:bg-popover">
+                        <div className="max-h-64 overflow-y-auto">
+                            {
+                                suggest.map((item) => (
+                                    <div className="flex items-center gap-2" key={item}>
+                                        <button
+                                            type="button"
+                                            className="flex-1 cursor-pointer rounded-xl px-3 py-2 text-left text-sm font-medium text-gray-700 transition hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary dark:text-gray-50 dark:hover:bg-white/10"
+                                            onClick={() => { setInputQuery(item); getSearch() }}
+                                        >
+                                            {item}
+                                        </button>
+                                        <button
+                                            type="button"
+                                            className="ml-2 flex-shrink-0 cursor-pointer rounded-xl p-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary dark:text-gray-50 dark:hover:bg-white/10"
+                                            onClick={() => { setInputQuery(item) }}
+                                            aria-label={`select ${item}`}
+                                        >
+                                            <FontAwesomeIcon icon={faSquareArrowUpRight} />
+                                        </button>
+                                    </div>
+                                ))
+                            }
+                        </div>
                     </div>
                     : <></>}
             </div>

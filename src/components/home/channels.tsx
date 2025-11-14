@@ -17,7 +17,7 @@ export default function Main() {
     <div className="mt-2">
       <h1 className="text-xl font-bold my-4">
         <FontAwesomeIcon icon={faGrip} className="mr-2" />
-        ピン留めチャンネル
+        チャンネル
       </h1>
       <div className="p-4">
         {isLoading && (

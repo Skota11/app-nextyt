@@ -28,9 +28,11 @@ export default function AddUserChannels({id} : { id: string }) {
         toast.success('チャンネルのピン留めを解除しました。', { duration: 4000 });
     }
     return (
-        <div className="my-4 flex gap-x-4">
-            <Button color="success" onClick={addUserChannels}><FontAwesomeIcon icon={faStickyNote} /> ピン留め</Button>
-            <Button color="warning" onClick={deleteUserChannels}><FontAwesomeIcon icon={faTrash} /> 解除</Button>
+        <div>
+            <div className="my-4 flex gap-x-4">
+                <Button size={"sm"} variant={"secondary"} onClick={addUserChannels}><FontAwesomeIcon icon={faStickyNote} /> ピン留め</Button>
+                <Button size={"sm"} variant={"secondary"} onClick={deleteUserChannels}><FontAwesomeIcon icon={faTrash} /> 解除</Button>
+            </div>
         </div>
     );
 }

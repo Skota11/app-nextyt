@@ -17,7 +17,9 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
     //state
     const [playerState , setPlayerState] = useState({muted: false , showComment: true});
     const [isLogin, setIsLogin] = useState(false)
-    const observerRef = useRef<HTMLHeadingElement>(null);
+    const observerRef = useRef<HTMLHeadingElement | null>(null);
+    const [observerNode, setObserverNode] = useState<HTMLHeadingElement | null>(null);
+    const observerRefCallback = (el: HTMLHeadingElement | null) => { observerRef.current = el; setObserverNode(el); };
     const playerRef = useRef<HTMLIFrameElement>(null);
     const [autoPlay] = useLocalStorage<boolean>('autoPlay', true);
     const [isPiP, setIsPiP] = useState(false);
@@ -78,7 +80,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
         f()
     }, [])
     useEffect(() => {
-        if (!observerRef.current) return;
+        if (!observerNode) return;
 
         const observer = new IntersectionObserver(
             (entries) => {
@@ -93,12 +95,12 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
             { threshold: 1 }
         );
 
-        observer.observe(observerRef.current);
+        observer.observe(observerNode);
 
         return () => {
             observer.disconnect();
         };
-    }, [props.ytid]);
+    }, [observerNode, props.ytid, PiP]);
     return (
         <>
             {/* Player */}
@@ -122,7 +124,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                 </div>
             )}
             {/* Title&Drawer */}
-            <TitleAndDrawer ytid={props.ytid} isLogin={isLogin} observerRef={observerRef} setRefreshKey={setRefreshKey} />
+            <TitleAndDrawer ytid={props.ytid} isLogin={isLogin} observerRef={observerRefCallback} setRefreshKey={setRefreshKey} />
             {/* Controller */}
             <Controller ytid={props.ytid} playerState={playerState} playerRef={playerRef} repeat={repeat} setRepeat={setRepeat}/>
             <Toaster position="bottom-center" />

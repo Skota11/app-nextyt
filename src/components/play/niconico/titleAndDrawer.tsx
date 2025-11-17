@@ -2,7 +2,7 @@ import { NicoVideoAbout } from "@/types/videoAbout";
 import toJaNum from "@/utils/num2ja";
 import { faChevronDown, faChevronRight, faEye, faFolder, faHeart, faRotateRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, Ref } from "react";
 import AddPlaylist from "../common/addPlaylist";
 import dayjs from "dayjs";
 import { SiNiconico } from "react-icons/si";
@@ -13,7 +13,7 @@ import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/u
 import useSWR from "swr";
 import { jsonFetcher } from "@/lib/swr";
 
-export default function TitleAndDrawer({ ytid, isLogin, observerRef, setRefreshKey }: { ytid: string, isLogin: boolean, observerRef: React.RefObject<HTMLHeadingElement | null>, setRefreshKey: (key: number | ((prevCount: number) => number)) => void }) {
+export default function TitleAndDrawer({ ytid, isLogin, observerRef, setRefreshKey }: { ytid: string, isLogin: boolean, observerRef: Ref<HTMLHeadingElement | null>, setRefreshKey: (key: number | ((prevCount: number) => number)) => void }) {
     const { data: nicoData } = useSWR(
         ytid ? `/api/external/niconico?id=${ytid}` : null,
         jsonFetcher,
@@ -55,7 +55,7 @@ export default function TitleAndDrawer({ ytid, isLogin, observerRef, setRefreshK
                                     aria-label="動画の詳細を表示"
                                     className='group m-2 break-all text-lg cursor-pointer focus:outline-none rounded inline-flex items-center gap-x-2'
                                 >
-                                    <span className='flex-1'>{videoAbout?.title}</span>
+                                    <span className='flex-1 font-bold'>{videoAbout?.title}</span>
                                     <span className='w-8 h-8 flex place-content-center items-center rounded-full bg-blue-100 text-blue-600 border border-blue-200 group-hover:bg-blue-200 transition-colors'>
                                         {isWide ? <FontAwesomeIcon icon={faChevronRight}/> : <FontAwesomeIcon icon={faChevronDown}/> }
                                     </span>

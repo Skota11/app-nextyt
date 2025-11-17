@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useState } from "react";
+import { Ref, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -17,7 +17,7 @@ import Linkify from "linkify-react";
 import useSWR from "swr";
 import { dataFetcher, jsonFetcher } from "@/lib/swr";
 
-export default function TitleAndDrawer({ isLogin, observerRef, setRefreshKey, ytid }: { isLogin: boolean, observerRef: RefObject<HTMLHeadingElement | null>, setRefreshKey: (key: number | ((prevCount: number) => number)) => void, ytid: string }) {
+export default function TitleAndDrawer({ isLogin, observerRef, setRefreshKey, ytid }: { isLogin: boolean, observerRef: Ref<HTMLHeadingElement | null>, setRefreshKey: (key: number | ((prevCount: number) => number)) => void, ytid: string }) {
     // 動画情報（SWRでキャッシュ）
     const { data: videoAbout } = useSWR<VideoAbout>(
         ytid ? `/api/external/video?id=${ytid}` : null,
@@ -68,13 +68,9 @@ export default function TitleAndDrawer({ isLogin, observerRef, setRefreshKey, yt
                         }
                     }}
                     ref={observerRef}
-                    role="button"
-                    tabIndex={0}
-                    aria-expanded={open}
-                    aria-label="動画の詳細を表示"
                     className='group m-2 break-all text-lg cursor-pointer focus:outline-none rounded inline-flex items-center gap-x-2'
                 >
-                    <span className='flex-1'>{videoAbout?.snippet.title}</span>
+                    <span className='flex-1 font-bold'>{videoAbout?.snippet.title}</span>
                     <span className='w-8 h-8 flex place-content-center items-center rounded-full bg-blue-100 text-blue-600 border border-blue-200 group-hover:bg-blue-200 transition-colors'>
                         {isWide ? <FontAwesomeIcon icon={faChevronRight}/> : <FontAwesomeIcon icon={faChevronDown}/> }
                     </span>

@@ -22,7 +22,9 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
     const [autoPlay] = useLocalStorage<boolean>('autoPlay', true);
     const [PiP] = useLocalStorage("pip");
     const [isLogin, setIsLogin] = useState(false)
-    const observerRef = useRef<HTMLHeadingElement>(null);
+    const observerRef = useRef<HTMLHeadingElement | null>(null);
+    const [observerNode, setObserverNode] = useState<HTMLHeadingElement | null>(null);
+    const observerRefCallback = (el: HTMLHeadingElement | null) => { observerRef.current = el; setObserverNode(el); };
     const playerRef = useRef<ReactPlayer>(null);
     const [isPiP, setIsPiP] = useState(false);
     const [refreshKey, setRefreshKey] = useState(0);
@@ -42,9 +44,12 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
     }, [props.ytid])
     //PiP observer
     useEffect(() => {
-        if (!observerRef.current) return;
+        console.log("PiP Observer Set");
+        if (!observerNode) return;
+        console.log("observerNode:", observerNode);
         const observer = new IntersectionObserver(
             (entries) => {
+                console.log("IntersectionObserver entries:", entries);
                 entries.forEach((entry) => {
                     if (!entry.isIntersecting && props.ytid && PiP) {
                         setIsPiP(true);
@@ -55,11 +60,11 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
             },
             { threshold: 1 }
         );
-        observer.observe(observerRef.current);
+        observer.observe(observerNode);
         return () => {
             observer.disconnect();
         };
-    }, [props.ytid])
+    }, [observerNode, props.ytid, PiP])
     //fullscreen observer
     useEffect(() => {
         const handleFullscreenChange = () => {
@@ -133,8 +138,9 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                     <p className='text-2xl text-center'>動画が選択されていません</p>
                 </div>
             )}
+            
             {/* Title&Drawer */}
-            <TitleAndDrawer isLogin={isLogin} observerRef={observerRef} setRefreshKey={setRefreshKey} ytid={props.ytid}/>
+            <TitleAndDrawer isLogin={isLogin} observerRef={observerRefCallback} setRefreshKey={setRefreshKey} ytid={props.ytid}/>
             {/* Controller */}
             <Controller ytid={props.ytid} playerState={playerState} setPlayerState={setPlayerState} setRepeat={setRepeat} repeat={repeat}/>
             <Toaster position="bottom-center" />

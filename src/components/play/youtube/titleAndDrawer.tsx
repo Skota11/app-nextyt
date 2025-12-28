@@ -2,7 +2,7 @@ import { Ref, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown, faChevronRight, faEye, faRotateRight, faThumbsUp } from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown, faChevronRight, faRotateRight, faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import toJaNum from "@/utils/num2ja";
 import { SongInfo, VideoAbout } from "@/types/videoAbout";
 import dayjs from "dayjs";

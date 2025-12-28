@@ -1,13 +1,10 @@
-"use client"
+"use client";
 
-import Content from "@/content/terms.mdx";
+import { redirect } from "next/navigation";
 
 export const dynamic = "force-static";
 
 export default function Page() {
-    return (
-        <div className="p-4 prose">
-            <Content />
-        </div>
-    );
+    // Redirect static terms page to the new Notion document
+    redirect("https://nextyt.notion.site/Terms-of-Service-2b1e48739476806ead73e6bf49310427");
 }

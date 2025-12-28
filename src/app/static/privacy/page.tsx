@@ -1,13 +1,10 @@
-"use client"
+"use client";
 
-import Content from "@/content/privacy.mdx";
+import { redirect } from "next/navigation";
 
 export const dynamic = "force-static";
 
 export default function Page() {
-    return (
-        <div className="p-4 prose">
-            <Content />
-        </div>
-    );
+    // Redirect static privacy page to the new Notion document
+    redirect("https://nextyt.notion.site/Privacy-Policy-2b1e4873947680febaefdf20dc087108");
 }

@@ -1,6 +1,7 @@
 import { type NextRequest } from 'next/server'
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ channelId: string }> }) {
+    const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
     const { channelId } = await params
     const searchParams = request.nextUrl.searchParams
     const query = searchParams.get('get')
@@ -32,9 +33,9 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     }
     let res;
     if (next) {
-        res = await (await fetch(`https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${playlistId}&pageToken=${next}&key=AIzaSyC1KMsyjrnEfHJ3xnQtPX0DSxWHfyjUBeo`)).json();
+        res = await (await fetch(`https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${playlistId}&pageToken=${next}&key=${YOUTUBE_API_KEY}`)).json();
     } else {
-        res = await (await fetch(`https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${playlistId}&key=AIzaSyC1KMsyjrnEfHJ3xnQtPX0DSxWHfyjUBeo`)).json();
+        res = await (await fetch(`https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${playlistId}&key=${YOUTUBE_API_KEY}`)).json();
     }
     const data = res.items
     return Response.json({ data: data, nextPageToken: res.nextPageToken })

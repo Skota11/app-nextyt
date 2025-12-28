@@ -16,6 +16,7 @@ import SongSection from "./drawer/song";
 import Linkify from "linkify-react";
 import useSWR from "swr";
 import { dataFetcher, jsonFetcher } from "@/lib/swr";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function TitleAndDrawer({ isLogin, observerRef, setRefreshKey, ytid }: { isLogin: boolean, observerRef: Ref<HTMLHeadingElement | null>, setRefreshKey: (key: number | ((prevCount: number) => number)) => void, ytid: string }) {
     // 動画情報（SWRでキャッシュ）
@@ -54,7 +55,9 @@ export default function TitleAndDrawer({ isLogin, observerRef, setRefreshKey, yt
     const [open, setOpen] = useState(false)
     const isWide = useMedia('(min-width: 512px)')
     if(!videoAbout){
-        return( <></>)
+        return(<>
+         <Skeleton className="m-4 h-[28px] w-[360px]" />
+        </>)
     }
     return (
         <>
@@ -93,20 +96,20 @@ export default function TitleAndDrawer({ isLogin, observerRef, setRefreshKey, yt
                                         </Link>
                                     </SheetDescription>
                                 </SheetHeader>
-
                                 <div className='flex gap-x-4 my-4 gap-y-4 flex-nowrap'>
-                                    <p className='text-sm'>{dayjs(videoAbout?.snippet.publishedAt).format('YYYY年MM月DD日')}</p>
-                                    <p className='text-sm'><FontAwesomeIcon className='mr-2' icon={faEye} />{toJaNum(videoAbout?.statistics.viewCount)}</p>
-                                    <p className='text-sm'><FontAwesomeIcon className='mr-2' icon={faThumbsUp} /> {toJaNum(videoAbout?.statistics.likeCount)}</p>
-                                </div>
+                                            <p className='text-sm'>{dayjs(videoAbout?.snippet.publishedAt).format('YYYY年MM月DD日')}</p>
+                                            <p className='text-sm'>{toJaNum(videoAbout?.statistics.viewCount)}回視聴</p>
+                                            <p className='text-sm'><FontAwesomeIcon className='mr-2' icon={faThumbsUp} />{toJaNum(videoAbout?.statistics.likeCount)}</p>
+                                        </div>
                                 {isLogin ? <>
-                                    <div>
+                                    <div className="mt-4">
                                         <AddPlaylist videoId={ytid} />
                                     </div>
                                 </> : <></>}
                                 <div className='flex flex-col gap-y-8 my-8'>
                                     {songInfo?.song ? <SongSection songInfo={songInfo} /> : <></>}
                                     <div className='p-4 rounded-lg bg-gray-100 dark:bg-popover shadow-sm'>
+                                        
                                         <p className="text-sm mb-2">概要欄</p>
                                         <div className='text-sm break-all w-full'>
                                             <Linkify options={{
@@ -121,7 +124,7 @@ export default function TitleAndDrawer({ isLogin, observerRef, setRefreshKey, yt
                                 </div>
                                 <button onClick={() => { setRefreshKey((prevCount) => prevCount + 1) }}><FontAwesomeIcon icon={faRotateRight} className="mr-2" />プレイヤーを再読み込み</button>
                                 <div className="my-4">
-                                    <a className='' href={`https://youtu.be/${ytid}`} ><FontAwesomeIcon className='mr-2' icon={faYoutube} />Youtubeで開く</a>
+                                    <a target="_blank" rel="noopener noreferrer" className='' href={`https://youtu.be/${ytid}`} ><FontAwesomeIcon className='mr-2' icon={faYoutube} />Youtubeで開く</a>
                                 </div>
                             </ScrollArea>
                         </SheetContent>
@@ -141,10 +144,10 @@ export default function TitleAndDrawer({ isLogin, observerRef, setRefreshKey, yt
                                         </Link>
                                     </DrawerDescription>
                                 </DrawerHeader>
-                                <div className='flex gap-x-4 my-4 gap-y-4 flex-nowrap'>
-                                    <p className='text-sm'>{dayjs(videoAbout?.snippet.publishedAt).format('YYYY年MM月DD日')}</p>
-                                    <p className='text-sm'><FontAwesomeIcon className='mr-2' icon={faEye} />{toJaNum(videoAbout?.statistics.viewCount)}</p>
-                                    <p className='text-sm'><FontAwesomeIcon className='mr-2' icon={faThumbsUp} /> {toJaNum(videoAbout?.statistics.likeCount)}</p>
+                                <div className='flex gap-x-4 my-4 gap-y-4 flex-nowrap place-content-center'>
+                                            <p className='text-sm'>{dayjs(videoAbout?.snippet.publishedAt).format('YYYY年MM月DD日')}</p>
+                                            <p className='text-sm'>{toJaNum(videoAbout?.statistics.viewCount)}回視聴</p>
+                                            <p className='text-sm'><FontAwesomeIcon className='mr-2' icon={faThumbsUp} />{toJaNum(videoAbout?.statistics.likeCount)}</p>
                                 </div>
                                 {isLogin ? <>
                                     <div>
@@ -154,6 +157,7 @@ export default function TitleAndDrawer({ isLogin, observerRef, setRefreshKey, yt
                                 <div className='flex flex-col gap-y-8 my-8'>
                                     {songInfo?.song ? <SongSection songInfo={songInfo} /> : <></>}
                                     <div className='p-4 rounded-lg bg-gray-100 dark:bg-popover shadow-sm'>
+                                        
                                         <p className="text-sm mb-2">概要欄</p>
                                         <div className='text-sm break-all w-full'>
                                             <Linkify options={{ target: '_blank', rel: 'noopener noreferrer' , className: 'text-primary underline-offset-4' }}>
@@ -164,7 +168,7 @@ export default function TitleAndDrawer({ isLogin, observerRef, setRefreshKey, yt
                                 </div>
                                 <button onClick={() => { setRefreshKey((prevCount) => prevCount + 1) }}><FontAwesomeIcon icon={faRotateRight} className="mr-2" />プレイヤーを再読み込み</button>
                                 <div className="my-4">
-                                    <a className='' href={`https://youtu.be/${ytid}`} ><FontAwesomeIcon className='mr-2' icon={faYoutube} />Youtubeで開く</a>
+                                    <a target="_blank" rel="noopener noreferrer" className='' href={`https://youtu.be/${ytid}`} ><FontAwesomeIcon className='mr-2' icon={faYoutube} />Youtubeで開く</a>
                                 </div>
                             </ScrollArea>
                         </DrawerContent>

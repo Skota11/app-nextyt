@@ -1,6 +1,7 @@
 import { type NextRequest } from 'next/server'
 
 export async function GET(request: NextRequest) {
+    const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
     const searchParams = request.nextUrl.searchParams
     const id = searchParams.get('id')
 
@@ -8,7 +9,7 @@ export async function GET(request: NextRequest) {
         return Response.json({ error: 'ID parameter is required' }, { status: 400 })
     }
 
-    const res = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=id,snippet,statistics&id=${id}&key=AIzaSyC1KMsyjrnEfHJ3xnQtPX0DSxWHfyjUBeo`, {
+    const res = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=id,snippet,statistics&id=${id}&key=${YOUTUBE_API_KEY}`, {
         next: { revalidate: 86400 * 3 } // 1dayキャッシュ
     });
 

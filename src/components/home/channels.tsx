@@ -22,8 +22,9 @@ export default function Main() {
       <div className="p-4">
         {isLoading && (
           <div className="flex gap-x-4">
-            <Skeleton className="w-[75px] h-[75px]" />
-            <Skeleton className="w-[75px] h-[75px] rounded-full" />
+            {[...Array(5)].map((_, index) => (
+              <Skeleton key={index} className="w-[75px] h-[75px] rounded-full" />
+            ))}
           </div>
         )}
         {!isLoading && data && data.length === 0 && <p>ピン留めされたチャンネルはありません</p>}

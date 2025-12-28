@@ -15,9 +15,9 @@ export default function Main() {
   if (isLoading) {
     return (
       <div className="mt-2 mx-4">
-        <div className="grid gap-y-2">
-          <Skeleton className="w-[210px] h-[20px]" />
-          <Skeleton className="w-[210px] h-[20px]" />
+        <div className="grid md:grid-cols-2 gap-4">
+          <Skeleton className="w-full h-[98px]" />
+          <Skeleton className="w-full h-[98px]" />
         </div>
       </div>
     );

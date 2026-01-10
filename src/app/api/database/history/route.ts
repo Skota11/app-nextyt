@@ -6,6 +6,8 @@ interface Array {
     videoId: string
 }
 
+const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
+
 export async function GET(request: NextRequest) {
     const page = request.nextUrl.searchParams.get('page')
     const supabase = await createClient()
@@ -50,7 +52,7 @@ export async function POST(request: NextRequest) {
             })).json();
             about = res.data.video
         } else {
-            const res = await (await fetch(`https://www.googleapis.com/youtube/v3/videos?part=id,snippet,statistics&id=${body.id}&key=AIzaSyC1KMsyjrnEfHJ3xnQtPX0DSxWHfyjUBeo`)).json();
+            const res = await (await fetch(`https://www.googleapis.com/youtube/v3/videos?part=id,snippet,statistics&id=${body.id}&key=${YOUTUBE_API_KEY}`)).json();
             about = (res.items[0].snippet)
         }
 

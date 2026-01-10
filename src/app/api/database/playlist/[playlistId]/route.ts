@@ -1,9 +1,12 @@
 import { type NextRequest } from 'next/server'
 import { createClient } from "@/lib/supabase/server";
 import nicoCheck from '@/utils/niconico/nicoid';
+
 interface Array {
     videoId: string
 }
+
+const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ playlistId: string }> }) {
     const { playlistId } = await params
@@ -33,7 +36,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
             })).json();
             about = res.data.video
         } else {
-            const res = await (await fetch(`https://www.googleapis.com/youtube/v3/videos?part=id,snippet,statistics&id=${body.id}&key=AIzaSyC1KMsyjrnEfHJ3xnQtPX0DSxWHfyjUBeo`)).json();
+            const res = await (await fetch(`https://www.googleapis.com/youtube/v3/videos?part=id,snippet,statistics&id=${body.id}&key=${YOUTUBE_API_KEY}`)).json();
             about = (res.items[0].snippet)
         }
         const { data }: { data: Array[] | null } = await supabase.from("playlists").select("videoId").eq("playlistId", playlistId)

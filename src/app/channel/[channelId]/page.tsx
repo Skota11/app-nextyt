@@ -5,16 +5,18 @@ import AddUserChannels from "@/components/channel/addUserChannels";
 import ChannelList from "@/components/channel/channelList";
 import { Skeleton } from '@/components/ui/skeleton';
 
+const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
+
 export default async function Child({ params }: { params: Promise<{ channelId: string }> }) {
     //
     const { channelId } = await params;
     let res;
     if (decodeURIComponent(channelId).charAt(0) == "@") {
-        res = await fetch(`https://youtube.googleapis.com/youtube/v3/channels?part=contentDetails&part=snippet&part=statistics&forHandle=${channelId}&key=AIzaSyC1KMsyjrnEfHJ3xnQtPX0DSxWHfyjUBeo`, {
+        res = await fetch(`https://youtube.googleapis.com/youtube/v3/channels?part=contentDetails&part=snippet&part=statistics&forHandle=${channelId}&key=${YOUTUBE_API_KEY}`, {
             next: { revalidate: 86400 } // 1dayキャッシュ
         });
     } else {
-        res = await fetch(`https://youtube.googleapis.com/youtube/v3/channels?part=contentDetails&part=snippet&part=statistics&id=${channelId}&key=AIzaSyC1KMsyjrnEfHJ3xnQtPX0DSxWHfyjUBeo`, {
+        res = await fetch(`https://youtube.googleapis.com/youtube/v3/channels?part=contentDetails&part=snippet&part=statistics&id=${channelId}&key=${YOUTUBE_API_KEY}`, {
             next: { revalidate: 86400 } // 1dayキャッシュ
         });
     }

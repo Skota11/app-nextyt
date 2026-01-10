@@ -3,6 +3,8 @@ import { createClient } from "@/lib/supabase/server";
 
 interface Array { channelId: string }
 
+const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
+
 export async function GET() {
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
@@ -24,7 +26,7 @@ export async function POST(request: NextRequest) {
     const channelIdBody = body.id
     const { data: { user } } = await supabase.auth.getUser()
     if (user) {
-        const res = await (await fetch(`https://youtube.googleapis.com/youtube/v3/channels?part=contentDetails&part=snippet&part=statistics&id=${channelIdBody}&key=AIzaSyC1KMsyjrnEfHJ3xnQtPX0DSxWHfyjUBeo`)).json();
+        const res = await (await fetch(`https://youtube.googleapis.com/youtube/v3/channels?part=contentDetails&part=snippet&part=statistics&id=${channelIdBody}&key=${YOUTUBE_API_KEY}`)).json();
         const about = res.items[0].snippet
         const { data }: { data: Array[] | null } = await supabase.from("user_channels").select("channelId")
         if (data?.length) {

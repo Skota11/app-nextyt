@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useRouter } from "next/navigation";
 
 // Font Awesome Icons
-import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faPencil, faRotate, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // React Icons
@@ -24,6 +24,7 @@ import { Spinner } from '@/components/ui/shadcn-io/spinner';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import toast from 'react-hot-toast';
 
 export default function Main(props: { playlistId: string, ytid: string, setNextYtid: (ytid: string) => void, setAutoPlay: (autoPlay: boolean) => void }) {
     const router = useRouter();
@@ -118,6 +119,43 @@ export default function Main(props: { playlistId: string, ytid: string, setNextY
                     </div>
                     <button onClick={listReverse}><LuArrowDownUp /></button>
                     <button onClick={() => { inputRef.current?.focus() }}><FontAwesomeIcon icon={faPencil} /></button>
+                    <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                            <button><FontAwesomeIcon icon={faRotate} /></button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>ニコニコ動画のマイリストを同期しますか？</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    この操作を行うと、現在のプレイリストの中身はすべて削除され、指定したマイリストの内容で上書きされます。<br/>また、公開プレイリストのみ同期できます。
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel>キャンセル</AlertDialogCancel>
+                                <AlertDialogAction onClick={async () => {
+                                    const mylistId = prompt("同期するニコニコマイリストのIDを入力してください。")
+                                    if (mylistId) {
+                                        await fetch(`/api/database/playlist/mylist_sync/${props.playlistId}`, {
+                                            method: 'POST',
+                                            headers: {
+                                                'Content-Type': 'application/json'
+                                            },
+                                            body: JSON.stringify({ mylistId }),
+                                        }).catch(() => {
+                                            toast.error("同期に失敗しました")
+                                        }).then((res) => {
+                                            if (res && res.ok) {
+                                                toast.success("同期しました")
+                                                getPlaylist()
+                                            } else {
+                                                toast.error("同期に失敗しました")
+                                            }
+                                        })
+                                    }
+                                }}>続行</AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
                     <AlertDialog >
                         <AlertDialogTrigger asChild>
                             <button><FontAwesomeIcon className='text-red-700' icon={faTrash} /></button>

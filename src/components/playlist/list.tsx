@@ -3,9 +3,16 @@ import { useEffect, useRef, useState } from 'react';
 
 // Next.js
 import { useRouter } from "next/navigation";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 // Font Awesome Icons
 import { faPencil, faRotate, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faYoutube } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // React Icons
@@ -24,7 +31,9 @@ import { Spinner } from '@/components/ui/shadcn-io/spinner';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import toast from 'react-hot-toast';
+import NiconicoDialog from './sync_playlist/niconico';
+import YoutubeDialog from './sync_playlist/youtube';
+import { SiNiconico } from 'react-icons/si';
 
 export default function Main(props: { playlistId: string, ytid: string, setNextYtid: (ytid: string) => void, setAutoPlay: (autoPlay: boolean) => void }) {
     const router = useRouter();
@@ -32,6 +41,8 @@ export default function Main(props: { playlistId: string, ytid: string, setNextY
     const [result, setResult] = useState<Array<VideoAbout> | undefined>(undefined)
     const [name, setName] = useState("")
     const [autoPlay, setAutoPlay] = useState(false)
+    const [openYoutubeDialog, setOpenYoutubeDialog] = useState(false)
+    const [openNiconicoDialog, setOpenNiconicoDialog] = useState(false)
     const inputRef = useRef<HTMLInputElement>(null)
     const deletePlaylist = async (id: string) => {
         let array = [...deleteLoading]
@@ -119,43 +130,21 @@ export default function Main(props: { playlistId: string, ytid: string, setNextY
                     </div>
                     <button onClick={listReverse}><LuArrowDownUp /></button>
                     <button onClick={() => { inputRef.current?.focus() }}><FontAwesomeIcon icon={faPencil} /></button>
-                    <AlertDialog>
-                        <AlertDialogTrigger asChild>
-                            <button><FontAwesomeIcon icon={faRotate} /></button>
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                            <AlertDialogHeader>
-                                <AlertDialogTitle>ニコニコ動画のマイリストを同期しますか？</AlertDialogTitle>
-                                <AlertDialogDescription>
-                                    この操作を行うと、現在のプレイリストの中身はすべて削除され、指定したマイリストの内容で上書きされます。<br/>また、公開プレイリストのみ同期できます。
-                                </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                                <AlertDialogCancel>キャンセル</AlertDialogCancel>
-                                <AlertDialogAction onClick={async () => {
-                                    const mylistId = prompt("同期するニコニコマイリストのIDを入力してください。")
-                                    if (mylistId) {
-                                        await fetch(`/api/database/playlist/mylist_sync/${props.playlistId}`, {
-                                            method: 'POST',
-                                            headers: {
-                                                'Content-Type': 'application/json'
-                                            },
-                                            body: JSON.stringify({ mylistId }),
-                                        }).catch(() => {
-                                            toast.error("同期に失敗しました")
-                                        }).then((res) => {
-                                            if (res && res.ok) {
-                                                toast.success("同期しました")
-                                                getPlaylist()
-                                            } else {
-                                                toast.error("同期に失敗しました")
-                                            }
-                                        })
-                                    }
-                                }}>続行</AlertDialogAction>
-                            </AlertDialogFooter>
-                        </AlertDialogContent>
-                    </AlertDialog>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger>
+                            <FontAwesomeIcon icon={faRotate} />
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            <DropdownMenuItem onSelect={() => setOpenYoutubeDialog(true)}>
+                                <span className='flex gap-x-2 items-center'><FontAwesomeIcon icon={faYoutube} fontSize={18}/>再生リスト同期</span>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onSelect={() => setOpenNiconicoDialog(true)}>
+                                <span className='flex gap-x-2 items-center'><SiNiconico size={18} />マイリスト同期</span>
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                    <YoutubeDialog playlistId={props.playlistId} getPlaylist={getPlaylist} open={openYoutubeDialog} onOpenChange={setOpenYoutubeDialog} />
+                    <NiconicoDialog playlistId={props.playlistId} getPlaylist={getPlaylist} open={openNiconicoDialog} onOpenChange={setOpenNiconicoDialog} />
                     <AlertDialog >
                         <AlertDialogTrigger asChild>
                             <button><FontAwesomeIcon className='text-red-700' icon={faTrash} /></button>

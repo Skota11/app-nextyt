@@ -77,7 +77,7 @@ export default function NicoVideoCard({item , deleteHistory , isPlayerPage} : {i
                         <Button onClick={() => deleteHistory(item.videoId)} variant={"destructive"}>履歴から削除</Button>
                         
                         <div className="flex flex-col gap-1">
-                            <p className="text-sm dark:text-black">プレイリストに追加</p>
+                            
                             <AddPlaylist videoId={item.videoId} />
                         </div>
                     </div>

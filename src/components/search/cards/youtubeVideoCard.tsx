@@ -69,7 +69,7 @@ export default function YouTubeVideoCard({item , isPlayerPage}: {item:SearchResu
                             </Button>
                         )}
                         <div className="flex flex-col gap-1">
-                            <p className="text-sm dark:text-black">プレイリストに追加</p>
+                            
                             {item.id?.videoId && <AddPlaylist videoId={item.id.videoId} />}
                         </div>
                     </div>

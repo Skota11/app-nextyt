@@ -84,7 +84,7 @@ export default function NiconicoVideoCard({ item , isPlayerPage} : {item:SearchR
                             </Button>
                         )}
                         <div className="flex flex-col gap-1">
-                            <p className="text-sm dark:text-black">プレイリストに追加</p>
+                            
                             {item.contentId && <AddPlaylist videoId={item.contentId} />}
                         </div>
                     </div>

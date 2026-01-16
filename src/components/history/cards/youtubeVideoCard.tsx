@@ -45,9 +45,11 @@ export default function VideoCard ({item , deleteHistory , isPlayerPage} : {item
             <div className="sm:inline">
             <Link href={playHref}>
                <div className="py-4 px-2 sm:px-0 flex flex-col gap-y-1">
-                    <p className="font-bold">{item.videoContent.title}</p>
-                    <p className="hidden sm:block text-sm text-gray-600 dark:text-gray-400">{item.videoContent.channelTitle}</p>
-               </div>
+                    <p>{item.videoContent.title}</p>
+                    <p className="text-slate-600 dark:text-slate-200 text-sm">
+                        {item.videoContent.channelTitle}
+                    </p>
+                </div>
             </Link>
             </div>
             <Popover>

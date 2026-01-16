@@ -13,6 +13,12 @@ import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 
+const decodeHtmlEntities = (text: string) => {
+    const textarea = document.createElement('textarea');
+    textarea.innerHTML = text;
+    return textarea.value;
+};
+
 export default function YouTubeVideoCard({item , isPlayerPage}: {item:SearchResult , isPlayerPage?: boolean}) {
     const addQueue = useAddQueue();
     const [addedState, setAddedState] = useState<"idle" | "added" | "exists">("idle");
@@ -43,7 +49,7 @@ export default function YouTubeVideoCard({item , isPlayerPage}: {item:SearchResu
             <div className="sm:inline">
             <Link href={playHref}>
                 <div className="py-4 px-2 sm:px-0 flex flex-col gap-y-1">
-                    <p className="">{item.snippet.title}</p>
+                    <p className="">{decodeHtmlEntities(item.snippet.title)}</p>
                     <p className='text-slate-600 dark:text-slate-200 text-sm'>{item.snippet.channelTitle} ・ {dayjs(item.snippet.publishedAt).format('YYYY年MM月DD日')} </p>
                 </div>
             </Link>

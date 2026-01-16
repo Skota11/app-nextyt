@@ -113,9 +113,9 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                     `
                 }>
                     {isPiP && (
-                        <div className="absolute top-2 left-2 z-10 bg-black bg-opacity-50 text-white text-xs px-2 py-1 rounded cursor-pointer" onClick={
+                        <button className="absolute top-2 left-2 z-10 bg-black bg-opacity-50 text-white text-xs px-2 py-1 rounded cursor-pointer" onClick={
                             () => {window.scrollTo({ top: 0, behavior: 'smooth' });}
-                        }>上部へ戻る</div>
+                        }>上部へ戻る</button>
                     )}
                     <ReactPlayer
                         key={refreshKey}

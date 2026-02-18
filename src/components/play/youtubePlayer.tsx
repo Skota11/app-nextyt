@@ -121,6 +121,8 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                         }>上部へ戻る</button>
                     )}
                     <ReactPlayer
+                        //backGroundImageをサムネにする
+                        style={{ backgroundImage: `url(https://img.youtube.com/vi/${props.ytid}/maxresdefault.jpg)`, backgroundSize: 'cover', backgroundPosition: 'center' }}
                         key={`${refreshKey}-${isAudioOnly ? "audio" : "video"}`}
                         className={isPiP ? "react-player" : "react-player"}
                         url={isAudioOnly ? audioUrl : videoUrl}

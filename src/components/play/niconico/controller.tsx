@@ -1,10 +1,10 @@
-import { faRepeat, faShareFromSquare, faVolumeHigh, faVolumeXmark } from "@fortawesome/free-solid-svg-icons"
+import { faRepeat, faShareFromSquare, faVolumeHigh, faVolumeXmark , faMusic , faFilm} from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useEffect, useState } from "react";
 import { LiaCommentSolid } from "react-icons/lia"
 import { Button } from "@/components/ui/button";
 
-export default function Controller({ytid , playerState , playerRef , repeat , setRepeat}: {ytid: string , playerState: {muted: boolean , showComment: boolean} , playerRef: React.RefObject<HTMLIFrameElement | null> , repeat: boolean|undefined , setRepeat: React.Dispatch<React.SetStateAction<boolean | undefined>>}) {
+export default function Controller({ytid , playerState , setPlayerState , playerRef , repeat , setRepeat , isAudioOnly , setIsAudioOnly}: {ytid: string , playerState: {muted: boolean , showComment: boolean} , setPlayerState: React.Dispatch<React.SetStateAction<{ muted: boolean; showComment: boolean }>>, playerRef: React.RefObject<HTMLIFrameElement | null> , repeat: boolean|undefined , setRepeat: React.Dispatch<React.SetStateAction<boolean | undefined>>, isAudioOnly: boolean, setIsAudioOnly: React.Dispatch<React.SetStateAction<boolean>>}) {
     const [mounted, setMounted] = useState(false);
     useEffect(() => {
         setMounted(true);
@@ -26,24 +26,39 @@ export default function Controller({ytid , playerState , playerRef , repeat , se
                                 rounded-2xl h-12 w-12 font-semibold transition-all duration-200 hover:scale-105 shadow-sm
                             `}
                             onClick={async () => {
-                                playerRef.current?.contentWindow?.postMessage({
-                                    eventName: 'mute',
-                                    data: {
-                                        mute: !playerState.muted
-                                    },
-                                    sourceConnectorType: 1,
-                                    playerId: "nicoPlayer"
-                                }, "https://embed.nicovideo.jp")
+                                if (isAudioOnly) {
+                                    setPlayerState({ ...playerState, muted: !playerState.muted });
+                                } else {
+                                    playerRef.current?.contentWindow?.postMessage({
+                                        eventName: 'mute',
+                                        data: {
+                                            mute: !playerState.muted
+                                        },
+                                        sourceConnectorType: 1,
+                                        playerId: "nicoPlayer"
+                                    }, "https://embed.nicovideo.jp")
+                                }
                             }}
                         >
                             {playerState.muted ? <FontAwesomeIcon icon={faVolumeXmark} /> : <FontAwesomeIcon icon={faVolumeHigh} />}
                         </Button>
                         <Button
-                            variant={!playerState.showComment ? "outline" : "default"}
-                            title={playerState.showComment ? "コメントを非表示にする" : "コメントを表示する"}
+                            variant={isAudioOnly ? "default" : "outline"}
+                            title={isAudioOnly ? "音声のみ再生" : "動画を再生"}
                             className={`
                                 rounded-2xl h-12 w-12 font-semibold transition-all duration-200 hover:scale-105 shadow-sm
                             `}
+                            onClick={async () => { setIsAudioOnly(!isAudioOnly) }}
+                        >
+                            <span className="text-xs font-medium">{isAudioOnly ? <FontAwesomeIcon icon={faMusic} /> : <FontAwesomeIcon icon={faFilm} />}</span>
+                        </Button>
+                        <Button
+                            variant={!playerState.showComment ? "outline" : "default"}
+                            title={isAudioOnly ? "音声のみでは使えません" : (playerState.showComment ? "コメントを非表示にする" : "コメントを表示する")}
+                            className={`
+                                rounded-2xl h-12 w-12 font-semibold transition-all duration-200 hover:scale-105 shadow-sm
+                            `}
+                            disabled={isAudioOnly}
                             onClick={() => {
                                 playerRef.current?.contentWindow?.postMessage({
                                     eventName: 'commentVisibilityChange',

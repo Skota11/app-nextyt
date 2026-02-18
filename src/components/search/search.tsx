@@ -114,6 +114,8 @@ export default function Home() {
                                         <button
                                             type="button"
                                             className="flex-1 cursor-pointer rounded-xl px-3 py-2 text-left text-sm font-medium text-gray-700 transition hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary dark:text-gray-50 dark:hover:bg-white/10"
+                                            onMouseDown={(e) => { e.preventDefault(); }}
+                                            onTouchStart={(e) => { e.preventDefault(); }}
                                             onClick={() => { setInputQuery(item); getSearch() }}
                                         >
                                             {item}
@@ -121,6 +123,8 @@ export default function Home() {
                                         <button
                                             type="button"
                                             className="-scale-x-100 scale-y-100 ml-2 flex-shrink-0 cursor-pointer rounded-xl p-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary dark:text-gray-50 dark:hover:bg-white/10"
+                                            onMouseDown={(e) => { e.preventDefault(); }}
+                                            onTouchStart={(e) => { e.preventDefault(); }}
                                             onClick={() => { setInputQuery(item) }}
                                             aria-label={`select ${item}`}
                                         >

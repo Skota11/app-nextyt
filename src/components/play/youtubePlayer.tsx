@@ -18,6 +18,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
     const supabase = createClient();
     //state
     const [playerState , setPlayerState] = useState({playing : false , muted: false , playbackRate: 1});
+    const [isAudioOnly, setIsAudioOnly] = useState(false);
     const [repeat , setRepeat] = useLocalStorage("repeat", false);
     const [autoPlay] = useLocalStorage<boolean>('autoPlay', true);
     const [PiP] = useLocalStorage("pip");
@@ -96,6 +97,8 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
             props.onEnd();
         }
     }
+    const videoUrl = `https://www.youtube.com/watch?v=${props.ytid}`;
+    const audioUrl = `https://audio.nextyt.app/stream/proxy?url=${encodeURIComponent(videoUrl)}`;
     return (
         <>
             {/* KeyPress */}
@@ -118,9 +121,9 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                         }>上部へ戻る</button>
                     )}
                     <ReactPlayer
-                        key={refreshKey}
+                        key={`${refreshKey}-${isAudioOnly ? "audio" : "video"}`}
                         className={isPiP ? "react-player" : "react-player"}
-                        url={`https://www.youtube.com/watch?v=${props.ytid}`}
+                        url={isAudioOnly ? audioUrl : videoUrl}
                         playing={playerState.playing}
                         playbackRate={playerState.playbackRate}
                         muted={playerState.muted}
@@ -142,7 +145,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
             {/* Title&Drawer */}
             <TitleAndDrawer isLogin={isLogin} observerRef={observerRefCallback} setRefreshKey={setRefreshKey} ytid={props.ytid}/>
             {/* Controller */}
-            <Controller ytid={props.ytid} playerState={playerState} setPlayerState={setPlayerState} setRepeat={setRepeat} repeat={repeat}/>
+            <Controller ytid={props.ytid} playerState={playerState} setPlayerState={setPlayerState} setRepeat={setRepeat} repeat={repeat} isAudioOnly={isAudioOnly} setIsAudioOnly={setIsAudioOnly} />
             <Toaster position="bottom-center" />
         </>
     )

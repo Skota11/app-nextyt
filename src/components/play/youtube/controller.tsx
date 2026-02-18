@@ -1,12 +1,12 @@
 "use client"
 
 import { Button } from "@/components/ui/button";
-import { faShareNodes, faVolumeHigh, faVolumeXmark } from "@fortawesome/free-solid-svg-icons";
+import { faFilm, faMusic, faShareNodes, faVolumeHigh, faVolumeXmark } from "@fortawesome/free-solid-svg-icons";
 import { TbRepeat , TbRepeatOff } from "react-icons/tb";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 
-export default function Controller({ytid , playerState , setPlayerState , repeat ,setRepeat} : {ytid: string , playerState: { playing: boolean; muted: boolean; playbackRate: number }, setPlayerState: React.Dispatch<React.SetStateAction<{ playing: boolean; muted: boolean; playbackRate: number }>>, setRepeat: React.Dispatch<React.SetStateAction<boolean | undefined>> , repeat: boolean|undefined}) {
+export default function Controller({ytid , playerState , setPlayerState , repeat ,setRepeat , isAudioOnly , setIsAudioOnly} : {ytid: string , playerState: { playing: boolean; muted: boolean; playbackRate: number }, setPlayerState: React.Dispatch<React.SetStateAction<{ playing: boolean; muted: boolean; playbackRate: number }>>, setRepeat: React.Dispatch<React.SetStateAction<boolean | undefined>> , repeat: boolean|undefined, isAudioOnly: boolean, setIsAudioOnly: React.Dispatch<React.SetStateAction<boolean>>}) {
     const [mounted, setMounted] = useState(false);
     useEffect(() => {
         setMounted(true);
@@ -50,6 +50,16 @@ export default function Controller({ytid , playerState , setPlayerState , repeat
                             onClick={async () => { setPlayerState({ ...playerState, playbackRate: 2 }) }}
                         >
                             <span className="text-xs font-medium">2×</span>
+                        </Button>
+                        <Button
+                            variant={isAudioOnly ? "default" : "outline"}
+                            title={isAudioOnly ? "音声のみ再生" : "動画を再生"}
+                            className={`
+                                rounded-2xl h-12 w-12 font-semibold transition-all duration-200 hover:scale-105 shadow-sm
+                            `}
+                            onClick={async () => { setIsAudioOnly(!isAudioOnly) }}
+                        >
+                            <span className="text-xs font-medium">{isAudioOnly ? <FontAwesomeIcon icon={faMusic} /> : <FontAwesomeIcon icon={faFilm} />}</span>
                         </Button>
                         <Button
                             variant={playerState.muted ? "outline" : "default"}

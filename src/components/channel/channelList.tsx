@@ -1,18 +1,15 @@
 "use client"
 
-import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import Image from 'next/image';
-import dayjs from 'dayjs';
 import { Toaster } from 'react-hot-toast';
 import { Spinner } from '@/components/ui/shadcn-io/spinner';
 import { Badge } from '../ui/badge';
-
-interface videoList { snippet: { resourceId: { videoId: string, kind: string }, title: string, channelTitle: string, publishedAt: string } }
+import { ChannelVideosList } from '@/types/channnel';
+import YouTubeVideoCard from './youtubeVideoCard';
 
 export default function ChannelList({ channelId }: { channelId: string }) {
-    const [videos, setVideos] = useState<Array<videoList> | undefined>(undefined)
+    const [videos, setVideos] = useState<Array<ChannelVideosList> | undefined>(undefined)
     const [get, setGet] = useState("video")
     const [state_nextPageToken, state_setNextPageToken] = useState("")
     const [hasMore, setHasMore] = useState(true)
@@ -27,7 +24,7 @@ export default function ChannelList({ channelId }: { channelId: string }) {
     }
     const getMoreVideos = async () => {
         const { data, nextPageToken } = await (await fetch(`/api/external/channel/${channelId}?get=${get}&nextPageToken=${state_nextPageToken}`)).json()
-        setVideos(prevItems => [...(prevItems as Array<videoList>), ...data]);
+        setVideos(prevItems => [...(prevItems as Array<ChannelVideosList>), ...data]);
         if (nextPageToken == undefined) {
             setHasMore(false)
         } else {
@@ -93,17 +90,7 @@ export default function ChannelList({ channelId }: { channelId: string }) {
             >
                 {videos.map((item) => {
                     return (
-                        <>
-                            <Link key={item.snippet.resourceId.videoId} className='block my-8 break-all sm:flex items-start gap-4 cursor-pointer' onClick={() => { }} href={`/play?v=${item.snippet.resourceId.videoId}`}>
-                                <div className="flex place-content-center flex-none">
-                                    <Image src={`https://i.ytimg.com/vi/${item.snippet.resourceId.videoId}/hqdefault.jpg`} alt={`${item.snippet.title}のサムネイル`} width={120 * 3} height={67.5 * 3} className='inline rounded-md aspect-video object-cover ' unoptimized />
-                                </div>
-                                <div className='inline'>
-                                    <p>{item.snippet.title} </p>
-                                    <p className='text-slate-600 dark:text-slate-300 text-sm'>{item.snippet.channelTitle} ・ {dayjs(item.snippet.publishedAt).format('YYYY年MM月DD日')} </p>
-                                </div>
-                            </Link>
-                        </>
+                        <YouTubeVideoCard key={item.snippet.resourceId.videoId} item={item} />
                     )
                 })}
             </InfiniteScroll>

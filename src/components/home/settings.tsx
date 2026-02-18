@@ -80,9 +80,9 @@ export default function Main(props: { currentUser: User }) {
                         </div>
                         <div>
                             <div className="flex items-center gap-x-2 mb-2">
-                                <Link href={"/settings/player"} className="text-blue-600 hover:text-blue-800">
+                                <Link href={"/settings/niconico"} className="text-blue-600 hover:text-blue-800">
                                     <FontAwesomeIcon icon={faLink} className="mr-2" />
-                                    プレイヤー設定
+                                    ニコニコプレイヤー設定
                                 </Link>
                             </div>
                             <p className="text-sm text-gray-800 dark:text-gray-200">スマホでのニコニコ再生時にプレイヤーの音量設定を変更できます。</p>

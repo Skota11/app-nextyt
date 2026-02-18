@@ -30,8 +30,8 @@ export default function AddUserChannels({id} : { id: string }) {
     return (
         <div>
             <div className="my-4 flex gap-x-4">
-                <Button size={"sm"} variant={"secondary"} onClick={addUserChannels}><FontAwesomeIcon icon={faStickyNote} /> ピン留め</Button>
-                <Button size={"sm"} variant={"secondary"} onClick={deleteUserChannels}><FontAwesomeIcon icon={faTrash} /> 解除</Button>
+                <Button className="flex gap-x-2" size={"sm"} variant={"secondary"} onClick={addUserChannels}><FontAwesomeIcon icon={faStickyNote} /><span>ピン留め</span></Button>
+                <Button className="flex gap-x-2" size={"sm"} variant={"secondary"} onClick={deleteUserChannels}><FontAwesomeIcon icon={faTrash} /><span>解除</span></Button>
             </div>
         </div>
     );

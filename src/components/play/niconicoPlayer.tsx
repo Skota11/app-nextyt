@@ -8,6 +8,7 @@ import { createClient } from "@/lib/supabase/client";
 
 //Utility Libraries
 import { useLocalStorage } from "react-use";
+import ReactPlayer from "react-player";
 import TitleAndDrawer from "./niconico/titleAndDrawer";
 import Controller from "./niconico/controller";
 import { Toaster } from "react-hot-toast";
@@ -16,11 +17,14 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
     const supabase = createClient();
     //state
     const [playerState , setPlayerState] = useState({muted: false , showComment: true});
+    const [isAudioOnly, setIsAudioOnly] = useState(false);
+    const [audioPlaying, setAudioPlaying] = useState(false);
     const [isLogin, setIsLogin] = useState(false)
     const observerRef = useRef<HTMLHeadingElement | null>(null);
     const [observerNode, setObserverNode] = useState<HTMLHeadingElement | null>(null);
     const observerRefCallback = (el: HTMLHeadingElement | null) => { observerRef.current = el; setObserverNode(el); };
     const playerRef = useRef<HTMLIFrameElement>(null);
+    const audioPlayerRef = useRef<ReactPlayer>(null);
     const [autoPlay] = useLocalStorage<boolean>('autoPlay', true);
     const [isPiP, setIsPiP] = useState(false);
     const [PiP] = useLocalStorage("pip");
@@ -101,6 +105,13 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
             observer.disconnect();
         };
     }, [observerNode, props.ytid, PiP]);
+    useEffect(() => {
+        if (isAudioOnly) {
+            setAudioPlaying(!!autoPlay);
+        }
+    }, [autoPlay, isAudioOnly, props.ytid]);
+    const videoUrl = `https://embed.nicovideo.jp/watch/${props.ytid}?persistence=1&oldScript=1&referer=&from=0&allowProgrammaticFullScreen=1&autoplay=1&jsapi=1&playerId=nicoPlayer`;
+    const audioUrl = `https://audio.nextyt.app/stream/proxy?url=${encodeURIComponent(`https://www.nicovideo.jp/watch/${props.ytid}`)}`;
     return (
         <>
             {/* Player */}
@@ -116,7 +127,30 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
                     {isPiP && (
                         <button className="absolute top-2 left-2 z-10 bg-black bg-opacity-50 text-white text-xs px-2 py-1 rounded cursor-pointer" onClick={() => {window.scrollTo({ top: 0, behavior: 'smooth' });}}>上部へ戻る</button>
                     )}
-                    <iframe ref={playerRef} key={refreshKey} src={`https://embed.nicovideo.jp/watch/${props.ytid}?persistence=1&oldScript=1&referer=&from=0&allowProgrammaticFullScreen=1&autoplay=1&jsapi=1&playerId=nicoPlayer`} width={"100%"} height={"100%"} allowFullScreen allow="autoplay"></iframe>
+                    {isAudioOnly ? (
+                        <ReactPlayer
+                            ref={audioPlayerRef}
+                            key={`${refreshKey}-audio`}
+                            url={audioUrl}
+                            playing={audioPlaying}
+                            muted={playerState.muted}
+                            width={"100%"}
+                            height={"100%"}
+                            controls={true}
+                            onPlay={() => { setAudioPlaying(true); }}
+                            onPause={() => { setAudioPlaying(false); }}
+                            onEnded={() => {
+                                if (repeat) {
+                                    audioPlayerRef.current?.seekTo(0, 'seconds');
+                                    setAudioPlaying(true);
+                                } else if (props.onEnd) {
+                                    props.onEnd();
+                                }
+                            }}
+                        />
+                    ) : (
+                        <iframe ref={playerRef} key={refreshKey} src={videoUrl} width={"100%"} height={"100%"} allowFullScreen allow="autoplay"></iframe>
+                    )}
                 </div>
             ) : (
                 <div className='aspect-video w-full maxHeightVideo text-white flex place-content-center bg-black items-center'>
@@ -126,7 +160,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
             {/* Title&Drawer */}
             <TitleAndDrawer ytid={props.ytid} isLogin={isLogin} observerRef={observerRefCallback} setRefreshKey={setRefreshKey} />
             {/* Controller */}
-            <Controller ytid={props.ytid} playerState={playerState} playerRef={playerRef} repeat={repeat} setRepeat={setRepeat}/>
+            <Controller ytid={props.ytid} playerState={playerState} setPlayerState={setPlayerState} playerRef={playerRef} repeat={repeat} setRepeat={setRepeat} isAudioOnly={isAudioOnly} setIsAudioOnly={setIsAudioOnly} />
             <Toaster position="bottom-center" />
         </>
     )

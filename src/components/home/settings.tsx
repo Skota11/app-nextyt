@@ -22,6 +22,7 @@ export default function Main(props: { currentUser: User }) {
     const [pip, setPip] = useLocalStorage<boolean>('pip', false);
     const [autoPlay, setAutoPlay] = useLocalStorage<boolean>('autoPlay', true);
     const [repeat, setRepeat] = useLocalStorage<boolean>('repeat', false);
+    const [audioStream, setAudioStream] = useLocalStorage<"proxy" | "direct">("audioStream", "direct");
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
@@ -77,6 +78,20 @@ export default function Main(props: { currentUser: User }) {
                             </div>
                             <p className="text-sm text-gray-800 dark:text-gray-200">動画を再生し終わったあともう一度はじめから再生します。</p>
                             <p className="text-sm text-gray-800 dark:text-gray-200">プレイヤー下のコントローラーでも変更できます。</p>
+                        </div>
+                        <div>
+                            <div className="flex items-center gap-x-2 my-2">
+                                {mounted && (
+                                    <Switch
+                                        id="audioStream"
+                                        checked={audioStream == "proxy"}
+                                        onCheckedChange={(e) => setAudioStream(e ? "proxy" : "direct")}
+                                    />
+                                )}
+                                <Label htmlFor="audioStream">音声再生にプロキシを介す</Label>
+                            </div>
+                            <p className="text-sm text-gray-800 dark:text-gray-200">音声のみの再生時に、音声データをGoogleのサーバーから直接取得せずに、別サーバーから配信されるデータを取得します。</p>
+                            <p className="text-sm text-gray-800 dark:text-gray-200">ニコニコ動画の再生には対応していません。</p>
                         </div>
                         <div>
                             <div className="flex items-center gap-x-2 mb-2">

@@ -22,6 +22,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
     const [repeat , setRepeat] = useLocalStorage("repeat", false);
     const [autoPlay] = useLocalStorage<boolean>('autoPlay', true);
     const [PiP] = useLocalStorage("pip");
+    const [audioStream] = useLocalStorage<"proxy" | "direct">("audioStream", "direct");
     const [isLogin, setIsLogin] = useState(false)
     const observerRef = useRef<HTMLHeadingElement | null>(null);
     const [observerNode, setObserverNode] = useState<HTMLHeadingElement | null>(null);
@@ -98,7 +99,7 @@ export default function Home(props: { ytid: string, onEnd?: () => void }) {
         }
     }
     const videoUrl = `https://www.youtube.com/watch?v=${props.ytid}`;
-    const audioUrl = `https://audio.nextyt.app/stream/proxy?url=${encodeURIComponent(videoUrl)}`;
+    const audioUrl = `/api/audio-proxy?type=${audioStream}&url=${encodeURIComponent(videoUrl)}`;
     return (
         <>
             {/* KeyPress */}
